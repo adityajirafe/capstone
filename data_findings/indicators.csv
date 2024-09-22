@@ -1,0 +1,384 @@
+,Indicator,Company,Units,Remarks
+0,EM-MM-000.A,South32,kt,Alumina
+1,EM-MM-000.A,South32,kt,Copper
+2,EM-MM-000.A,South32,kt,Molybdenum
+3,EM-MM-000.A,South32,koz,Gold
+4,EM-MM-000.A,South32,koz,Silver
+5,EM-MM-000.A,South32,kt,Zinc
+6,EM-MM-000.A,South32,kt,Lead
+7,EM-MM-000.A,South32,kwmt,Manganese Ore
+8,EM-MM-000.A,South32,kt,Nickel
+9,EM-MM-000.A,South32,kt,Aluminium
+10,EM-MM-000.B,Norilsk Nickels,persons,total number of employees
+11,EM-MM-000.B,Albemarle,%,percentage of employees who are contractors
+12,EM-MM-000.B,Albemarle,contractors,total number of contractors
+13,EM-MM-000.B,Albemarle,employees,total number of employees
+14,EM-MM-000.B,South32,num,Contractors
+15,EM-MM-000.B,Cameco,number,total number of employees
+16,EM-MM-000.B,South32,%,Proportion of employee to contractor workforce
+17,EM-MM-000.B,Anglo Gold Ashanti,number,total number of contractors
+18,EM-MM-000.B,South32,num,Employees
+19,EM-MM-000.B,Cameco,FTEs,total number of contractors
+20,EM-MM-000.B,Nutrien,count,total number of employees
+21,EM-MM-000.B,Anglo Gold Ashanti,%,percentage of employees who are contractors
+22,EM-MM-000.B,Fortuna Silver Mines,employees,total number of employees
+23,EM-MM-000.B,Fortuna Silver Mines,number,total number of contractors
+24,EM-MM-000.B,Fortuna Silver Mines,%,percentage of employees who are contractors
+25,EM-MM-000.B,Anglo Gold Ashanti,employees,total number of employees
+26,EM-MM-000.B,Champion Iron,employees,total number of employees
+27,EM-MM-000.B,Mosaic,percent,percentage of employees
+28,EM-MM-000.B,Champion Iron,contract employees,total number of contractors
+29,EM-MM-000.B,Champion Iron,%,percentage of employees who are contractors
+30,EM-MM-000.B,Mosaic,Count,total number of employees
+31,EM-MM-000.B,Freeport-McMoRan,%,percentage of employees who are contractors
+32,EM-MM-000.B,Northern Star,count,total number of employees
+33,EM-MM-000.B,Freeport-McMoRan,persons,total number of contractors
+34,EM-MM-000.B,Freeport-McMoRan,employees,total number of employees
+35,EM-MM-110a.1,Fortuna Silver Mines,%,total percentage of gross global scope 1 emissions under emissions-limiting regulations
+36,EM-MM-110a.1,Anglo Gold Ashanti,Kilotonnes,total gross global scope 1 emissions
+37,EM-MM-110a.1,Mosaic,Million tonnes CO2e,gross global scope 1 emissions
+38,EM-MM-110a.1,Northern Star,t CO2-e,total gross global scope 1 emissions
+39,EM-MM-110a.1,Fortuna Silver Mines,tCO2e,total gross global scope 1 emissions
+40,EM-MM-110a.1,Cameco,tonnes CO2e,gross global scope 1 emissions
+41,EM-MM-110a.1,Cameco,percent,percentage of gross global scope 1 emissions under emissions-limiting regulations (operational control)
+42,EM-MM-110a.1,Albemarle,thousand metric tons CO2e,gross global scope 1 emissions
+43,EM-MM-110a.1,Albemarle,%,percentage of gross global scope 1 emissions under emissions-limiting regulations
+44,EM-MM-110a.1,Champion Iron,tonnes CO2e,total gross global scope 1 emissions
+45,EM-MM-110a.1,Freeport-McMoRan,metric tons,total gross global scope 1 emissions
+46,EM-MM-110a.1,Nutrien,million tonnes CO2e,gross global scope 1 emissions
+47,EM-MM-110a.1,South32,tonnes,CO2
+48,EM-MM-110a.1,South32,tonnes,Hg
+49,EM-MM-110a.1,South32,tonnes,SOx
+50,EM-MM-110a.1,South32,tonnes,NOx
+51,EM-MM-110a.1,South32,%,
+52,EM-MM-120a.1,Nutrien,thousand tonnes,CO emissions
+53,EM-MM-120a.1,Albemarle,kt CO2e,CO emissions
+54,EM-MM-120a.1,Anglo Gold Ashanti,tonnes,total SOx emissions
+55,EM-MM-120a.1,Freeport-McMoRan,thousand metric tons,total PM10 emissions
+56,EM-MM-120a.1,Freeport-McMoRan,thousand metric tons,total SOx emissions
+57,EM-MM-120a.1,Mosaic,Tonnes,SOx emissions; So5
+58,EM-MM-120a.1,Freeport-McMoRan,thousand metric tons,total NOx emissions
+59,EM-MM-120a.1,Freeport-McMoRan,thousand metric tons,total CO emissions
+60,EM-MM-120a.1,Champion Iron,tonnes,total mercury (HG) emissions
+61,EM-MM-120a.1,Mosaic,Tonnes,SOx emissions; So3
+62,EM-MM-120a.1,Mosaic,Tonnes,SOx emissions; So4
+63,EM-MM-120a.1,Nutrien,thousand tonnes,NOx emissions
+64,EM-MM-120a.1,Champion Iron,kg,total volatile organic compounds (VOCs) emissions
+65,EM-MM-120a.1,Norilsk Nickels,tons,volatile organic compounds (VOCs) emissions
+66,EM-MM-120a.1,Norilsk Nickels,tons,PM10 emissions
+67,EM-MM-120a.1,Norilsk Nickels,tons,CO emissions
+68,EM-MM-120a.1,Northern Star,tonne,total volatile organic compounds (VOCs) emissions
+69,EM-MM-120a.1,Northern Star,tonne,total lead (PB) emissions
+70,EM-MM-120a.1,Northern Star,tonne,total mercury (HG) emissions
+71,EM-MM-120a.1,Northern Star,tonne,total PM10 emissions
+72,EM-MM-120a.1,Northern Star,tonne,total SOx emissions
+73,EM-MM-120a.1,Northern Star,tonne,total NOx emissions
+74,EM-MM-120a.1,Northern Star,tonne,total CO emissions
+75,EM-MM-120a.1,Albemarle,metric tons (t),volatile organic compounds (VOCs) emissions
+76,EM-MM-120a.1,Albemarle,t,SOx emissions
+77,EM-MM-120a.1,Mosaic,Tonnes,SOx emissions; So6
+78,EM-MM-120a.1,Mosaic,Tonnes,volatile organic compounds (VOCs) emissions
+79,EM-MM-120a.1,Nutrien,thousand tonnes,SOx emissions
+80,EM-MM-120a.1,Nutrien,thousand tonnes,volatile organic compounds (VOCs) emissions
+81,EM-MM-120a.1,Anglo Gold Ashanti,tonnes,total NOx emissions
+82,EM-MM-120a.1,Fortuna Silver Mines,ug/m3,total SOx emissions
+83,EM-MM-120a.1,Mosaic,Tonnes,CO emissions
+84,EM-MM-120a.1,Mosaic,Tonnes,NOx emissions; NO
+85,EM-MM-120a.1,Mosaic,Tonnes,SOx emissions; So2
+86,EM-MM-120a.1,Champion Iron,tonnes CO2e,total CO emissions
+87,EM-MM-120a.1,Fortuna Silver Mines,ug/m3,total volatile organic compounds (VOCs) emissions
+88,EM-MM-120a.1,Fortuna Silver Mines,ug/m3,total lead (PB) emissions
+89,EM-MM-120a.1,Fortuna Silver Mines,ug/m3,total PM10 emissions
+90,EM-MM-120a.1,Fortuna Silver Mines,ug/m3,total NOx emissions
+91,EM-MM-120a.1,Fortuna Silver Mines,ug/m3,total CO emissions
+92,EM-MM-120a.1,Anglo Gold Ashanti,kilotonnes,total CO emissions
+93,EM-MM-120a.1,Freeport-McMoRan,thousand metric tons,"total volatile organic compounds (VOCs) emissions, non-methane"
+94,EM-MM-120a.1,Albemarle,metric tons,NOx emissions
+95,EM-MM-120a.1,Freeport-McMoRan,metric tons,total lead (PB) emissions
+96,EM-MM-120a.1,Cameco,tonnes,SOx emissions
+97,EM-MM-120a.1,Freeport-McMoRan,thousand metric tons,total mercury (HG) emissions
+98,EM-MM-120a.1,Cameco,tonnes,CO emissions
+99,EM-MM-120a.1,Cameco,tonnes,NOx emissions
+100,EM-MM-120a.1,Champion Iron,kg,total SOx emissions
+101,EM-MM-120a.1,Champion Iron,kg,total NOx emissions
+102,EM-MM-120a.1,Cameco,tonnes,PM10 emissions
+103,EM-MM-120a.1,Cameco,tonnes,volatile organic compounds (VOCs) emissions
+104,EM-MM-130a.1,South32,%,Natural gas
+105,EM-MM-130a.1,Albemarle,%,percentage energy consumed from grid electricity
+106,EM-MM-130a.1,Albemarle,million gigajoule (GJ),total energy consumed
+107,EM-MM-130a.1,Albemarle,million GJ,total renewable energy consumed
+108,EM-MM-130a.1,South32,%,Others
+109,EM-MM-130a.1,South32,%,Total Renewable
+110,EM-MM-130a.1,Albemarle,million gigajoule (GJ),total energy consumed from grid electricity
+111,EM-MM-130a.1,Fortuna Silver Mines,%,percentage energy consumed from renewable electricity
+112,EM-MM-130a.1,Fortuna Silver Mines,GJ,total energy consumed
+113,EM-MM-130a.1,Anglo Gold Ashanti,Petajoules,total energy consumed from grid electricity
+114,EM-MM-130a.1,Albemarle,%,percentage energy consumed from renewable electricity
+115,EM-MM-130a.1,Albemarle,,percentage energy consumed from renewable electricity
+116,EM-MM-130a.1,Mosaic,Million gigajoules,total energy consumed
+117,EM-MM-130a.1,Anglo Gold Ashanti,Petajoules,total energy consumed
+118,EM-MM-130a.1,Anglo Gold Ashanti,PJ,total renewable energy consumed
+119,EM-MM-130a.1,Nutrien,petajoules,total energy consumed
+120,EM-MM-130a.1,Champion Iron,TJ,total energy consumed from grid electricity
+121,EM-MM-130a.1,Champion Iron,TJ,total renewable energy consumed
+122,EM-MM-130a.1,Champion Iron,TJ,total energy consumed
+123,EM-MM-130a.1,South32,PJ,Electricity
+124,EM-MM-130a.1,Fortuna Silver Mines,%,percentage energy consumed from grid electricity
+125,EM-MM-130a.1,Nutrien,petajoules,total energy consumed from grid electricity
+126,EM-MM-130a.1,South32,PJ,Distillate and gasoline
+127,EM-MM-130a.1,South32,%,Distillate and gasoline
+128,EM-MM-130a.1,South32,%,Electricity
+129,EM-MM-130a.1,Cameco,percent,percentage energy consumed from grid electricity
+130,EM-MM-130a.1,Cameco,GJ,total energy consumed from grid electricity
+131,EM-MM-130a.1,Cameco,GJ,total energy consumed
+132,EM-MM-130a.1,Freeport-McMoRan,terajoules,total energy consumed
+133,EM-MM-130a.1,Freeport-McMoRan,terajoules,total renewable energy consumed
+134,EM-MM-130a.1,Freeport-McMoRan,terajoules,total energy consumed from grid electricity
+135,EM-MM-130a.1,Freeport-McMoRan,%,percentage energy consumed from grid electricity
+136,EM-MM-130a.1,South32,PJ,Total
+137,EM-MM-130a.1,Freeport-McMoRan,percent,percentage energy consumed from renewable electricity
+138,EM-MM-130a.1,Northern Star,GJ,total energy consumed from grid electricity
+139,EM-MM-130a.1,South32,%,Coal and coke
+140,EM-MM-130a.1,South32,PJ,Total Renewable
+141,EM-MM-130a.1,Northern Star,GJ,total energy consumed
+142,EM-MM-130a.1,South32,PJ,Natural gas
+143,EM-MM-130a.1,South32,PJ,Coal and coke
+144,EM-MM-130a.1,South32,PJ,Others
+145,EM-MM-140a.1,Freeport-McMoRan,cubic meters,total freshwater consumed
+146,EM-MM-140a.1,Cameco,%,percentage of water consumed in high or extremely high baseline water stress areas against total freshwater consumed
+147,EM-MM-140a.1,Mosaic,Thousand cubic meters,total freshwater consumed
+148,EM-MM-140a.1,Cameco,m3,total water withdrawn in high or extremely high baseline water stress areas
+149,EM-MM-140a.1,Cameco,thousand m3,total freshwater consumed
+150,EM-MM-140a.1,Cameco,thousand m3,total freshwater withdrawn
+151,EM-MM-140a.1,Mosaic,Thousand cubic meters,total freshwater withdrawn
+152,EM-MM-140a.1,Nutrien,million m3,total freshwater withdrawn
+153,EM-MM-140a.1,Nutrien,million m3,total water withdrawn in high or extremely high baseline water stress areas
+154,EM-MM-140a.1,Nutrien,percent,percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn
+155,EM-MM-140a.1,Freeport-McMoRan,thousand cubic meters,total water withdrawn in high or extremely high baseline water stress areas
+156,EM-MM-140a.1,Nutrien,percent,percentage of water consumed in high or extremely high baseline water stress areas against total freshwater consumed
+157,EM-MM-140a.1,Fortuna Silver Mines,thousand mÂ³,total freshwater consumed
+158,EM-MM-140a.1,Fortuna Silver Mines,thousand m3,total freshwater withdrawn
+159,EM-MM-140a.1,Fortuna Silver Mines,%,percentage of water consumed in high or extremely high baseline water stress areas against total freshwater consumed
+160,EM-MM-140a.1,South32,ML,Withdrawn Total
+161,EM-MM-140a.1,South32,ML,Consumed Total
+162,EM-MM-140a.1,South32,ML,Discharged Total
+163,EM-MM-140a.1,Freeport-McMoRan,thousand cubic meters,percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn
+164,EM-MM-140a.1,Freeport-McMoRan,thousand cubic meters,total water consumed in high or extremely high baseline water stress areas
+165,EM-MM-140a.1,Freeport-McMoRan,thousand cubic meters,total freshwater withdrawn
+166,EM-MM-140a.1,Fortuna Silver Mines,thousand mÂ³,total water withdrawn in high or extremely high baseline water stress areas
+167,EM-MM-140a.1,Fortuna Silver Mines,%,percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn
+168,EM-MM-140a.1,Cameco,%,percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn
+169,EM-MM-140a.1,Albemarle,million cubic meters,total water withdrawn in high or extremely high baseline water stress areas
+170,EM-MM-140a.1,Champion Iron,Mm3,total freshwater consumed
+171,EM-MM-140a.1,Anglo Gold Ashanti,ML,total water withdrawn in high or extremely high baseline water stress areas
+172,EM-MM-140a.1,Northern Star,ML,total water consumed in high or extremely high baseline water stress areas
+173,EM-MM-140a.1,Anglo Gold Ashanti,ML,total water consumed in high or extremely high baseline water stress areas
+174,EM-MM-140a.1,Champion Iron,Mm3,total water consumed in high or extremely high baseline water stress areas
+175,EM-MM-140a.1,Anglo Gold Ashanti,ML,total freshwater withdrawn
+176,EM-MM-140a.1,Norilsk Nickels,thous. m3,total freshwater withdrawn
+177,EM-MM-140a.1,Norilsk Nickels,thous. m3,total freshwater consumed
+178,EM-MM-140a.1,Norilsk Nickels,thous. m3,total water withdrawn in high or extremely high baseline water stress areas
+179,EM-MM-140a.1,Anglo Gold Ashanti,ML,total freshwater consumed
+180,EM-MM-140a.1,Champion Iron,Mm3,total water withdrawn in high or extremely high baseline water stress areas
+181,EM-MM-140a.1,Northern Star,ML,total freshwater withdrawn
+182,EM-MM-140a.1,Albemarle,%,percentage of water consumed in high or extremely high baseline water stress areas against total freshwater consumed
+183,EM-MM-140a.1,Albemarle,%,percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn
+184,EM-MM-140a.1,Albemarle,million m3,total water consumed in high or extremely high baseline water stress areas
+185,EM-MM-140a.1,Albemarle,million m3,total freshwater consumed
+186,EM-MM-140a.1,Albemarle,million cubic meters,total freshwater withdrawn
+187,EM-MM-140a.1,Champion Iron,Mm3,total freshwater withdrawn
+188,EM-MM-140a.2,Albemarle,incidents,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+189,EM-MM-140a.2,Fortuna Silver Mines,incidents,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+190,EM-MM-140a.2,Anglo Gold Ashanti,incidents,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+191,EM-MM-140a.2,Freeport-McMoRan,incidents,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+192,EM-MM-140a.2,Champion Iron,incidents,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+193,EM-MM-140a.2,Northern Star,ML,total water consumed
+194,EM-MM-140a.2,Cameco,number,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+195,EM-MM-140a.2,Norilsk Nickels,pcs,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+196,EM-MM-140a.2,Northern Star,count,"number of incidents of non-compliance associated with water quality permits, standards, and regulations"
+197,EM-MM-140a.2,South32,Num,
+198,EM-MM-140a.3,Northern Star,ML,total water consumed
+199,EM-MM-140a.4,Northern Star,ML,total water consumed
+200,EM-MM-150a.1,South32,Num,
+201,EM-MM-150a.1,Mosaic,Thousand tonnes,total weight of tailing waste recylced
+202,EM-MM-150a.1,Cameco,tonnes,total weight of tailing waste recylced
+203,EM-MM-150a.1,Anglo Gold Ashanti,Megatonnes,total weight of tailing waste
+204,EM-MM-150a.1,Cameco,tonnes,total weight of tailing waste
+205,EM-MM-150a.1,Freeport-McMoRan,percentage,percentage of tailing waste recylced
+206,EM-MM-150a.1,Fortuna Silver Mines,%,percentage of tailing waste recylced
+207,EM-MM-150a.1,Fortuna Silver Mines,t,total weight of tailing waste recylced
+208,EM-MM-150a.1,Fortuna Silver Mines,t,total weight of tailing waste
+209,EM-MM-150a.1,South32,tonnes,Recycled
+210,EM-MM-150a.1,Freeport-McMoRan,million metric tons,total weight of tailing waste
+211,EM-MM-150a.1,Champion Iron,%,percentage of tailing waste recylced
+212,EM-MM-150a.1,Champion Iron,millions of tonnes,total weight of tailing waste recylced
+213,EM-MM-150a.1,Champion Iron,millions,total weight of tailing waste
+214,EM-MM-150a.1,Nutrien,thousand tonnes,total weight of tailing waste recylced
+215,EM-MM-150a.1,South32,%,% recycled
+216,EM-MM-150a.1,South32,tonnes,Waste
+217,EM-MM-150a.1,Cameco,percent,percentage of tailing waste recylced
+218,EM-MM-150a.2,Northern Star,tonne,total weight of mineral waste recylced
+219,EM-MM-150a.2,Northern Star,tonne,total weight of mineral waste
+220,EM-MM-150a.2,Champion Iron,million tonnes,total weight of mineral waste
+221,EM-MM-150a.2,Freeport-McMoRan,million metric tons,total weight of mineral waste
+222,EM-MM-150a.2,Freeport-McMoRan,%,percentage of mineral waste recylced
+223,EM-MM-150a.2,Mosaic,%,percentage of mineral waste recylced
+224,EM-MM-150a.2,Mosaic,Million tonnes,total weight of mineral waste
+225,EM-MM-150a.2,Mosaic,Thousand tonnes,total weight of mineral waste recylced
+226,EM-MM-150a.2,Fortuna Silver Mines,%,percentage of mineral waste recylced
+227,EM-MM-150a.2,Fortuna Silver Mines,t,total weight of mineral waste recylced
+228,EM-MM-150a.2,Albemarle,,percentage of mineral waste recylced
+229,EM-MM-150a.2,Anglo Gold Ashanti,Megatonnes,total weight of mineral waste
+230,EM-MM-150a.2,Albemarle,%,percentage of mineral waste recylced
+231,EM-MM-150a.2,Norilsk Nickels,%,percentage of mineral waste recylced
+232,EM-MM-150a.2,Cameco,tonnes,total weight of mineral waste
+233,EM-MM-150a.2,South32,tonnes,Non-hazardous Waste
+234,EM-MM-150a.2,Cameco,percent,percentage of mineral waste recylced
+235,EM-MM-150a.2,South32,tonnes,Hazardous Waste
+236,EM-MM-150a.2,Norilsk Nickels,ton,total weight of mineral waste recylced
+237,EM-MM-150a.2,Nutrien,million tonnes,total weight of mineral waste
+238,EM-MM-150a.3,Cameco,number,number of tailing impoundments
+239,EM-MM-150a.3,Freeport-McMoRan,count,number of tailing impoundments
+240,EM-MM-160a.2,South32,num,actively mitigated
+241,EM-MM-160a.2,South32,num,predicted to occur
+242,EM-MM-160a.2,Anglo Gold Ashanti,%,percentage of total mine sites where acid rock drainage is under treatment or remediation
+243,EM-MM-160a.2,South32,num,under treatment
+244,EM-MM-160a.2,South32,%,predicted to occur
+245,EM-MM-160a.2,Cameco,percent,number of mine sites where acid rock drainage is actively mitigated
+246,EM-MM-160a.2,South32,%,under treatment
+247,EM-MM-160a.2,Cameco,%,percentage of total mine sites where acid rock drainage is predicted to occur
+248,EM-MM-160a.2,Fortuna Silver Mines,%,number of mine sites where acid rock drainage is actively mitigated
+249,EM-MM-160a.2,Fortuna Silver Mines,%,percentage of total mine sites where acid rock drainage is predicted to occur
+250,EM-MM-160a.2,Fortuna Silver Mines,%,percentage of total mine sites where acid rock drainage is actively mitigated
+251,EM-MM-160a.2,Fortuna Silver Mines,%,number of mine sites where acid rock drainage is under treatment or remediation
+252,EM-MM-160a.2,Fortuna Silver Mines,%,percentage of total mine sites where acid rock drainage is under treatment or remediation
+253,EM-MM-160a.2,Anglo Gold Ashanti,percent,percentage of total mine sites where acid rock drainage is actively mitigated
+254,EM-MM-160a.2,South32,%,actively mitigated
+255,EM-MM-160a.2,Cameco,%,number of mine sites where acid rock drainage is predicted to occur
+256,EM-MM-160a.2,Cameco,%,percentage of total mine sites where acid rock drainage is under treatment or remediation
+257,EM-MM-160a.2,Cameco,percent,number of mine sites where acid rock drainage is under treatment or remediation
+258,EM-MM-160a.2,Cameco,%,percentage of total mine sites where acid rock drainage is actively mitigated
+259,EM-MM-160a.2,Anglo Gold Ashanti,sites,number of mine sites where acid rock drainage is actively mitigated
+260,EM-MM-160a.3,Cameco,percent,percentage of total area of probable reserves in or near sites with protected conservation status or endangered species habitat
+261,EM-MM-160a.3,Cameco,percent,total area of probable reserves in or near sites with protected conservation status or endangered species habitat
+262,EM-MM-160a.3,Cameco,percent,percentage of total area of proved reserves in or near sites with protected conservation status or endangered species habitat
+263,EM-MM-160a.3,Cameco,percent,total area of proved reserves in or near sites with protected conservation status or endangered species habitat
+264,EM-MM-160a.3,South32,hectares,Total Land
+265,EM-MM-160a.3,South32,hectares,Proved Disturbance
+266,EM-MM-160a.3,Fortuna Silver Mines,%,percentage of total area of probable reserves in or near sites with protected conservation status or endangered species habitat
+267,EM-MM-160a.3,South32,hectares,Probable Disturbance
+268,EM-MM-160a.3,Anglo Gold Ashanti,hectares,total area of proved reserves in or near sites with protected conservation status or endangered species habitat
+269,EM-MM-160a.3,Fortuna Silver Mines,%,percentage of total area of proved reserves in or near sites with protected conservation status or endangered species habitat
+270,EM-MM-210a.1,Cameco,percent,total area of proved reserves in or near areas of conflict
+271,EM-MM-210a.1,Fortuna Silver Mines,%,total area of probable reserves in or near areas of conflict
+272,EM-MM-210a.1,Fortuna Silver Mines,%,percentage of total area of proved reserves in or near areas of conflict
+273,EM-MM-210a.1,Fortuna Silver Mines,%,total area of proved reserves in or near areas of conflict
+274,EM-MM-210a.1,Cameco,%,percentage of total area of probable reserves in or near areas of conflict
+275,EM-MM-210a.1,Cameco,%,percentage of total area of proved reserves in or near areas of conflict
+276,EM-MM-210a.1,Anglo Gold Ashanti,hectares,total area of probable reserves in or near areas of conflict
+277,EM-MM-210a.1,Fortuna Silver Mines,%,percentage of total area of probable reserves in or near areas of conflict
+278,EM-MM-210a.2,Anglo Gold Ashanti,%,percentage of total area of proved reserves in or near indigenous land
+279,EM-MM-210a.2,Fortuna Silver Mines,%,percentage of total area of proved reserves in or near indigenous land
+280,EM-MM-210a.2,Fortuna Silver Mines,%,percentage of total area of probable reserves in or near indigenous land
+281,EM-MM-210a.2,Cameco,,total area of proved reserves in or near indigenous land
+282,EM-MM-210a.2,Cameco,%,total area of proved reserves in or near indigenous land
+283,EM-MM-210a.2,Fortuna Silver Mines,percentage,total area of probable reserves in or near indigenous land
+284,EM-MM-210b.2,Fortuna Silver Mines,days,duration of non-technical delays
+285,EM-MM-210b.2,Fortuna Silver Mines,count,number of non-technical delays
+286,EM-MM-210b.2,Albemarle,days,duration of non-technical delays
+287,EM-MM-210b.2,South32,days,Duration of Delays
+288,EM-MM-210b.2,South32,num,Number of Delays
+289,EM-MM-210b.2,Cameco,days,duration of non-technical delays
+290,EM-MM-210b.2,Cameco,number,number of non-technical delays
+291,EM-MM-310a.1,Anglo Gold Ashanti,percent,percentage of employees covered under collective bargaining agreements
+292,EM-MM-310a.1,Anglo Gold Ashanti,employees,total number of employees covered under collective bargaining agreements
+293,EM-MM-310a.1,Freeport-McMoRan,%,total number of contractors covered under collective bargaining agreements
+294,EM-MM-310a.1,Freeport-McMoRan,percent,percentage of employees covered under collective bargaining agreements
+295,EM-MM-310a.1,Freeport-McMoRan,%,percentage of contractors covered under collective bargaining agreements
+296,EM-MM-310a.1,South32,%,All Employees
+297,EM-MM-310a.1,Cameco,%,percentage of employees covered under collective bargaining agreements
+298,EM-MM-310a.1,Cameco,employees,total number of employees covered under collective bargaining agreements
+299,EM-MM-310a.1,Fortuna Silver Mines,%,percentage of employees covered under collective bargaining agreements
+300,EM-MM-310a.1,Fortuna Silver Mines,%,percentage of contractors covered under collective bargaining agreements
+301,EM-MM-310a.1,Norilsk Nickels,%,percentage of contractors covered under collective bargaining agreements
+302,EM-MM-310a.1,Norilsk Nickels,%,percentage of employees covered under collective bargaining agreements
+303,EM-MM-310a.1,Albemarle,%,percentage of contractors covered under collective bargaining agreements
+304,EM-MM-310a.1,Albemarle,%,percentage of employees covered under collective bargaining agreements
+305,EM-MM-310a.1,Nutrien,percent,total number of employees covered under collective bargaining agreements
+306,EM-MM-310a.1,Champion Iron,%,percentage of contractors covered under collective bargaining agreements
+307,EM-MM-310a.1,Cameco,percent,percentage of contractors covered under collective bargaining agreements
+308,EM-MM-310a.1,Champion Iron,%,percentage of employees covered under collective bargaining agreements
+309,EM-MM-310a.1,Nutrien,percent,percentage of employees covered under collective bargaining agreements
+310,EM-MM-310a.2,Cameco,worker days idle,duration of strikes and lockouts
+311,EM-MM-310a.2,Albemarle,count,number of strikes and lockouts
+312,EM-MM-310a.2,Cameco,number,number of strikes and lockouts
+313,EM-MM-310a.2,Fortuna Silver Mines,number,number of strikes and lockouts
+314,EM-MM-310a.2,Champion Iron,strikes,number of strikes and lockouts
+315,EM-MM-310a.2,Albemarle,days,duration of strikes and lockouts
+316,EM-MM-310a.2,Fortuna Silver Mines,days,duration of strikes and lockouts
+317,EM-MM-310a.2,Anglo Gold Ashanti,strikes,number of strikes and lockouts
+318,EM-MM-310a.2,Northern Star,count,number of strikes and lockouts
+319,EM-MM-310a.2,Norilsk Nickels,man-days,duration of strikes and lockouts
+320,EM-MM-310a.2,Norilsk Nickels,pcs,number of strikes and lockouts
+321,EM-MM-310a.2,South32,num,number of strikes
+322,EM-MM-310a.2,Anglo Gold Ashanti,week,duration of strikes and lockouts
+323,EM-MM-320a.1,Anglo Gold Ashanti,number,total number of MHSA incidents
+324,EM-MM-320a.1,Mosaic,"Incidents per 200,000 hours worked",number of MHSA incidents
+325,EM-MM-320a.1,Anglo Gold Ashanti,per million hours worked,total MSHA all-incidents rate
+326,EM-MM-320a.1,Anglo Gold Ashanti,fatalities,total number of fatalities
+327,EM-MM-320a.1,Anglo Gold Ashanti,community fatalities related to security interventions,total number of fatalities
+328,EM-MM-320a.1,Anglo Gold Ashanti,community fatalities engaged in illegal activity,total number of fatalities
+329,EM-MM-320a.1,Anglo Gold Ashanti,,total fatality rate
+330,EM-MM-320a.1,South32,num,Fatality frequency – contractors
+331,EM-MM-320a.1,Freeport-McMoRan,"per 200,000 hours worked",total number of near misses
+332,EM-MM-320a.1,Albemarle,,fatality rate
+333,EM-MM-320a.1,Albemarle,count,number of fatalities
+334,EM-MM-320a.1,Albemarle,count,number of MHSA incidents
+335,EM-MM-320a.1,Cameco,hours,"average hours of health, safety and emergency response training for full time employees"
+336,EM-MM-320a.1,Cameco,"fatalities per 200,000 hours worked",fatality rate
+337,EM-MM-320a.1,Cameco,"fatalities per 200,000 hours worked",number of fatalities
+338,EM-MM-320a.1,Cameco,number,number of MHSA incidents
+339,EM-MM-320a.1,South32,num,Fatalities from safety incidents – total
+340,EM-MM-320a.1,South32,num,Fatalities from health incidents – total
+341,EM-MM-320a.1,South32,num,Fatality frequency – total
+342,EM-MM-320a.1,South32,num,Fatalities from safety incidents – employees
+343,EM-MM-320a.1,South32,num,Fatalities from health incidents – employees
+344,EM-MM-320a.1,South32,num,Fatality frequency – employees
+345,EM-MM-320a.1,South32,num,Fatalities from safety incidents – contractors
+346,EM-MM-320a.1,South32,num,Near Miss Frequency Rate
+347,EM-MM-320a.1,South32,num,Total recordable occupational illness – contractors
+348,EM-MM-320a.1,South32,num,Total recordable occupational illness – employees
+349,EM-MM-320a.1,South32,num,Total recordable occupational illness – total
+350,EM-MM-320a.1,South32,num,Total recordable injuries – contractors
+351,EM-MM-320a.1,South32,num,Total recordable injuries – employees
+352,EM-MM-320a.1,South32,num,Total recordable injuries – total
+353,EM-MM-320a.1,Freeport-McMoRan,"incidents per 200,000 hours",total near miss frequecy rate (NMFR)
+354,EM-MM-320a.1,Norilsk Nickels,fatalities,fatality rate
+355,EM-MM-320a.1,Norilsk Nickels,persons,number of fatalities
+356,EM-MM-320a.1,Norilsk Nickels,incidents,near miss frequecy rate (NMFR)
+357,EM-MM-320a.1,Freeport-McMoRan,"fatalities per 200,000 hours",total fatality rate
+358,EM-MM-320a.1,Freeport-McMoRan,fatalities,total number of fatalities
+359,EM-MM-320a.1,Northern Star,hours,"average hours of health, safety and emergency response training for contract employees"
+360,EM-MM-320a.1,Northern Star,count,total fatality rate
+361,EM-MM-320a.1,Northern Star,fatalities,total number of fatalities
+362,EM-MM-320a.1,Champion Iron,hours,"average hours of health, safety and emergency response training for full time employees"
+363,EM-MM-320a.1,Champion Iron,per million hours worked,total near miss frequecy rate (NMFR)
+364,EM-MM-320a.1,Champion Iron,fatalities,total number of fatalities
+365,EM-MM-320a.1,Fortuna Silver Mines,h,"average hours of health, safety and emergency response training for contract employees"
+366,EM-MM-320a.1,Norilsk Nickels,incidents,number of near misses
+367,EM-MM-320a.1,Fortuna Silver Mines,h,"average hours of health, safety and emergency response training for full time employees"
+368,EM-MM-320a.1,Fortuna Silver Mines,"per 200,000 hours worked",total number of near misses
+369,EM-MM-320a.1,Fortuna Silver Mines,"per 200,000 hours worked",total fatality rate
+370,EM-MM-320a.1,Fortuna Silver Mines,fatalities,total number of fatalities
+371,EM-MM-320a.1,Fortuna Silver Mines,"per 200,000 hours worked",total MSHA all-incidents rate
+372,EM-MM-320a.1,South32,num,Fatalities from health incidents – contractors
+373,EM-MM-320a.1,Nutrien,count,number of fatalities
+374,EM-MM-320a.1,Norilsk Nickels,hours,"average hours of health, safety and emergency response training for contract employees"
+375,EM-MM-320a.1,Norilsk Nickels,hours,"average hours of health, safety and emergency response training for full time employees"
+376,EM-MM-320a.1,Fortuna Silver Mines,"per 200,000 hours worked",total near miss frequecy rate (NMFR)
+377,EM-MM-320a.1,Nutrien,count,fatality rate
+378,EM-MM-510a.2,Fortuna Silver Mines,t,production in countries that have the 20 lowest rankings in Transparency International's Corruption Perception Index
+379,EM-MM-510a.2,South32,num,
+380,EM-MM-510a.2,Nutrien,tonnes,production in countries that have the 20 lowest rankings in Transparency International's Corruption Perception Index
+381,EM-MM-510a.2,Cameco,tonnes,production in countries that have the 20 lowest rankings in Transparency International's Corruption Perception Index
+382,,,,
