@@ -1,3 +1,11 @@
+# To run the app
+```js
+npm i
+npm run dev
+```
+Node version: v18.16.0
+npm version: v18.16.0
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
