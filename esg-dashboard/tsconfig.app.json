@@ -18,7 +18,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Add the type definitions for SVG */
+    "types": ["vite/client", "./src/types"]
   },
   "include": ["src"]
 }
