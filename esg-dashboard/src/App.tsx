@@ -1,39 +1,17 @@
 import "./App.css";
 import AppRoutes from "./routes";
-import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import ToggleDarkMode from "./components/ToggleDarkMode";
+import Header from "./components/Header";
+import { useSupabase } from "./hooks/useSupabase";
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 export default function App() {
-  const [session, setSession] = useState(null);
+  const { supabase, session } = useSupabase()
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
   if (!session) {
     return (
-      <div
-        style={{
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="app-root">
         <div>
           <Auth
             supabaseClient={supabase}
@@ -45,9 +23,11 @@ export default function App() {
     );
   } else {
     return (
-      <div>
+      <div className="app-root">
+        <Header />
         <AppRoutes />
         <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+        <ToggleDarkMode />
       </div>
     );
   }
