@@ -31,17 +31,19 @@ const Scraper: React.FC = () => {
             const data = await response.json();
             setProgress(data.progress);
 
+            console.log(response)
+
             // Stop polling when progress reaches 100%
             if (data.progress >= 100) {
             clearInterval(interval);
-            setLoading(false);
+            //setLoading(false);
             }
         } catch (error) {
             console.error('Error fetching progress:', error);
             clearInterval(interval);
-            setLoading(false);
+            //setLoading(false);
         }
-        }, 1000); // Poll every 1 second
+        }, 100); // Poll every 0.1 second
     };
 
     const handleUpload = async () => {
@@ -59,15 +61,24 @@ const Scraper: React.FC = () => {
         formData.append('file', file);
         formData.append('file_name', fileName); // Send the custom file name as well
         setLoading(true) //start loading screen
+        console.log(loading)
+        console.log('temp')
         
         try {
+            console.log(loading)
+                
+            if (!loading) {
+                console.log('entered teh polling')
+                pollProgress()
+            }
             // TODO: update the fetch server to whatever backend service we want to use, currently using localhost for development 
             const response = await fetch('http://localhost:5000/upload', {
                 method: 'POST',
                 body: formData,
             });
-            pollProgress()
-            console.log(response)
+
+            
+            //console.log(response)
 
             if (response.ok) {
                 // Handle the CSV file download

@@ -62,7 +62,7 @@ def upload_file():
     except subprocess.CalledProcessError as e:
         return jsonify({'error': f'Error in processing PDF: {str(e)}'}), 500
 
-@app.route('/progress', methods=['GET'])
+@app.route('/progress', methods=['GET','POST'])
 def get_progress():
     global progress
     # Return current progress

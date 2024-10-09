@@ -2,8 +2,10 @@ import pandas as pd
 import os
 import openai
 from dotenv import load_dotenv
-import os
 import sys
+import concurrent.futures
+import time
+from tqdm import tqdm
 
 #Load environment variables from .env file
 load_dotenv()
@@ -166,10 +168,6 @@ def parse_doc(company, sus_report):
   )
 
 
-  import concurrent.futures
-  import time
-  from tqdm import tqdm
-
   template_list = template['Sub-Category'].tolist()
 
   no_queries = len(template_list)
@@ -180,14 +178,15 @@ def parse_doc(company, sus_report):
   # Using ThreadPoolExecutor to create a list in parallel
   with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
     with tqdm(total = no_queries, desc = 'Processing Queries') as pbar:
+      i = 0
       results = []
       # Map the function to the inputs in parallel
       for result in executor.map(extract_info, template_list, ass_list, company_list):
         result.append(result)
         pbar.update(1)
-        
+        i += 1
         #print progress
-        progress_percent = (pbar / no_queries) * 100
+        progress_percent = (i / no_queries) * 100
         print(f'Progress: {progress_percent:.2f}%')
   return results
 
@@ -217,9 +216,27 @@ def scrape(company_name, output_path, pdf):
     return company_template
 
 
+def dummy_extract_info(dummy):
+  time.sleep(1)
+
+  return [dummy]
+
 def test_csv(company_name, output_path, pdf):
-    return True
-    
+  with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
+    with tqdm(total = 100, desc = 'Processing Queries') as pbar:
+      results = []
+      i = 0
+      dummy = [0] * 100
+      # Map the function to the inputs in parallel
+      for result in executor.map(dummy_extract_info, dummy):
+        result.append(result)
+        pbar.update(1)
+        i += 1
+        #print progress
+        progress_percent = (i / 100) * 100
+        print(f'Progress: {progress_percent:.2f}%')
+  return True
+  
 
 if __name__ == "__main__":
 
@@ -229,8 +246,8 @@ if __name__ == "__main__":
     input_pdf = sys.argv[3]       # The custom file name provided by the user
 
     # Call the function to process the PDF and generate the Excel file
-    scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
+    #scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
     
     #Temporary call TODO: remove uploaded csv file after call when using real function
-    #test_csv(custom_name, output_csv, input_pdf)
+    test_csv(custom_name, output_csv, input_pdf)
     
