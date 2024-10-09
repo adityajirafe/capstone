@@ -172,14 +172,23 @@ def parse_doc(company, sus_report):
 
   template_list = template['Sub-Category'].tolist()
 
-  ass_list = [assistant] * len(template_list)
-  company_list = [company] * len(template_list)
+  no_queries = len(template_list)
+  ass_list = [assistant] * no_queries
+  company_list = [company] * no_queries
+  
 
   # Using ThreadPoolExecutor to create a list in parallel
   with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
+    with tqdm(total = no_queries, desc = 'Processing Queries') as pbar:
+      results = []
       # Map the function to the inputs in parallel
-      results = list(tqdm(executor.map(extract_info, template_list, ass_list, company_list)))
-
+      for result in executor.map(extract_info, template_list, ass_list, company_list):
+        result.append(result)
+        pbar.update(1)
+        
+        #print progress
+        progress_percent = (pbar / no_queries) * 100
+        print(f'Progress: {progress_percent:.2f}%')
   return results
 
 #Post processing dataframe to fit our predefined template
@@ -220,8 +229,8 @@ if __name__ == "__main__":
     input_pdf = sys.argv[3]       # The custom file name provided by the user
 
     # Call the function to process the PDF and generate the Excel file
-    #scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
+    scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
     
-    #Temporary call
-    test_csv(custom_name, output_csv, input_pdf)
+    #Temporary call TODO: remove uploaded csv file after call when using real function
+    #test_csv(custom_name, output_csv, input_pdf)
     

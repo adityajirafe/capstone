@@ -10,8 +10,13 @@ OUTPUT_FOLDER = 'outputs'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
+progress = 0
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    global progress
+    progress = 0
+    
     if 'file' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
 
@@ -35,13 +40,34 @@ def upload_file():
     # Run your Python script to process the PDF and create the CSV file
     try:
         # Call your script (you can modify this based on how your script works)
-        subprocess.run(['python', 'Scraper_Script.py', file_name, output_file, file_path], check=True)
+        #subprocess.run(['python', 'Scraper_Script.py', file_name, output_file, file_path], check=True)
+        process = subprocess.Popen(
+            ['python', 'Scraper_Script.py', file_name, output_file, file_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+            )
+        
+        for line in process.stdout:
+            if "Progress" in line:
+                # Parse the progress value from the output
+                progress_str = line.split(":")[1].strip().replace('%', '')
+                progress = float(progress_str)  # Update global progress variable
+        
+
 
         # Send the generated CSV file back to the frontend
         return send_file(output_file, as_attachment=True, download_name=f'{file_name}.csv')
 
     except subprocess.CalledProcessError as e:
         return jsonify({'error': f'Error in processing PDF: {str(e)}'}), 500
+
+@app.route('/progress', methods=['GET'])
+def get_progress():
+    global progress
+    # Return current progress
+    return jsonify({'progress': progress})
+
 
 if __name__ == '__main__':
     app.run(port=5000)
