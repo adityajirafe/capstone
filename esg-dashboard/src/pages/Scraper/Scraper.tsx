@@ -36,6 +36,7 @@ const Scraper: React.FC = () => {
         formData.append('file_name', fileName); // Send the custom file name as well
 
         try {
+            // TODO: update the fetch server to whatever backend service we want to use, currently using localhost for development 
             const response = await fetch('http://localhost:5000/upload', {
                 method: 'POST',
                 body: formData,

@@ -1,0 +1,7 @@
+Flask==3.0.3
+Flask_Cors==5.0.0
+openai==1.51.2
+pandas==2.2.3
+python-dotenv==1.0.1
+tqdm==4.66.5
+typing_extensions==4.12.2

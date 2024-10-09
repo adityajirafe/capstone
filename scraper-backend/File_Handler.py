@@ -12,7 +12,6 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    print('entered')
     if 'file' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
 
