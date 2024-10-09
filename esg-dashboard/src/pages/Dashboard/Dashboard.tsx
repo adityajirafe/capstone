@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 const Dashboard = () => {
@@ -28,9 +28,6 @@ const Dashboard = () => {
 
   return (
     <Box p={4}>
-      <Text fontSize="2xl" mb={4}>
-        Executive Overview - Profitability
-      </Text>
       <Box
         id="vizContainer"
         position="relative"
@@ -51,7 +48,7 @@ const Dashboard = () => {
           as="object"
           className="tableauViz"
           width="100%"
-          height="647px"
+          height="calc(100vh - 132px)"
           display="none"
         >
           <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />

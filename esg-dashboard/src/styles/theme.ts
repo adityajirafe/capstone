@@ -11,12 +11,12 @@ const colors = {
     _dark: "#92CCE7",
   },
   secondary: {
-    default: "#18526D",
-    _dark: "#92CCE7",
+    default: "#B6EDED",
+    _dark: "#124949",
   },
   accent: {
-    default: "#18526D",
-    _dark: "#92CCE7",
+    default: "#1F605E",
+    _dark: "#9FE0DE",
   },
   background: {
     default: "#FBFBFE",
