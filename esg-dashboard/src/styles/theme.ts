@@ -40,6 +40,16 @@ const theme = extendTheme({
         bg: props.colorMode === "dark" ? "background._dark" : "background.default",
         color: props.colorMode === "dark" ? "text._dark" : "text.default",
       },
+      a: {
+        color: props.colorMode === "dark" ? "text._dark" : "text.default",
+        _hover: {
+          textDecoration: 'underline',
+          cursor: 'pointer',
+        },
+        "&.active": {
+          color: props.colorMode === "dark" ? "accent._dark" : "accent.default",
+        },
+      },
     }),
   },
 });
