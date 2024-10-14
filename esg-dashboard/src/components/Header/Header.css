@@ -12,11 +12,9 @@
 }
 
 .menu-item {
+    font-weight: 500;
     &:hover {
         cursor: pointer;
         text-decoration: underline;
-    };
-    &:active {
-        color: red;
     };
 }
