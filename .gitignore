@@ -1,3 +1,4 @@
 **/.DS_Store
-.env
-esg-dashboard/,env
+**/.env
+**/venv
+**/capstone-437606-32221a530aed.json
