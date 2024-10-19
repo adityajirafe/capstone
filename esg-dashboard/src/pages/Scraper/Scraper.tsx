@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 
 const Scraper: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -7,7 +7,7 @@ const Scraper: React.FC = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false) // State to record whether data is loading
     const [progress, setProgress] = useState<number>(0); // State of api scrape
-
+    const [taskId, setTaskId] = useState<string | null>(null); // State to track task ID
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0];
@@ -23,27 +23,32 @@ const Scraper: React.FC = () => {
         setFileName(event.target.value); // Update the state with the custom file name input
     };
 
-    // Function to poll the progress from the backend
-    const pollProgress = async () => {
+
+     // Function to poll the status of the background task from the backend
+     const pollTaskStatus = async (taskId: string) => {
         const interval = setInterval(async () => {
-        try {
-            const response = await fetch('http://localhost:5000/progress');
-            const data = await response.json();
-            setProgress(data.progress);
-
-            console.log(response)
-
-            // Stop polling when progress reaches 100%
-            if (data.progress >= 100) {
-            clearInterval(interval);
-            //setLoading(false);
+            try {
+                const response = await fetch(`http://localhost:5000/task-status/${taskId}`);
+                const data = await response.json();
+                
+                // If task is completed, download the result
+                if (data.status === 'Completed') {
+                    clearInterval(interval);
+                    setProgress(100);
+                    downloadCSV(fileName); // Call the function to download the file
+                    setMessage('File processed and downloaded successfully!');
+                } else if (data.status === 'In Progress') {
+                    setProgress(50); // Update progress (simple 50% during progress)
+                } else if (data.status.startsWith('Failed')) {
+                    clearInterval(interval);
+                    setError(`Task failed: ${data.status}`);
+                }
+            } catch (error) {
+                console.error('Error fetching task status:', error);
+                clearInterval(interval);
+                setError('Error fetching task status.');
             }
-        } catch (error) {
-            console.error('Error fetching progress:', error);
-            clearInterval(interval);
-            //setLoading(false);
-        }
-        }, 100); // Poll every 0.1 second
+        }, 3000); // Poll every 3 seconds
     };
 
     const handleUpload = async () => {
@@ -61,16 +66,8 @@ const Scraper: React.FC = () => {
         formData.append('file', file);
         formData.append('file_name', fileName); // Send the custom file name as well
         setLoading(true) //start loading screen
-        console.log(loading)
-        console.log('temp')
-        
-        try {
-            console.log(loading)
-                
-            if (!loading) {
-                console.log('entered teh polling')
-                pollProgress()
-            }
+
+        try {                
             // TODO: update the fetch server to whatever backend service we want to use, currently using localhost for development 
             const response = await fetch('http://localhost:5000/upload', {
                 method: 'POST',
@@ -82,14 +79,14 @@ const Scraper: React.FC = () => {
 
             if (response.ok) {
                 // Handle the CSV file download
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${fileName}.csv`;  // Use the custom file name for download
-                a.click();
-                window.URL.revokeObjectURL(url);
-                setMessage('File processed and downloaded successfully!');
+                const result = await response.json()
+                setTaskId(result.task_id)
+                localStorage.setItem('taskId', result.id);
+                setMessage('File uploaded successfully. Processing started...');
+                pollTaskStatus(result.task_id); // Start polling for task status
+                console.log(taskId)
+
+
             } else {
                 const errorData = await response.json();
                 setError(`Upload failed: ${errorData.error}`);
@@ -101,6 +98,66 @@ const Scraper: React.FC = () => {
             setLoading(false) //reset loading
         }
     };
+
+    const downloadCSV = async (fileName: string) => {
+        try {
+            const response = await fetch(`http://localhost:5000/download/${fileName}.csv`);
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${fileName}.csv`;  // Use the custom file name for download
+                a.click();
+                window.URL.revokeObjectURL(url);
+                setMessage('File processed and downloaded successfully!');
+            } else {
+                setError('Failed to download the file.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setMessage('An unexpected error occurred while downloading.');
+        }
+    };
+
+    useEffect(() => {
+        try {
+            const storedTaskId = localStorage.getItem('taskId');
+            console.log('stored', storedTaskId)
+            if (storedTaskId) {
+                setLoading(true)
+                const interval = setInterval(async () => {
+                    try {
+                        const response = await fetch(`http://localhost:5000/task-status/${storedTaskId}`);
+                        const data = await response.json();
+                        
+                        // If task is completed, download the result
+                        if (data.status === 'Completed') {
+                            clearInterval(interval);
+                            setProgress(100);
+                            downloadCSV(fileName); // Call the function to download the file
+                            setMessage('File processed and downloaded successfully!');
+                        } else if (data.status === 'In Progress') {
+                            setProgress(50); // Update progress (simple 50% during progress)
+                        } else if (data.status.startsWith('Failed')) {
+                            clearInterval(interval);
+                            setError(`Task failed: ${data.status}`);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching task status:', error);
+                        clearInterval(interval);
+                        setError('Error fetching task status.');
+                    }
+                }, 3000); // Poll every 3 seconds
+        
+                // Cleanup function to clear the interval when the component unmounts or taskId changes
+                return () => clearInterval(interval);  
+            }
+        } catch {
+            setLoading(false)
+        }
+    }, [taskId, fileName]);
+    
 
     return (
         <div>
