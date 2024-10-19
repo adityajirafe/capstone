@@ -18,8 +18,8 @@ const Header = () => {
   }
 
   return (
-    <Box as="header" display="flex" alignItems="center" justifyContent="space-between" className="main" bg="background">
-      {colorMode == "dark" ? <HeaderDark width="240" height="100" className="header-logo"/> : <HeaderLight width="240" height="100" className="header-logo"/> }
+    <Box as="header" display="flex" alignItems="center" justifyContent="space-between" className="header-main">
+      {colorMode == "dark" ? <HeaderDark className="header-logo"/> : <HeaderLight className="header-logo"/> }
       <Box className='menu-container'>
         <NavLink to={Paths.home}>About Us </NavLink>
         <NavLink to={Paths.home}>Report</NavLink>

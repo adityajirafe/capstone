@@ -1,4 +1,9 @@
-.main {
+.header-main {
+    height: 100px;
+}
+
+.header-logo {
+    width: 240px; 
     height: 100px;
 }
 

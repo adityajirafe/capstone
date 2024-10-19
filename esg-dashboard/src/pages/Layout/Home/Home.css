@@ -1,0 +1,36 @@
+.home-main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.welcome-msg-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    text-align: center;
+    margin-left: 32px;
+    margin-bottom: 100px;
+}
+.home-subtext {
+    line-height: 25px;
+    font-size: 24px;
+    font-weight: 200;
+}
+.laptop-container {
+    position: relative;
+    right: -42px;
+}
+.laptop-screen {
+    position: absolute;
+    top: 34px;
+    right: 74px;
+    z-index: 1;
+    width: 802px;
+    height: 448px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
