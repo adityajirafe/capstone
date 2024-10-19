@@ -24,12 +24,12 @@ const Header = () => {
       alignItems="center"
       justifyContent="space-between"
       className="main"
-      bg="background"
+      bg="headerBackground"
     >
       {colorMode == "dark" ? (
-        <HeaderDark width="240" height="100" className="header-logo" />
+        <HeaderDark className="header-logo" />
       ) : (
-        <HeaderLight width="240" height="100" className="header-logo" />
+        <HeaderLight className="header-logo" />
       )}
       <Box className="menu-container">
         <NavLink to={Paths.home}>About Us </NavLink>

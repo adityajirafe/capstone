@@ -18,14 +18,22 @@ const colors = {
     default: "#1F605E",
     _dark: "#9FE0DE",
   },
+  headerBackground: {
+    default: "#E1E1E4",
+    _dark: "#010104",
+  },
   background: {
     default: "#FBFBFE",
-    _dark: "#010104",
+    _dark: "#181818",
   },
   text: {
     default: "#16191D",
     _dark: "#E2E5E9",
   },
+  monochrome: {
+    default: "#FFFFFF",
+    _dark: "#000000"
+  }
 };
 
 const theme = extendTheme({
@@ -36,6 +44,9 @@ const theme = extendTheme({
   colors: colors,
   styles: {
     global: (props: StyleFunctionProps) => ({
+      header: {
+        bg: props.colorMode === "dark" ? "headerBackground._dark" : "headerBackground.default",
+      },
       body: {
         bg: props.colorMode === "dark" ? "background._dark" : "background.default",
         color: props.colorMode === "dark" ? "text._dark" : "text.default",

@@ -3,7 +3,7 @@ import { useState, useEffect, FC } from "react";
 import DataInputForm from "../pages/DataForm/DataForm";
 import TableauDashboard from "../pages/Dashboard/Dashboard";
 import Scraper from "../pages/Scraper/Scraper";
-import Home from "../pages/Home";
+import Layout from "../pages/Layout";
 import Login from "../pages/Login";
 import { useSupabase } from "../hooks/useSupabase";
 import Header from "../components/Header";
@@ -45,7 +45,7 @@ const AppRoutes: FC = () => {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path={Paths.home} element={<Home />} />
+        <Route path={Paths.home} element={<Layout />} />
         <Route path={Paths.login} element={<Login />} />
         <Route 
           path={Paths.dataInput}
