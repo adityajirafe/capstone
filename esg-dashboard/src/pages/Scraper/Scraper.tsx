@@ -37,6 +37,8 @@ const Scraper: React.FC = () => {
                     setProgress(100);
                     downloadCSV(fileName); // Call the function to download the file
                     setMessage('File processed and downloaded successfully!');
+                    localStorage.removeItem('taskId');
+                    localStorage.removeItem('filename');
                 } else if (data.status === 'In Progress') {
                     setProgress(50); // Update progress (simple 50% during progress)
                 } else if (data.status.startsWith('Failed')) {
@@ -81,7 +83,9 @@ const Scraper: React.FC = () => {
                 // Handle the CSV file download
                 const result = await response.json()
                 setTaskId(result.task_id)
-                localStorage.setItem('taskId', result.id);
+                localStorage.setItem('taskId', result.task_id);
+                localStorage.setItem('filename', fileName);
+                    
                 setMessage('File uploaded successfully. Processing started...');
                 pollTaskStatus(result.task_id); // Start polling for task status
                 console.log(taskId)
@@ -123,25 +127,30 @@ const Scraper: React.FC = () => {
     useEffect(() => {
         try {
             const storedTaskId = localStorage.getItem('taskId');
-            console.log('stored', storedTaskId)
-            if (storedTaskId) {
+            const storedFileName = localStorage.getItem('filename');
+            if (storedTaskId !== null) {
                 setLoading(true)
                 const interval = setInterval(async () => {
                     try {
                         const response = await fetch(`http://localhost:5000/task-status/${storedTaskId}`);
                         const data = await response.json();
-                        
+                        console.log(storedTaskId)
                         // If task is completed, download the result
                         if (data.status === 'Completed') {
                             clearInterval(interval);
                             setProgress(100);
-                            downloadCSV(fileName); // Call the function to download the file
-                            setMessage('File processed and downloaded successfully!');
+                            if (storedFileName !== null) {
+                                downloadCSV(storedFileName) ; // Call the function to download the file
+                                setMessage('File processed and downloaded successfully!');
+                            }
+                            localStorage.removeItem('taskId');
+                            localStorage.removeItem('filename');
                         } else if (data.status === 'In Progress') {
                             setProgress(50); // Update progress (simple 50% during progress)
                         } else if (data.status.startsWith('Failed')) {
                             clearInterval(interval);
                             setError(`Task failed: ${data.status}`);
+                            console.log('')
                         }
                     } catch (error) {
                         console.error('Error fetching task status:', error);

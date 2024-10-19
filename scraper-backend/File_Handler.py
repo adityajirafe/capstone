@@ -73,7 +73,6 @@ def task_status(task_id):
     """Check the status of the background task."""
     if task_id not in tasks:
         return jsonify({'status': 'Unknown Task ID'}), 404
-    
     status = tasks[task_id]
     return jsonify({'status': status})
 
