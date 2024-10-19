@@ -8,8 +8,8 @@ const Home = () => {
   return (
     <Box className='home-main' bg="background">
       <div className='welcome-msg-container'>
-        <Text fontSize="36" fontWeight="bold">Welcome to ESGlytics</Text>
-        <Text fontSize="32" color="accent" fontWeight="900" mt="24px" mb="24px">All your ESG data in one place</Text>
+        <Text className='home-header'>Welcome to ESGlytics</Text>
+        <Text className="home-subheader" fontSize="28" color="accent" fontWeight="900" mt="24px" mb="24px">All your ESG data in one place</Text>
         <Text className='home-subtext'>Faster Insights</Text>
         <Text className='home-subtext'>=</Text>
         <Text className='home-subtext'>Smarter Sustainable Investment</Text>

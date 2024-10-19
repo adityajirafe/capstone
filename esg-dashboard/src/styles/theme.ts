@@ -30,6 +30,10 @@ const colors = {
     default: "#16191D",
     _dark: "#E2E5E9",
   },
+  monochrome: {
+    default: "#FFFFFF",
+    _dark: "#000000"
+  }
 };
 
 const theme = extendTheme({

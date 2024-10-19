@@ -1,0 +1,44 @@
+.value-prop-container {
+    scroll-snap-align: start;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.value-prop-section {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20%;
+    scroll-snap-align: start;
+    opacity: 0.4;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.value-prop-section.reverse {
+    flex-direction: row-reverse;
+}
+
+.value-prop-section.active {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.value-prop-logo {
+    margin-bottom: 24px;
+    border-radius: 100%;
+    padding: 28px;
+}
+
+.value-prop-logo svg {
+    width: 100px;
+    height: 100px;
+}
+
+.value-prop-text {
+    text-align: center;
+    max-width: 600px;
+}
