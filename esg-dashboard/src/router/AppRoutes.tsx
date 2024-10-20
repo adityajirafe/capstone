@@ -8,13 +8,15 @@ import Login from "../pages/Login";
 import { useSupabase } from "../hooks/useSupabase";
 import Header from "../components/Header";
 import Paths from "./paths";
+import Loader from "../components/Loader";
 
 const ProtectedRoute: FC<{ element: JSX.Element }> = ({ element }) => {
   const { session } = useSupabase();
 
   if (session === undefined) {
-    // Show a loading spinner or similar while the session is being determined
-    return <div>Loading...</div>;
+    return (
+      <Loader />
+    )
   }
 
   return session ? element : <Navigate to={Paths.login}/>;
@@ -38,7 +40,7 @@ const AppRoutes: FC = () => {
   }, [supabase]);
 
   if (loading) {
-    return <div>Loading...</div>;  // Replace with a proper loading spinner or UI
+    return <Loader />;
   }
 
   return (

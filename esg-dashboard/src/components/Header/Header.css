@@ -5,6 +5,9 @@
 .header-logo {
     width: 240px; 
     height: 100px;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .menu-container {
