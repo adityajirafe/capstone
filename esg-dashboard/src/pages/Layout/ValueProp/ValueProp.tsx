@@ -26,10 +26,15 @@ const ValueProp = () => {
         threshold: 0.95,
       }
     );
-
-    sectionsRef.current.forEach((section) => observer.observe(section));
+    const sections = sectionsRef.current;
+    sections.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+  
     return () => {
-      sectionsRef.current.forEach((section) => observer.unobserve(section));
+      sections.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
     };
   }, []);
 
