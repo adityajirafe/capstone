@@ -58,6 +58,7 @@ const ValueProp = () => {
 
   return (
     <div className="value-prop-container">
+      <Text className='value-prop-header'>Why Choose ESGlytics</Text>
       {logoMappings.map((obj, index) => (
         <div
           key={index}
@@ -67,7 +68,7 @@ const ValueProp = () => {
           <Box 
             className="value-prop-logo" 
             bg="monochrome"
-            boxShadow={colorMode == "dark" ? "0 4px 6px rgba(146, 204, 231, 0.1), 0 8px 20px rgba(146, 204, 231, 0.2)" : "0 4px 6px rgba(24, 82, 109, 0.1), 0 8px 20px rgba(24, 82, 109, 0.2)"}
+            boxShadow={colorMode == "dark" ? "0 14px 16px rgba(146, 204, 231, 0.1)" : "0 14px 16px rgba(24, 82, 109, 0.1)"}
           >
             {obj.logo}
           </Box>

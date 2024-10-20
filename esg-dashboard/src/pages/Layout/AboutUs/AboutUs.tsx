@@ -7,7 +7,7 @@ const AboutUs = () => {
   const { colorMode } = useColorMode();
   
   return (
-    <Box className='about-us-main' bg="background">
+    <Box className='about-us-main' bg="background" id="about-us">
       <Text fontSize="44px" fontWeight="bold">About Us</Text>
       {colorMode == "dark" ? <HeaderDark className="company-logo"/> : <HeaderLight className="company-logo"/> }
       <Text className='about-us-text'>ESGlytics, a product of ESGTech, simplifies ESG data for investors. Our platform consolidates and standardizes ESG information from multiple companies, offering a one-stop solution for efficient, data-driven decisions. We provide intuitive tools to help users integrate ESG factors into their investment strategies with ease and confidence.</Text>
