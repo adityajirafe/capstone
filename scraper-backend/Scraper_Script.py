@@ -223,6 +223,7 @@ def dummy_extract_info(dummy):
   return [dummy]
 
 def test_csv(company_name, output_path, pdf):
+  print('testing')
   with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
     with tqdm(total = 100, desc = 'Processing Queries') as pbar:
       results = []
@@ -236,6 +237,8 @@ def test_csv(company_name, output_path, pdf):
         #print progress
         progress_percent = (i / 100) * 100
         print(f'Progress: {progress_percent:.2f}%')
+  test_df = pd.DataFrame(columns = ['test'])
+  test_df.to_csv(output_path, index = False, encoding='utf-8-sig')
   return True
   
 
@@ -247,8 +250,8 @@ if __name__ == "__main__":
     input_pdf = sys.argv[3]       # The custom file name provided by the user
 
     # Call the function to process the PDF and generate the Excel file
-    scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
+    #scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
     
     #Temporary call TODO: remove uploaded csv file after call when using real function
-    #test_csv(custom_name, output_csv, input_pdf)
+    test_csv(custom_name, output_csv, input_pdf)
     

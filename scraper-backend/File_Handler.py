@@ -87,4 +87,4 @@ def download_file(filename):
         return jsonify({'error': 'File not found'}), 404
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(debug = True, port=5000)

@@ -25,33 +25,38 @@ const Scraper: React.FC = () => {
 
 
      // Function to poll the status of the background task from the backend
-     const pollTaskStatus = async (taskId: string) => {
-        const interval = setInterval(async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/task-status/${taskId}`);
-                const data = await response.json();
+    //  const pollTaskStatus = async () => {
+    //     const interval = setInterval(async () => {
+    //         try {
+    //             const storedTaskId = localStorage.getItem('taskId');
+    //             const storedFileName = localStorage.getItem('filename');
+
+    //             const response = await fetch(`http://localhost:5000/task-status/${storedTaskId}`);
+    //             const data = await response.json();
                 
-                // If task is completed, download the result
-                if (data.status === 'Completed') {
-                    clearInterval(interval);
-                    setProgress(100);
-                    downloadCSV(fileName); // Call the function to download the file
-                    setMessage('File processed and downloaded successfully!');
-                    localStorage.removeItem('taskId');
-                    localStorage.removeItem('filename');
-                } else if (data.status === 'In Progress') {
-                    setProgress(50); // Update progress (simple 50% during progress)
-                } else if (data.status.startsWith('Failed')) {
-                    clearInterval(interval);
-                    setError(`Task failed: ${data.status}`);
-                }
-            } catch (error) {
-                console.error('Error fetching task status:', error);
-                clearInterval(interval);
-                setError('Error fetching task status.');
-            }
-        }, 3000); // Poll every 3 seconds
-    };
+    //             // If task is completed, download the result
+    //             if (data.status === 'Completed') {
+    //                 clearInterval(interval);
+    //                 setProgress(100);
+    //                 if (storedFileName !== null) {
+    //                     downloadCSV(storedFileName); // Call the function to download the file
+    //                     setMessage('File processed and downloaded successfully!');
+    //                 }
+    //                 localStorage.removeItem('taskId');
+    //                 localStorage.removeItem('filename');
+    //             } else if (data.status === 'In Progress') {
+    //                 setProgress(50); // Update progress (simple 50% during progress)
+    //             } else if (data.status.startsWith('Failed')) {
+    //                 clearInterval(interval);
+    //                 setError(`Task failed: ${data.status}`);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching task status:', error);
+    //             clearInterval(interval);
+    //             setError('Error fetching task status.');
+    //         }
+    //     }, 3000); // Poll every 3 seconds
+    // };
 
     const handleUpload = async () => {
         if (!file) {
@@ -76,18 +81,17 @@ const Scraper: React.FC = () => {
                 body: formData,
             });
 
-            
-            //console.log(response)
 
             if (response.ok) {
-                // Handle the CSV file download
                 const result = await response.json()
                 setTaskId(result.task_id)
+                localStorage.removeItem('taskId');
+                localStorage.removeItem('filename');
                 localStorage.setItem('taskId', result.task_id);
                 localStorage.setItem('filename', fileName);
                     
                 setMessage('File uploaded successfully. Processing started...');
-                pollTaskStatus(result.task_id); // Start polling for task status
+                //pollTaskStatus(); // Start polling for task status
                 console.log(taskId)
 
 
@@ -117,6 +121,7 @@ const Scraper: React.FC = () => {
                 setMessage('File processed and downloaded successfully!');
             } else {
                 setError('Failed to download the file.');
+                console.error('Error:', error);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -124,8 +129,9 @@ const Scraper: React.FC = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { // polls for the task status continuously
         try {
+            console.log('polling')
             const storedTaskId = localStorage.getItem('taskId');
             const storedFileName = localStorage.getItem('filename');
             if (storedTaskId !== null) {
@@ -150,7 +156,7 @@ const Scraper: React.FC = () => {
                         } else if (data.status.startsWith('Failed')) {
                             clearInterval(interval);
                             setError(`Task failed: ${data.status}`);
-                            console.log('')
+                            console.log(error)
                         }
                     } catch (error) {
                         console.error('Error fetching task status:', error);
@@ -160,12 +166,14 @@ const Scraper: React.FC = () => {
                 }, 3000); // Poll every 3 seconds
         
                 // Cleanup function to clear the interval when the component unmounts or taskId changes
-                return () => clearInterval(interval);  
+                return () => {
+                    clearInterval(interval);  
+                } 
             }
         } catch {
             setLoading(false)
         }
-    }, [taskId, fileName]);
+    }, []);
     
 
     return (
