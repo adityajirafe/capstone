@@ -2,13 +2,19 @@ import './Home.css'
 import { Box, Text } from '@chakra-ui/react';
 import Laptop from '../../../assets/laptop.svg?react'
 import DashboardScreen1 from '../../../assets/DashboardScreen1.png';
+import { useSupabase } from '../../../hooks/useSupabase';
 
 const Home = () => {
-
+  const { session } = useSupabase();
+  const user = session?.user.user_metadata.name 
   return (
     <Box className='home-main' bg="background">
       <div className='welcome-msg-container'>
-        <Text className='home-header'>Welcome to ESGlytics</Text>
+        {session ? (
+          <Text className='home-header'>Welcome back, {user}</Text>
+        ) : (
+          <Text className='home-header'>Welcome to ESGlytics</Text>
+        )}
         <Text className="home-subheader" fontSize="28" color="accent" fontWeight="900" mt="24px" mb="24px">All your ESG data in one place</Text>
         <Text className='home-subtext'>Faster Insights</Text>
         <Text className='home-subtext'>=</Text>
