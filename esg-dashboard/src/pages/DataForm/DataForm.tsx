@@ -10,7 +10,8 @@ const DataInputForm = () => {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
-  const [selectedYears, setSelectedYears] = useState([]);
+  const [companyName, setCompanyName] = useState(""); // Manage company name state
+  const [selectedYears, setSelectedYears] = useState([]); // Store selected years
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -39,11 +40,15 @@ const DataInputForm = () => {
       >
         <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated />
 
-        {step === 1 && <Form1 />}
+        {step === 1 && (
+          <Form1 companyName={companyName} setCompanyName={setCompanyName} />
+        )}
         {step === 2 && (
           <Form2 onNext={handleNextStep} onYearSelect={handleYearsSelection} />
         )}
-        {step === 3 && <Form3 selectedYears={selectedYears} />}
+        {step === 3 && (
+          <Form3 companyName={companyName} selectedYears={selectedYears} />
+        )}
 
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
@@ -73,7 +78,7 @@ const DataInputForm = () => {
                 onClick={() =>
                   toast({
                     title: "Data Submitted!",
-                    description: "Thank you for your submission.",
+                    description: `Thank you for your submission, ${companyName}.`,
                     status: "success",
                     duration: 3000,
                     isClosable: true,

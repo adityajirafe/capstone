@@ -1,33 +1,27 @@
-import { Box, Heading } from "@chakra-ui/react";
-import "./dataform.css";
+import React, { useState } from "react";
+import { Heading, FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-const Form1 = () => {
+const Form1 = ({ companyName, setCompanyName }) => {
+  const handleInputChange = (e) => {
+    setCompanyName(e.target.value); // Update parent state
+  };
+
   return (
-    <Box className="container">
+    <>
       <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
-        How would you like to enter your ESG data?
+        Company Information
       </Heading>
-      <Box className="options">
-        <Box className="option">
-          <Box className="icon" />
-          <Box className="option-text">
-            <Box className="option-title">Manual Entry</Box>
-            <Box className="option-description">
-              Fill up a pre-configured ESG reporting template
-            </Box>
-          </Box>
-        </Box>
-        <Box className="option">
-          <Box className="icon" />
-          <Box className="option-text">
-            <Box className="option-title">Upload files</Box>
-            <Box className="option-description">
-              Select and upload files of your choice
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+      <FormControl>
+        <FormLabel htmlFor="companyName">Company Name</FormLabel>
+        <Input
+          id="companyName"
+          type="text"
+          placeholder="Enter your company name"
+          value={companyName}
+          onChange={handleInputChange} // Update the company name in the parent component
+        />
+      </FormControl>
+    </>
   );
 };
 

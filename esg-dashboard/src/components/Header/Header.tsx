@@ -33,7 +33,7 @@ const Header = () => {
       )}
       <Box className="menu-container">
         <NavLink to={Paths.home}>About Us </NavLink>
-        <NavLink to={Paths.scraper}>Report</NavLink>
+        <NavLink to={Paths.dataInput}>Reporting</NavLink>
         <NavLink to={Paths.dashboard}>Dashboard</NavLink>
         {session ? (
           <Text onClick={handleSignout} className="menu-item">
