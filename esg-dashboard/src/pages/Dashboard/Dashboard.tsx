@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 const Dashboard = () => {
@@ -28,9 +28,6 @@ const Dashboard = () => {
 
   return (
     <Box p={4}>
-      <Text fontSize="2xl" mb={4}>
-        Executive Overview - Profitability
-      </Text>
       <Box
         id="vizContainer"
         position="relative"
@@ -41,8 +38,8 @@ const Dashboard = () => {
         <Box as="noscript">
           <a href="#">
             <img
-              alt="Executive Overview - Profitability"
-              src="https://public.tableau.com/static/images/Su/Superstore_17276724702450/Overview/1_rss.png"
+              alt="ESG Data Dashboard"
+              src="https://public.tableau.com/static/images/ES/ESGData_17285766762070/Dashboard1/1_rss.png"
               style={{ border: "none" }}
             />
           </a>
@@ -51,17 +48,17 @@ const Dashboard = () => {
           as="object"
           className="tableauViz"
           width="100%"
-          height="647px"
+          height="calc(100vh - 132px)"
           display="none"
         >
           <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
           <param name="embed_code_version" value="3" />
           <param
             name="path"
-            value="views/Superstore_17276724702450/Overview?:language=en-US&:embed=true&publish=yes&:sid=&:redirect=auth"
+            value="views/ESGData_17285766762070/Dashboard1?:language=en-US&:embed=true&publish=yes&:redirect=auth"
           />
           <param name="toolbar" value="yes" />
-          <param name="static_image" value="https://public.tableau.com/static/images/Su/Superstore_17276724702450/Overview/1.png" />
+          <param name="static_image" value="https://public.tableau.com/static/images/ES/ESGData_17285766762070/Dashboard1/1.png" />
           <param name="animate_transition" value="yes" />
           <param name="display_static_image" value="yes" />
           <param name="display_spinner" value="yes" />

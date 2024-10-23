@@ -1,0 +1,80 @@
+.home-main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.welcome-msg-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    text-align: center;
+    margin-left: 32px;
+    margin-bottom: 100px;
+}
+.home-header {
+    font-size: 36px;
+    font-weight: 900;
+    animation: fadeInHomeHeader 2s ease forwards;
+}
+.home-subheader {
+    animation: fadeInHomeHeader 2s ease forwards;
+}
+.home-subtext {
+    line-height: 25px;
+    font-size: 24px;
+    font-weight: 200;
+    animation: fadeInHomeText 2s ease forwards;
+}
+.laptop-container {
+    position: relative;
+    right: -42px;
+    animation: fadeInLaptop 2s ease forwards;
+}
+.laptop-screen {
+    position: absolute;
+    top: 34px;
+    right: 74px;
+    z-index: 1;
+    width: 802px;
+    height: 448px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+@keyframes fadeInLaptop {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInHomeHeader {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInHomeText {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+  

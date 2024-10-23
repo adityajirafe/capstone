@@ -11,21 +11,29 @@ const colors = {
     _dark: "#92CCE7",
   },
   secondary: {
-    default: "#18526D",
-    _dark: "#92CCE7",
+    default: "#B6EDED",
+    _dark: "#124949",
   },
   accent: {
-    default: "#18526D",
-    _dark: "#92CCE7",
+    default: "#1F605E",
+    _dark: "#9FE0DE",
+  },
+  headerBackground: {
+    default: "#E1E1E4",
+    _dark: "#010104",
   },
   background: {
     default: "#FBFBFE",
-    _dark: "#010104",
+    _dark: "#181818",
   },
   text: {
     default: "#16191D",
     _dark: "#E2E5E9",
   },
+  monochrome: {
+    default: "#FFFFFF",
+    _dark: "#000000"
+  }
 };
 
 const theme = extendTheme({
@@ -36,9 +44,22 @@ const theme = extendTheme({
   colors: colors,
   styles: {
     global: (props: StyleFunctionProps) => ({
+      header: {
+        bg: props.colorMode === "dark" ? "headerBackground._dark" : "headerBackground.default",
+      },
       body: {
         bg: props.colorMode === "dark" ? "background._dark" : "background.default",
         color: props.colorMode === "dark" ? "text._dark" : "text.default",
+      },
+      a: {
+        color: props.colorMode === "dark" ? "text._dark" : "text.default",
+        _hover: {
+          textDecoration: 'underline',
+          cursor: 'pointer',
+        },
+        "&.active": {
+          color: props.colorMode === "dark" ? "accent._dark" : "accent.default",
+        },
       },
     }),
   },
