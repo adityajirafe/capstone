@@ -2,23 +2,31 @@ from flask import Flask, request, jsonify, send_file
 import os
 import threading
 import subprocess
+from dotenv import load_dotenv
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
 import time
+from supabase import create_client, Client
 
-app = Flask(__name__)
-CORS(app)
+#Load environment variables from .env file
+load_dotenv()
+
+# Initialize Supabase client
+SUPABASE_URL = os.getenv('FLASK_SUPABASE_URL')
+SUPABASE_ANON_KEY = os.getenv('FLASK_SUPABASE_ANON_KEY')
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+
 UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
 
-# Global variable to store task status
-tasks = {}
+
+app = Flask(__name__)
+CORS(app)
 
 def run_scraper(task_id, file_name, output_file, file_path):
     """Function to run the long task (calling scraper.py) in the background."""
-    tasks[task_id] = 'In Progress'
     
     try:
         process = subprocess.Popen(
@@ -30,14 +38,31 @@ def run_scraper(task_id, file_name, output_file, file_path):
         stdout, stderr = process.communicate()
 
         if process.returncode != 0:
-            tasks[task_id] = f"Failed: {stderr}"
             print('Failed Task')
+            data = {
+                'status': 'Failed',
+                'updated_at': 'now()'
+            }
+            response = supabase.table('job_queue').update(data).eq('task_id', task_id).execute()
+            if response:
+                print('Update failed')
         else:
-            tasks[task_id] = 'Completed'
             print('Completed Task')
+            data = {
+                'status': 'Completed',
+                'updated_at': 'now()'
+            }
+            response = supabase.table('job_queue').update(data).eq('task_id', task_id).execute()
+            
     except Exception as e:
-        tasks[task_id] = f"Failed: {str(e)}"
         print('Failed Task')
+        data = {
+            'status': 'Failed',
+            'updated_at': 'now()'
+        }
+        response = supabase.table('job_queue').update(data).eq('task_id', task_id).execute()
+        if response:
+            print('Update failed')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -63,22 +88,33 @@ def upload_file():
     task_id = str(int(time.time()))
 
     # Start the scraper task in a background thread
-    thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
-    thread.start()
+    # thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
+    # thread.start()
+    
+    # Update Supabase task queue
+    data = {
+        'file_name' : file_name,
+        'task_id': task_id,
+        'status': 'In Progress'
+    }
+    response = supabase.table('scraper_task_queue').insert(data).execute()
 
-    # Initialize the task status as 'In Progress'
-    tasks[task_id] = 'In Progress'
-
-    return jsonify({'message': 'File uploaded successfully', 'task_id': task_id}), 202
+    if response:
+        return jsonify({'message': 'File uploaded successfully', 'task_id': task_id}), 202
+    else:
+        return jsonify({'error': 'Failed to add task'}), 500
 
 @app.route('/task-status/<task_id>', methods=['GET'])
 def task_status(task_id):
     """Check the status of the background task."""
-    if task_id not in tasks:
-        return jsonify({'status': 'Unknown Task ID'}), 404
-    status = tasks[task_id]
-    return jsonify({'status': status})
 
+    response = supabase.table('scraper_task_queue').select('status').eq('task_id', task_id).execute()
+    if response:
+        task_status = response[0]['status']
+        return jsonify({'status': task_status}), 200
+    else:
+        return jsonify({'status': 'Unknown Task ID'}), 404
+    
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):
     """Download the output CSV file once the task is completed."""

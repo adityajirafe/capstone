@@ -174,20 +174,10 @@ def parse_doc(company, sus_report):
   ass_list = [assistant] * no_queries
   company_list = [company] * no_queries
   
-
   # Using ThreadPoolExecutor to create a list in parallel
   with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
-    with tqdm(total = no_queries, desc = 'Processing Queries') as pbar:
-      i = 0
-      results = []
       # Map the function to the inputs in parallel
-      for result in executor.map(extract_info, template_list, ass_list, company_list):
-        result.append(result)
-        pbar.update(1)
-        i += 1
-        #print progress
-        progress_percent = (i / no_queries) * 100
-        print(f'Progress: {progress_percent:.2f}%')
+      results = list(tqdm(executor.map(extract_info, template_list, ass_list, company_list)))
   return results
 
 #Post processing dataframe to fit our predefined template

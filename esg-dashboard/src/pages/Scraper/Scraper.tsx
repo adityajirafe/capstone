@@ -110,7 +110,7 @@ const Scraper: React.FC = () => {
 
     const downloadCSV = async (fileName: string) => {
         try {
-            const response = await fetch(`http://localhost:5000/download/${fileName}.csv`);
+            const response = await fetch(`http://localhost:5000/download/${fileName}`);
             if (response.ok) {
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
@@ -157,9 +157,10 @@ const Scraper: React.FC = () => {
                         } else if (data.status === 'Unknown Task ID') {
                             clearInterval(interval);
                             setError(`Task failed: ${data.status}`);
+                            console.log('TaskID missing in Backend')
                         }
                     } catch (error) {
-                        console.error('Error fetching task status:', error);
+                        //console.error('Error fetching task status:', error);
                         clearInterval(interval);
                         setError('Error fetching task status.');
                     }
