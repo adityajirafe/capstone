@@ -250,8 +250,8 @@ if __name__ == "__main__":
     input_pdf = sys.argv[3]       # The custom file name provided by the user
 
     # Call the function to process the PDF and generate the Excel file
-    #scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
+    scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
     
     #Temporary call TODO: remove uploaded csv file after call when using real function
-    test_csv(custom_name, output_csv, input_pdf)
+    #test_csv(custom_name, output_csv, input_pdf)
     

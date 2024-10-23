@@ -92,6 +92,7 @@ const Scraper: React.FC = () => {
                     
                 setMessage('File uploaded successfully. Processing started...');
                 //pollTaskStatus(); // Start polling for task status
+                useEffect
                 console.log(taskId)
 
 
@@ -153,10 +154,9 @@ const Scraper: React.FC = () => {
                             localStorage.removeItem('filename');
                         } else if (data.status === 'In Progress') {
                             setProgress(50); // Update progress (simple 50% during progress)
-                        } else if (data.status.startsWith('Failed')) {
+                        } else if (data.status === 'Unknown Task ID') {
                             clearInterval(interval);
                             setError(`Task failed: ${data.status}`);
-                            console.log(error)
                         }
                     } catch (error) {
                         console.error('Error fetching task status:', error);

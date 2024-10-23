@@ -31,10 +31,13 @@ def run_scraper(task_id, file_name, output_file, file_path):
 
         if process.returncode != 0:
             tasks[task_id] = f"Failed: {stderr}"
+            print('Failed Task')
         else:
             tasks[task_id] = 'Completed'
+            print('Completed Task')
     except Exception as e:
         tasks[task_id] = f"Failed: {str(e)}"
+        print('Failed Task')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
