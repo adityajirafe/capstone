@@ -2,8 +2,10 @@ import pandas as pd
 import os
 import openai
 from dotenv import load_dotenv
-import os
 import sys
+import concurrent.futures
+import time
+from tqdm import tqdm
 
 #Load environment variables from .env file
 load_dotenv()
@@ -166,20 +168,16 @@ def parse_doc(company, sus_report):
   )
 
 
-  import concurrent.futures
-  import time
-  from tqdm import tqdm
-
   template_list = template['Sub-Category'].tolist()
 
-  ass_list = [assistant] * len(template_list)
-  company_list = [company] * len(template_list)
-
+  no_queries = len(template_list)
+  ass_list = [assistant] * no_queries
+  company_list = [company] * no_queries
+  
   # Using ThreadPoolExecutor to create a list in parallel
   with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
       # Map the function to the inputs in parallel
       results = list(tqdm(executor.map(extract_info, template_list, ass_list, company_list)))
-
   return results
 
 #Post processing dataframe to fit our predefined template
@@ -207,10 +205,13 @@ def scrape(company_name, output_path, pdf):
     company_template.to_csv(output_path, index = False, encoding='utf-8-sig')
     return company_template
 
-
+#dummy function to mimic scraping function
 def test_csv(company_name, output_path, pdf):
-    return True
-    
+  time.sleep(30)
+  test_df = pd.DataFrame(columns = ['test'])
+  test_df.to_csv(output_path, index = False, encoding='utf-8-sig')
+  return True
+  
 
 if __name__ == "__main__":
 
@@ -222,6 +223,6 @@ if __name__ == "__main__":
     # Call the function to process the PDF and generate the Excel file
     #scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
     
-    #Temporary call
+    #Temporary call TODO: remove uploaded csv file after call when using real function
     test_csv(custom_name, output_csv, input_pdf)
     
