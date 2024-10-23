@@ -18,50 +18,44 @@ import { useSupabase } from "../../hooks/useSupabase";
 
 const predeterminedMetrics = [
   {
-    indicator: "EM-MM-110a.1",
-    sub_category: "Total gross global scope 1 emissions (CO2)",
-    units: "Tonnes",
+    indicator: "EM-MM-140a.1",
+    sub_category: "Total freshwater withdrawn",
+    units: "Cubic meters (m³)",
   },
   {
-    indicator: "EM-MM-110a.1",
+    indicator: "EM-MM-140a.1",
+    sub_category: "Total freshwater consumed",
+    units: "Cubic meters (m³)",
+  },
+  {
+    indicator: "EM-MM-140a.1",
     sub_category:
-      "Total percentage of gross global scope 1 emissions under emissions-limiting regulations",
+      "Total water withdrawn in high or extremely high baseline water stress areas",
+    units: "Cubic meters (m³)",
+  },
+  {
+    indicator: "EM-MM-140a.1",
+    sub_category:
+      "Total water consumed in high or extremely high baseline water stress areas",
+    units: "Cubic meters (m³)",
+  },
+  {
+    indicator: "EM-MM-140a.1",
+    sub_category:
+      "Percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn",
     units: "%",
   },
   {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total CO emissions",
-    units: "Tonnes",
+    indicator: "EM-MM-140a.1",
+    sub_category:
+      "Percentage of water consumed in high or extremely high baseline water stress areas against total freshwater consumed",
+    units: "%",
   },
   {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total NOx emissions",
-    units: "Tonnes",
-  },
-  {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total SOx emissions",
-    units: "Tonnes",
-  },
-  {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total PM10 emissions",
-    units: "Tonnes",
-  },
-  {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total mercury (Hg) emissions",
-    units: "Tonnes",
-  },
-  {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total lead (Pb) emissions",
-    units: "Tonnes",
-  },
-  {
-    indicator: "EM-MM-120a.1",
-    sub_category: "Total volatile organic compounds (VOCs) emissions",
-    units: "Tonnes",
+    indicator: "EM-MM-140a.2",
+    sub_category:
+      "Number of incidents of non-compliance associated with water quality permits, standards, and regulations",
+    units: "Count",
   },
 ];
 
@@ -73,25 +67,30 @@ interface MetricData {
   value: string;
 }
 
-interface Form3Props {
+interface Form5Props {
   companyName: string;
   selectedYears: number[];
 }
 
-const Form3: React.FC<Form3Props> = ({ companyName, selectedYears }) => {
+const Form5: React.FC<Form5Props> = ({ companyName, selectedYears }) => {
   const { supabase } = useSupabase();
-  const [metricsData, setMetricsData] = useState<MetricData[]>([]);
+  const [metricsData, setMetricsData] = useState<MetricData[]>([]); // Data from Supabase
   const [loading, setLoading] = useState(true);
 
+  // Local state to track the input values for each metric and year
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(0);
   const rowsPerPage = 3;
 
+  // Sort years in ascending order
   const sortedYears = [...selectedYears].sort((a, b) => a - b);
 
+  // Calculate total pages
   const totalPages = Math.ceil(sortedYears.length / rowsPerPage);
 
+  // Get the years for the current page
   const yearsToDisplay = sortedYears.slice(
     currentPage * rowsPerPage,
     (currentPage + 1) * rowsPerPage
@@ -157,7 +156,7 @@ const Form3: React.FC<Form3Props> = ({ companyName, selectedYears }) => {
         <Text fontSize="lg" fontWeight="bold">
           Environmental
         </Text>
-        <Text fontSize="lg">GHG Emissions & Air Quality</Text>
+        <Text fontSize="lg">Water Management</Text>
       </Box>
 
       {/* Table with sorted years and pagination */}
@@ -236,4 +235,4 @@ const Form3: React.FC<Form3Props> = ({ companyName, selectedYears }) => {
   );
 };
 
-export default Form3;
+export default Form5;

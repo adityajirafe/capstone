@@ -1,0 +1,103 @@
+/* dataform.css */
+
+/* Increase the width for all forms */
+.form-container {
+  border-width: 1px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  max-width: 1200px; /* Increased max-width */
+  padding: 24px;
+  margin: 20px auto;
+  width: 100%;
+}
+
+/* Custom stepper styling */
+.stepper-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Ensure all steps are the same height */
+  margin-bottom: 16px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 100px; /* Minimum height to ensure uniform height */
+}
+
+/* Smaller step indicator font and smaller step circle */
+.step-indicator {
+  border-radius: 50%;
+  width: 25px; /* Smaller circle */
+  height: 25px; /* Smaller circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px; /* Smaller font size */
+  color: white;
+}
+
+.step-active {
+  background-color: #319795; /* Teal color for active step */
+}
+
+.step-inactive {
+  background-color: #e2e8f0; /* Gray color for inactive step */
+}
+
+.step-label {
+  margin-top: 8px;
+  font-size: 12px; /* Smaller font size for step labels */
+  text-align: center;
+  width: 100px; /* Ensure step labels wrap and fit */
+  height: 40px; /* Fixed height to ensure uniform height across steps */
+  line-height: 1.2; /* Adjust line height for better readability */
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e2e8f0; /* Gray divider color */
+  margin-top: 8px;
+}
+
+/* Ensure the divider is hidden after the last step */
+.stepper-container .step:last-child .divider {
+  display: none;
+}
+
+/* Consistent width for button group and spacing */
+.button-group {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.button-back,
+.button-next {
+  width: 7rem;
+  margin-right: 20px;
+}
+
+.button-submit {
+  width: 7rem;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 90%;
+  }
+
+  .button-back,
+  .button-next,
+  .button-submit {
+    width: 100%;
+  }
+
+  .step-label {
+    font-size: 10px; /* Even smaller font for mobile screens */
+    width: 80px; /* Make step labels more compact on small screens */
+  }
+}
