@@ -43,16 +43,16 @@ def run_scraper(task_id, file_name, output_file, file_path):
                 'status': 'Failed',
                 'updated_at': 'now()'
             }
-            response = supabase.table('job_queue').update(data).eq('task_id', task_id).execute()
+            response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
             if response:
-                print('Update failed')
+                print(process)
         else:
             print('Completed Task')
             data = {
                 'status': 'Completed',
                 'updated_at': 'now()'
             }
-            response = supabase.table('job_queue').update(data).eq('task_id', task_id).execute()
+            response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
             
     except Exception as e:
         print('Failed Task')
@@ -60,9 +60,9 @@ def run_scraper(task_id, file_name, output_file, file_path):
             'status': 'Failed',
             'updated_at': 'now()'
         }
-        response = supabase.table('job_queue').update(data).eq('task_id', task_id).execute()
+        response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
         if response:
-            print('Update failed')
+            print('error', e)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -88,8 +88,8 @@ def upload_file():
     task_id = str(int(time.time()))
 
     # Start the scraper task in a background thread
-    # thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
-    # thread.start()
+    thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
+    thread.start()
     
     # Update Supabase task queue
     data = {
@@ -110,13 +110,15 @@ def task_status(task_id):
 
     response = supabase.table('scraper_task_queue').select('status').eq('task_id', task_id).execute()
     if response:
-        task_status = response[0]['status']
+        task_status = response.data[0]['status']
         return jsonify({'status': task_status}), 200
     else:
         return jsonify({'status': 'Unknown Task ID'}), 404
     
-@app.route('/download/<filename>', methods=['GET'])
-def download_file(filename):
+@app.route('/download/<task_id>', methods=['GET'])
+def download_file(task_id):
+    response = supabase.table('scraper_task_queue').select('file_name').eq('task_id', task_id).execute()
+    filename = response.data[0]['file_name'] + '.csv'
     """Download the output CSV file once the task is completed."""
     file_path = os.path.join(OUTPUT_FOLDER, filename)
 

@@ -199,34 +199,15 @@ def to_template(df):
 
 #Consolidating all the functions to return out final csv file 
 def scrape(company_name, output_path, pdf):
-    print('i am scraping')
     company_results = parse_doc(company_name, pdf)
     company_data = get_csv(company_results)
     company_template = to_template(company_data)
     company_template.to_csv(output_path, index = False, encoding='utf-8-sig')
     return company_template
 
-
-def dummy_extract_info(dummy):
-  time.sleep(1)
-
-  return [dummy]
-
+#dummy function to mimic scraping function
 def test_csv(company_name, output_path, pdf):
-  print('testing')
-  with concurrent.futures.ProcessPoolExecutor() as executor: #if errors occur, reduce the processpoolexecutor size (put 1 in ())
-    with tqdm(total = 100, desc = 'Processing Queries') as pbar:
-      results = []
-      i = 0
-      dummy = [0] * 100
-      # Map the function to the inputs in parallel
-      for result in executor.map(dummy_extract_info, dummy):
-        result.append(result)
-        pbar.update(1)
-        i += 1
-        #print progress
-        progress_percent = (i / 100) * 100
-        print(f'Progress: {progress_percent:.2f}%')
+  time.sleep(30)
   test_df = pd.DataFrame(columns = ['test'])
   test_df.to_csv(output_path, index = False, encoding='utf-8-sig')
   return True
