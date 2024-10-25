@@ -17,6 +17,10 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleLogoClick = () => {
+    navigate(Paths.home);
+  };
+
   return (
     <Box
       as="header"
@@ -26,13 +30,22 @@ const Header = () => {
       className="main"
       bg="headerBackground"
     >
-      {colorMode == "dark" ? (
-        <HeaderDark className="header-logo" />
-      ) : (
-        <HeaderLight className="header-logo" />
-      )}
+      <div onClick={handleLogoClick}>
+        {colorMode == "dark" ? (
+          <HeaderDark className="header-logo"  />
+        ) : (
+          <HeaderLight className="header-logo" />
+        )}
+      </div>
       <Box className="menu-container">
-        <NavLink to={Paths.home}>About Us </NavLink>
+        <NavLink
+          to={Paths.home + "#about-us"}
+          className={({ isActive }) =>
+            isActive && location.hash === "#about-us" ? "active" : ""
+          }
+        >
+          About Us
+        </NavLink>
         <NavLink to={Paths.dataInput}>Reporting</NavLink>
         <NavLink to={Paths.dashboard}>Dashboard</NavLink>
         {session ? (

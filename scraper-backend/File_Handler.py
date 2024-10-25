@@ -1,14 +1,68 @@
 from flask import Flask, request, jsonify, send_file
 import os
+import threading
 import subprocess
+from dotenv import load_dotenv
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
+import time
+from supabase import create_client, Client
 
-app = Flask(__name__)
-CORS(app)
+#Load environment variables from .env file
+load_dotenv()
+
+# Initialize Supabase client
+SUPABASE_URL = os.getenv('FLASK_SUPABASE_URL')
+SUPABASE_ANON_KEY = os.getenv('FLASK_SUPABASE_ANON_KEY')
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+
 UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
+
+
+app = Flask(__name__)
+CORS(app)
+
+def run_scraper(task_id, file_name, output_file, file_path):
+    """Function to run the long task (calling scraper.py) in the background."""
+    
+    try:
+        process = subprocess.Popen(
+            ['python', 'Scraper_Script.py', file_name, output_file, file_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        stdout, stderr = process.communicate()
+
+        if process.returncode != 0:
+            print('Failed Task')
+            data = {
+                'status': 'Failed',
+                'updated_at': 'now()'
+            }
+            response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
+            if response:
+                print(process)
+        else:
+            print('Completed Task')
+            data = {
+                'status': 'Completed',
+                'updated_at': 'now()'
+            }
+            response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
+            
+    except Exception as e:
+        print('Failed Task')
+        data = {
+            'status': 'Failed',
+            'updated_at': 'now()'
+        }
+        response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
+        if response:
+            print('error', e)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -21,27 +75,57 @@ def upload_file():
 
     # Retrieve the custom file name
     file_name = request.form.get('file_name', 'output')  # Default name is 'output'
-
-    # Ensure the file name is safe (remove unwanted characters)
     file_name = ''.join(c for c in file_name if c.isalnum() or c in (' ', '_', '-')).rstrip()
-    
+
     # Save the uploaded file
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
 
-    # Define the output Excel file path using the custom name
+    # Define the output file path
     output_file = os.path.join(OUTPUT_FOLDER, f'{file_name}.csv')
 
-    # Run your Python script to process the PDF and create the CSV file
-    try:
-        # Call your script (you can modify this based on how your script works)
-        subprocess.run(['python', 'Scraper_Script.py', file_name, output_file, file_path], check=True)
+    # Create a unique task ID (can use something like UUID for uniqueness)
+    task_id = str(int(time.time()))
 
-        # Send the generated CSV file back to the frontend
-        return send_file(output_file, as_attachment=True, download_name=f'{file_name}.csv')
+    # Start the scraper task in a background thread
+    thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
+    thread.start()
+    
+    # Update Supabase task queue
+    data = {
+        'file_name' : file_name,
+        'task_id': task_id,
+        'status': 'In Progress'
+    }
+    response = supabase.table('scraper_task_queue').insert(data).execute()
 
-    except subprocess.CalledProcessError as e:
-        return jsonify({'error': f'Error in processing PDF: {str(e)}'}), 500
+    if response:
+        return jsonify({'message': 'File uploaded successfully', 'task_id': task_id}), 202
+    else:
+        return jsonify({'error': 'Failed to add task'}), 500
+
+@app.route('/task-status/<task_id>', methods=['GET'])
+def task_status(task_id):
+    """Check the status of the background task."""
+
+    response = supabase.table('scraper_task_queue').select('status').eq('task_id', task_id).execute()
+    if response:
+        task_status = response.data[0]['status']
+        return jsonify({'status': task_status}), 200
+    else:
+        return jsonify({'status': 'Unknown Task ID'}), 404
+    
+@app.route('/download/<task_id>', methods=['GET'])
+def download_file(task_id):
+    response = supabase.table('scraper_task_queue').select('file_name').eq('task_id', task_id).execute()
+    filename = response.data[0]['file_name'] + '.csv'
+    """Download the output CSV file once the task is completed."""
+    file_path = os.path.join(OUTPUT_FOLDER, filename)
+
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=True)
+    else:
+        return jsonify({'error': 'File not found'}), 404
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(debug = True, port=5000)
