@@ -7,7 +7,9 @@ import {
   useToast,
   Box,
 } from "@chakra-ui/react";
-import "./dataform.css"; // Import the CSS file
+import { saveAs } from "file-saver"; // For CSV download
+import Papa from "papaparse"; // For CSV generation
+import "./dataform.css";
 import Form1 from "./Form1";
 import Form2 from "./Form2";
 import Form3 from "./Form3";
@@ -20,12 +22,12 @@ const steps = [
   "Air Quality",
   "Energy Management",
   "Water Management",
-  "Waste Management",
-  "Biodiversity Impacts",
-  "Human Rights",
-  "Community/Labor Relations",
-  "Workforce Health and Safety",
-  "Activity Metrics",
+  // "Waste Management",
+  // "Biodiversity Impacts",
+  // "Human Rights",
+  // "Community/Labor Relations",
+  // "Workforce Health and Safety",
+  // "Activity Metrics",
 ];
 
 const DataInputForm = () => {
@@ -33,6 +35,7 @@ const DataInputForm = () => {
   const [step, setStep] = useState(0); // Step state (starts from 0)
   const [companyName, setCompanyName] = useState("");
   const [selectedYears, setSelectedYears] = useState([]);
+  const [formData, setFormData] = useState([]); // Collect form data across all steps
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -44,6 +47,43 @@ const DataInputForm = () => {
 
   const handleYearsSelection = (years) => {
     setSelectedYears(years);
+  };
+
+  // Collect data only if new data is provided, avoiding duplicates
+  const handleFormData = (newData) => {
+    setFormData((prevData) => {
+      const updatedData = [...prevData];
+      newData.forEach((item) => {
+        const exists = prevData.some(
+          (data) =>
+            data.indicator === item.indicator &&
+            data.sub_category === item.sub_category &&
+            data.year === item.year
+        );
+        if (!exists) updatedData.push(item);
+      });
+      return updatedData;
+    });
+  };
+
+  // Generate CSV when the form is submitted
+  const generateCSV = () => {
+    // Filter out rows where the value is empty or null
+    const filteredData = formData.filter((row) => row.value);
+
+    const csvData = filteredData.map((row) => ({
+      indicator: row.indicator,
+      indicator_name: row.indicator_name,
+      unit: row.unit,
+      sub_category: row.sub_category,
+      year: row.year,
+      value: row.value,
+      company: companyName,
+    }));
+
+    const csv = Papa.unparse(csvData); // Convert to CSV format
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, `${companyName}_ESG_data.csv`); // Download CSV file
   };
 
   return (
@@ -82,31 +122,25 @@ const DataInputForm = () => {
           <Form2 onNext={handleNextStep} onYearSelect={handleYearsSelection} />
         )}
         {step === 2 && (
-          <Form3 companyName={companyName} selectedYears={selectedYears} />
+          <Form3
+            companyName={companyName}
+            selectedYears={selectedYears}
+            handleFormData={handleFormData}
+          />
         )}
         {step === 3 && (
-          <Form4 companyName={companyName} selectedYears={selectedYears} />
+          <Form4
+            companyName={companyName}
+            selectedYears={selectedYears}
+            handleFormData={handleFormData}
+          />
         )}
         {step === 4 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
-        )}
-        {step === 5 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
-        )}
-        {step === 6 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
-        )}
-        {step === 7 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
-        )}
-        {step === 8 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
-        )}
-        {step === 9 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
-        )}
-        {step === 10 && (
-          <Form5 companyName={companyName} selectedYears={selectedYears} />
+          <Form5
+            companyName={companyName}
+            selectedYears={selectedYears}
+            handleFormData={handleFormData}
+          />
         )}
 
         {/* Navigation Buttons */}
@@ -137,15 +171,16 @@ const DataInputForm = () => {
               <Button
                 className="button-submit"
                 colorScheme="red"
-                onClick={() =>
+                onClick={() => {
+                  generateCSV(); // Generate and download CSV
                   toast({
                     title: "Data Submitted!",
                     description: `Thank you for your submission, ${companyName}.`,
                     status: "success",
                     duration: 3000,
                     isClosable: true,
-                  })
-                }
+                  });
+                }}
               >
                 Submit
               </Button>

@@ -11,7 +11,6 @@ import {
   Spinner,
   ButtonGroup,
   Button,
-  Text,
   Box,
 } from "@chakra-ui/react";
 import { useSupabase } from "../../hooks/useSupabase";
@@ -58,10 +57,8 @@ const predeterminedMetrics = [
     units: "Count",
   },
 ];
-
 interface MetricData {
   indicator: string;
-  sasb_indicator_name: string;
   sub_category: string;
   year: number;
   value: string;
@@ -70,56 +67,53 @@ interface MetricData {
 interface Form5Props {
   companyName: string;
   selectedYears: number[];
+  handleFormData: (data: MetricData[]) => void;
 }
 
-const Form5: React.FC<Form5Props> = ({ companyName, selectedYears }) => {
+const Form5: React.FC<Form5Props> = ({
+  companyName,
+  selectedYears,
+  handleFormData,
+}) => {
   const { supabase } = useSupabase();
-  const [metricsData, setMetricsData] = useState<MetricData[]>([]); // Data from Supabase
+  const [metricsData, setMetricsData] = useState<MetricData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Local state to track the input values for each metric and year
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(0);
   const rowsPerPage = 3;
 
-  // Sort years in ascending order
   const sortedYears = [...selectedYears].sort((a, b) => a - b);
-
-  // Calculate total pages
   const totalPages = Math.ceil(sortedYears.length / rowsPerPage);
-
-  // Get the years for the current page
   const yearsToDisplay = sortedYears.slice(
     currentPage * rowsPerPage,
     (currentPage + 1) * rowsPerPage
   );
 
+  // Fetch data from Supabase (similar logic as before)
   useEffect(() => {
     const fetchMetrics = async () => {
       setLoading(true);
       try {
         const { data: metricsData, error } = await supabase
           .from("esg_data")
-          .select("indicator, sasb_indicator_name, sub_category, year, value")
+          .select("indicator, sub_category, year, value")
           .eq("company", companyName)
-          .in("year", selectedYears); // Filter by company name and selected years
+          .in("year", selectedYears);
 
         if (error) {
           throw error;
         }
 
-        setMetricsData(metricsData || []); // Set the fetched metrics data
-
-        // Initialize the input values based on the fetched data
+        setMetricsData(metricsData || []);
         const initialInputValues: { [key: string]: string } = {};
         metricsData.forEach((metric: MetricData) => {
-          const key = `${metric.sub_category}-${metric.year}`; // Create a unique key for each metric-year combination
-          initialInputValues[key] = metric.value; // Store the value in the state
+          const key = `${metric.sub_category}-${metric.year}`;
+          initialInputValues[key] = metric.value || "";
         });
 
-        setInputValues(initialInputValues); // Initialize the input values state
+        setInputValues(initialInputValues);
       } catch (error) {
         console.error("Error fetching data from Supabase:", error.message);
       } finally {
@@ -130,7 +124,7 @@ const Form5: React.FC<Form5Props> = ({ companyName, selectedYears }) => {
     if (companyName && selectedYears.length > 0) {
       fetchMetrics(); // Trigger the fetch function if companyName and years are selected
     }
-  }, [companyName, selectedYears, supabase]); // Ensure supabase client is part of dependencies
+  }, [companyName, selectedYears, supabase]);
 
   // Handle input change for each metric-year combination
   const handleInputChange = (key: string, value: string) => {
@@ -140,26 +134,38 @@ const Form5: React.FC<Form5Props> = ({ companyName, selectedYears }) => {
     }));
   };
 
+  // Function to collect and send the form data, only when necessary
+  useEffect(() => {
+    // Only process form data when the input values change
+    if (Object.keys(inputValues).length > 0) {
+      const formData = predeterminedMetrics
+        .map((metric) =>
+          sortedYears.map((year) => ({
+            indicator: metric.indicator,
+            sub_category: metric.sub_category,
+            unit: metric.units,
+            year,
+            value: inputValues[`${metric.sub_category}-${year}`] || "",
+          }))
+        )
+        .flat()
+        .filter((row) => row.value); // Filter out rows without values
+
+      // Send the processed form data back to the parent component
+      handleFormData(formData);
+    }
+  }, [inputValues, sortedYears]); // Now only dependent on inputValues and sortedYears
+
   if (loading) {
     return <Spinner size="lg" />;
   }
 
   return (
     <>
-      {/* Main Heading */}
       <Heading w="100%" textAlign="center" fontWeight="normal" mb="2%">
         Activity Metrics for {companyName}
       </Heading>
 
-      {/* Subheader for ESG Category, Category, and Units */}
-      <Box textAlign="center" mb="4">
-        <Text fontSize="lg" fontWeight="bold">
-          Environmental
-        </Text>
-        <Text fontSize="lg">Water Management</Text>
-      </Box>
-
-      {/* Table with sorted years and pagination */}
       <Table>
         <Thead>
           <Tr>
@@ -170,39 +176,23 @@ const Form5: React.FC<Form5Props> = ({ companyName, selectedYears }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {/* Loop through predetermined set of metrics */}
-          {predeterminedMetrics.map((predeterminedMetric, index) => (
+          {predeterminedMetrics.map((metric, index) => (
             <Tr key={index}>
-              {/* Display indicator and sub_category */}
               <Td>
                 <span style={{ fontSize: "16px", fontWeight: "bold" }}>
-                  {predeterminedMetric.sub_category} /{" "}
-                  {predeterminedMetric.units}
+                  {metric.sub_category} / {metric.units}
                 </span>
                 <br />
-                {predeterminedMetric.indicator}
+                {metric.indicator}
               </Td>
-              {/* Loop through the years to display for the current page */}
               {yearsToDisplay.map((year) => {
-                const key = `${predeterminedMetric.sub_category}-${year}`; // Unique key for each metric-year input
-
-                // Find matching value from fetched data
-                const matchingMetric = metricsData.find(
-                  (metric) =>
-                    metric.indicator === predeterminedMetric.indicator &&
-                    metric.sub_category === predeterminedMetric.sub_category &&
-                    metric.year === year
-                );
-
+                const key = `${metric.sub_category}-${year}`;
                 return (
                   <Td key={year}>
                     <Input
                       type="text"
-                      value={
-                        inputValues[key] ||
-                        (matchingMetric ? matchingMetric.value : "")
-                      } // Show matching value if found
-                      onChange={(e) => handleInputChange(key, e.target.value)} // Handle input change
+                      value={inputValues[key] || ""}
+                      onChange={(e) => handleInputChange(key, e.target.value)}
                     />
                   </Td>
                 );
