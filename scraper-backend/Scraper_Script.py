@@ -173,7 +173,6 @@ def parse_doc(company, sus_report):
     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}},
   )
 
-
   template_list = template['Sub-Category'].tolist()
 
   no_queries = len(template_list)
@@ -187,14 +186,32 @@ def parse_doc(company, sus_report):
   return results
 
 #Post processing dataframe to fit our predefined template
-def get_csv(results, company_name, output_path):
+def get_csv(results, company_name, output_path): #output_path deprecated
   df = write_df(get_json(results))
   df.drop_duplicates(subset = ['Indicator','SASB Indicator Name','year','unit','Sub-Category'], keep = 'first', inplace = True) #keep first entry (usually if there are duplicates the scraper is reading other mines)
   #If we want the long format of the data 
-  df['company'] = [company_name] * len(df)
-  df.to_csv(output_path, index = False,encoding='utf-8-sig') #to ensure characters come out in plain text
-
+  #df['company'] = [company_name] * len(df)
+  #df.to_csv(output_path, index = False,encoding='utf-8-sig') #to ensure characters come out in plain text
+  push_to_supabase(df, company_name)
   return df
+
+
+def push_to_supabase(df, company_name):
+  df['company'] = [company_name] * len(df)
+  cat_dict =  dict(zip(template["Indicator"], template["Category"])) 
+  df['Category'] = df['Indicator'].map(cat_dict)
+  df = df.rename(columns = {
+      'Category': 'category',
+      'Indicator': 'indicator',
+      'SASB Indicator Name': 'sasb_indicator_name',
+      'Sub-Category': 'subcategory',
+      'unit': 'units',
+      'year': 'year',
+      'value': 'value',
+      'company': 'company'
+   }) 
+  insert_dicts = df.to_dict(orient="records")
+  supabase.table('esg_data_duplicate').insert(insert_dicts).execute()
 
 def to_template(df):
   df = df.pivot(index = ['Indicator','SASB Indicator Name','unit','Sub-Category'], columns = 'year', values = 'value')
@@ -209,7 +226,7 @@ def scrape(company_name, output_path, pdf):
     company_results = parse_doc(company_name, pdf)
     company_data = get_csv(company_results, company_name,output_path)
     company_template = to_template(company_data)
-    #company_template.to_csv(output_path, index = False, encoding='utf-8-sig')
+    company_template.to_csv(output_path, index = False, encoding='utf-8-sig')
     return company_template
 
 #dummy function to mimic scraping function
