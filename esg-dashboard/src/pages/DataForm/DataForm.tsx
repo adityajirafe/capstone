@@ -10,24 +10,32 @@ import {
 import { saveAs } from "file-saver"; // For CSV download
 import Papa from "papaparse"; // For CSV generation
 import "./dataform.css";
+import Stepper from "../../components/Stepper";
 import Form1 from "./Form1";
 import Form2 from "./Form2";
 import Form3 from "./Form3";
 import Form4 from "./Form4";
 import Form5 from "./Form5";
 
+// const steps = [
+//   "Company Info",
+//   "Select Years",
+//   "Air Quality",
+//   "Energy Management",
+//   "Water Management",
+//   // "Waste Management",
+//   // "Biodiversity Impacts",
+//   // "Human Rights",
+//   // "Community/Labor Relations",
+//   // "Workforce Health and Safety",
+//   // "Activity Metrics",
+// ];
 const steps = [
-  "Company Info",
-  "Select Years",
-  "Air Quality",
-  "Energy Management",
-  "Water Management",
-  // "Waste Management",
-  // "Biodiversity Impacts",
-  // "Human Rights",
-  // "Community/Labor Relations",
-  // "Workforce Health and Safety",
-  // "Activity Metrics",
+  { title: "Company Info", description: "Enter your company details" },
+  { title: "Select Years", description: "Pick applicable years" },
+  { title: "Air Quality", description: "Provide air quality data" },
+  { title: "Energy Management", description: "Enter energy details" },
+  { title: "Water Management", description: "Water usage and sources" },
 ];
 
 const DataInputForm = () => {
@@ -91,28 +99,7 @@ const DataInputForm = () => {
       {/* Main container for the form with consistent width */}
       <Box className="form-container">
         {/* Custom Stepper */}
-        <div className="stepper-container">
-          {steps.map((label, index) => (
-            <div key={index} className="step">
-              {/* Step indicator */}
-              <div
-                className={`step-indicator ${
-                  step >= index ? "step-active" : "step-inactive"
-                }`}
-              >
-                {index + 1}
-              </div>
-              {/* Step label */}
-              <Text
-                className="step-label"
-                fontWeight={step === index ? "bold" : "normal"}
-              >
-                {label}
-              </Text>
-              {/* Divider between steps */}
-            </div>
-          ))}
-        </div>
+        <Stepper steps={steps} currentStep={step} />
 
         {/* Render forms based on the current step */}
         {step === 0 && (
