@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Heading,
   Table,
@@ -14,6 +14,8 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useSupabase } from "../../hooks/useSupabase";
+import Loader from "../../components/Loader";
+
 
 const predeterminedMetrics = [
   {
@@ -91,7 +93,10 @@ const Form3: React.FC<Form3Props> = ({
   const [currentPage, setCurrentPage] = useState(0);
   const rowsPerPage = 3;
 
-  const sortedYears = [...selectedYears].sort((a, b) => a - b);
+  const sortedYears = useMemo(() => {
+    return [...selectedYears].sort((a, b) => a - b)
+  }, [selectedYears])
+
   const totalPages = Math.ceil(sortedYears.length / rowsPerPage);
   const yearsToDisplay = sortedYears.slice(
     currentPage * rowsPerPage,
@@ -106,13 +111,14 @@ const Form3: React.FC<Form3Props> = ({
         const { data: metricsData, error } = await supabase
           .from("esg_data")
           .select("indicator, sub_category, year, value")
-          .eq("company", companyName)
-          .in("year", selectedYears);
+          .eq("task_id", 111)
+          // .from("metrics")
+          // .select()
 
         if (error) {
           throw error;
         }
-
+        console.log(metricsData)
         setMetricsData(metricsData || []);
         const initialInputValues: { [key: string]: string } = {};
         metricsData.forEach((metric: MetricData) => {
@@ -161,10 +167,10 @@ const Form3: React.FC<Form3Props> = ({
       // Send the processed form data back to the parent component
       handleFormData(formData);
     }
-  }, [inputValues, sortedYears]); // Now only dependent on inputValues and sortedYears
+  }, [handleFormData, inputValues, sortedYears]); // Now only dependent on inputValues and sortedYears
 
   if (loading) {
-    return <Spinner size="lg" />;
+    return <Loader />;
   }
 
   return (

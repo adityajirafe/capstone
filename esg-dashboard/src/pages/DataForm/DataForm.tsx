@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ButtonGroup,
   Button,
@@ -16,6 +16,8 @@ import Form2 from "./Form2";
 import Form3 from "./Form3";
 import Form4 from "./Form4";
 import Form5 from "./Form5";
+import Initiation from "../DataEntry/Initiation";
+import DataEntryButtons from "../../components/DataEntryButtons";
 
 // const steps = [
 //   "Company Info",
@@ -53,12 +55,14 @@ const DataInputForm = () => {
     setStep(step - 1);
   };
 
+  const handleSubmit = () => {}
+
   const handleYearsSelection = (years) => {
     setSelectedYears(years);
   };
 
   // Collect data only if new data is provided, avoiding duplicates
-  const handleFormData = (newData) => {
+  const handleFormData = useCallback((newData) => {
     setFormData((prevData) => {
       const updatedData = [...prevData];
       newData.forEach((item) => {
@@ -72,7 +76,7 @@ const DataInputForm = () => {
       });
       return updatedData;
     });
-  };
+  }, []);
 
   // Generate CSV when the form is submitted
   const generateCSV = () => {
@@ -103,7 +107,7 @@ const DataInputForm = () => {
 
         {/* Render forms based on the current step */}
         {step === 0 && (
-          <Form1 companyName={companyName} setCompanyName={setCompanyName} />
+          <Initiation />
         )}
         {step === 1 && (
           <Form2 onNext={handleNextStep} onYearSelect={handleYearsSelection} />
@@ -131,49 +135,7 @@ const DataInputForm = () => {
         )}
 
         {/* Navigation Buttons */}
-        <ButtonGroup className="button-group">
-          <Flex w="100%" justifyContent="space-between">
-            <Flex>
-              <Button
-                className="button-back"
-                onClick={handlePrevStep}
-                isDisabled={step === 0}
-                colorScheme="teal"
-              >
-                Back
-              </Button>
-              {step < steps.length - 1 && (
-                <Button
-                  className="button-next"
-                  onClick={handleNextStep}
-                  colorScheme="teal"
-                >
-                  Next
-                </Button>
-              )}
-            </Flex>
-
-            {/* Submit button for the final step */}
-            {step === steps.length - 1 && (
-              <Button
-                className="button-submit"
-                colorScheme="red"
-                onClick={() => {
-                  generateCSV(); // Generate and download CSV
-                  toast({
-                    title: "Data Submitted!",
-                    description: `Thank you for your submission, ${companyName}.`,
-                    status: "success",
-                    duration: 3000,
-                    isClosable: true,
-                  });
-                }}
-              >
-                Submit
-              </Button>
-            )}
-          </Flex>
-        </ButtonGroup>
+        <DataEntryButtons handlePrevStep={handlePrevStep} handleNextStep={handleNextStep} handleSubmit={handleSubmit} step={step} numStages={steps.length - 1} nextDisabled={false} />
       </Box>
     </>
   );

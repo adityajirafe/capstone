@@ -4,8 +4,7 @@ import { Box, Text, useColorMode } from "@chakra-ui/react";
 import { useSupabase } from "../../../hooks/useSupabase";
 import CloudUpload from '../../../assets/CloudUpload.svg?react'
 import Write from '../../../assets/Write.svg?react'
-
-enum InitiationMethod {'none', 'auto', 'manual'}
+import { InitiationMethod } from "../../../constants/types";
 
 interface InitiationProps {
   inputMethod: InitiationMethod;
@@ -19,11 +18,6 @@ const Initiation = (props: InitiationProps) => {
 
   const user = session?.user.user_metadata.name 
 
-  const onSelectMethod = (method: InitiationMethod) => {
-    console.log(method)
-    setInputMethod(method);
-  }
-
   return (
     <Box className="form-page">
       <div className="initiation-title-container">
@@ -34,7 +28,7 @@ const Initiation = (props: InitiationProps) => {
         <Box 
           className={`initiation-option ${inputMethod == InitiationMethod.manual && "initiation-option-active"}`}
           _hover={{bg: "secondary"}}
-          onClick={() => onSelectMethod(InitiationMethod.manual)}
+          onClick={() => setInputMethod(InitiationMethod.manual)}
         >
           <Box className="initiation-logo-container" bg="monochrome">
             <Write className={`initiation-write-${colorMode}`} />
@@ -47,7 +41,7 @@ const Initiation = (props: InitiationProps) => {
         <Box 
           className={`initiation-option ${inputMethod == InitiationMethod.auto && "initiation-option-active"}`}
           _hover={{bg: "secondary"}} 
-          onClick={() => onSelectMethod(InitiationMethod.auto)}
+          onClick={() => setInputMethod(InitiationMethod.auto)}
           >
           <Box className="initiation-logo-container" bg="monochrome">
             <CloudUpload className={`initiation-cloud-${colorMode}`} />

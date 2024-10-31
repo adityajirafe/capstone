@@ -1,5 +1,5 @@
 import "./DataEntryButtons.css";
-import { Box, Button, Flex, Text, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Text, useColorMode } from "@chakra-ui/react";
 import DoubleArrowLeft from '../../assets/DoubleArrowLeft.svg?react'
 import DoubleArrowRight from '../../assets/DoubleArrowRight.svg?react'
 
