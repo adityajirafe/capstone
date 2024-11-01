@@ -25,7 +25,7 @@ const Scraper = (props: ScraperProps) => {
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false) // State to record whether data is loading
-    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID // FOr debugging purposes
+    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID // For debugging purposes
 
     const formatFileSize = (size : number | undefined) => {
         if (!size) return
@@ -71,6 +71,7 @@ const Scraper = (props: ScraperProps) => {
                             if (data.status === 'Completed') {
                                 setScraperStatus("Completed")
                                 clearInterval(interval);
+                                clearTimeout(timeout);  
                                 if (storedTaskID !== null && storedFileName !== null) {
                                     downloadCSV(storedTaskID, storedFileName) ; // Call the function to download the file
                                     setMessage('File processed and downloaded successfully!');
@@ -84,16 +85,22 @@ const Scraper = (props: ScraperProps) => {
                             } else if (data.status === 'In Progress') {
                                 setScraperStatus('In Progress')
                                 setLoading(true) //start loading screen
-                            } else if (data.status === 'Unknown Task ID') {
+                            } else if (data.status === 'Unknown Task ID' || data.status === 'Failed' ) {
                                 setScraperStatus('Failed')
                                 clearInterval(interval);
-                                setError(`Task failed: ${data.status}`);
-                                console.log('TaskID missing in Backend')
+                                clearTimeout(timeout);  
+                                localStorage.removeItem('taskID');
+                                localStorage.removeItem('filename');
+                                setError(`Scraping status: ${data.status}`);
+                                setLoading(false) //start loading screen
+                                console.log('Backend connection failed')
+                                console.log(data.status)
                             }
                         } catch {
                             //console.error('Error fetching task status:', error);
                             setScraperStatus('Failed')
                             clearInterval(interval);
+                            clearTimeout(timeout);  
                             setError('Error fetching task status.');
                         }
                     }, 3000); // Poll every 3 seconds
@@ -111,7 +118,7 @@ const Scraper = (props: ScraperProps) => {
                     // Cleanup function to clear the interval when the component unmounts or taskID changes
                     return () => {
                         clearInterval(interval);
-                        clearTimeout(timeout)  
+                        clearTimeout(timeout);  
                     } 
                 }
             } catch {
@@ -257,7 +264,7 @@ const Scraper = (props: ScraperProps) => {
                 )}
                 <div>
                     {loading ? (
-                        <p>Loading data, please wait...</p>  // Show loading message while fetching
+                        <p>Scraping file, please wait...</p>  // Show loading message while fetching
                     ) : error ? (
                         <p style={{ color: 'red' }}>{error}</p> // Show error message if the fetch fails
                     ) : (

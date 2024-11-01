@@ -30,7 +30,7 @@ def run_scraper(task_id, file_name, output_file, file_path):
     
     try:
         process = subprocess.Popen(
-            ['python', 'Scraper_Script.py', file_name, output_file, file_path],
+            ['python', 'Scraper_Script.py', file_name, output_file, file_path, task_id],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -45,7 +45,7 @@ def run_scraper(task_id, file_name, output_file, file_path):
             }
             response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
             if response:
-                print(process)
+                print('Error', stderr)
         else:
             print('Completed Task')
             data = {
@@ -93,6 +93,7 @@ def upload_file():
     
     # Update Supabase task queue
     data = {
+        'company_name' : file_name,
         'file_name' : file_name,
         'task_id': task_id,
         'status': 'In Progress'
