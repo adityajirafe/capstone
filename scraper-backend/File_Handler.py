@@ -85,7 +85,8 @@ def upload_file():
     output_file = os.path.join(OUTPUT_FOLDER, f'{file_name}.csv')
 
     # Create a unique task ID (can use something like UUID for uniqueness)
-    task_id = str(int(time.time()))
+    #task_id = str(int(time.time()))
+    task_id = request.form.get('task_id', '0')
 
     # Start the scraper task in a background thread
     thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))

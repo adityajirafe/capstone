@@ -25,7 +25,7 @@ const Scraper = (props: ScraperProps) => {
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false) // State to record whether data is loading
-    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID // For debugging purposes
+    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID 
 
     const formatFileSize = (size : number | undefined) => {
         if (!size) return
@@ -54,8 +54,9 @@ const Scraper = (props: ScraperProps) => {
 
      // Function to poll the status of the background task from the backend
      const pollTaskStatus = async () => {
+            console.log('poll status runs')
             try {
-                console.log('polling')
+                //console.log('polling')
                 const storedTaskID = localStorage.getItem('taskID');
                 setTaskID(storedTaskID)
                 const storedFileName = localStorage.getItem('filename');
@@ -64,56 +65,61 @@ const Scraper = (props: ScraperProps) => {
                     setLoading(true)
                     const interval = setInterval(async () => {
                         try {
+                            console.log('polling')
                             const response = await fetch(`http://localhost:5000/task-status/${storedTaskID}`);
                             const data = await response.json();
                             //console.log(storedTaskID)
                             // If task is completed, download the result
                             if (data.status === 'Completed') {
                                 setScraperStatus("Completed")
-                                clearInterval(interval);
-                                clearTimeout(timeout);  
+                                // clearInterval(interval);
+                                // clearTimeout(timeout);  
                                 if (storedTaskID !== null && storedFileName !== null) {
-                                    downloadCSV(storedTaskID, storedFileName) ; // Call the function to download the file
+                                    //downloadCSV(storedTaskID, storedFileName) ; // Call the function to download the file
                                     setMessage('File processed and downloaded successfully!');
                                 } else {
                                     setScraperStatus("Failed")
                                     setMessage("Error occured with File Download")
                                     console.log('TaskID/FileName is null')
                                 }
+                                localStorage.setItem('taskIDScraped', storedTaskID);
+                                localStorage.setItem('filenameScraped', storedFileName ?? "");
                                 localStorage.removeItem('taskID');
                                 localStorage.removeItem('filename');
+                                
+                                
                             } else if (data.status === 'In Progress') {
                                 setScraperStatus('In Progress')
                                 setLoading(true) //start loading screen
                             } else if (data.status === 'Unknown Task ID' || data.status === 'Failed' ) {
                                 setScraperStatus('Failed')
-                                clearInterval(interval);
-                                clearTimeout(timeout);  
+                                // clearInterval(interval);
+                                // clearTimeout(timeout);  
                                 localStorage.removeItem('taskID');
                                 localStorage.removeItem('filename');
                                 setError(`Scraping status: ${data.status}`);
-                                setLoading(false) //start loading screen
+                                setLoading(false) //end loading screen
                                 console.log('Backend connection failed')
                                 console.log(data.status)
                             }
                         } catch {
                             //console.error('Error fetching task status:', error);
                             setScraperStatus('Failed')
-                            clearInterval(interval);
-                            clearTimeout(timeout);  
+                            // clearInterval(interval);
+                            // clearTimeout(timeout);  
                             setError('Error fetching task status.');
+                        } finally {
+                            setLoading(false)
                         }
-                    }, 3000); // Poll every 3 seconds
+                    }, 1000); // Poll every 3 seconds
                     const timeout = setTimeout(async () => {
                         clearInterval(interval)
                         localStorage.removeItem('taskID');
                         localStorage.removeItem('filename');
                         console.log('timed out')
-                        setError('Response timed out.');
-                        setLoading(false)
-                        setScraperStatus("Failed")
-                    }, 900000); // set timeout for 900000ms / 15 mins 
-
+                        // setError('Response timed out.');
+                        // setScraperStatus("Failed")
+                    }, 50000); // set timeout for 900000ms / 15 mins 
             
                     // Cleanup function to clear the interval when the component unmounts or taskID changes
                     return () => {
@@ -122,7 +128,9 @@ const Scraper = (props: ScraperProps) => {
                     } 
                 }
             } catch {
-                setLoading(false)
+                console.log('error')
+            } finally {
+                console.log('exited poll attempt')
             }
     };
 
@@ -137,10 +145,17 @@ const Scraper = (props: ScraperProps) => {
             setError('Please enter a valid name for the output file.');
             return;
         }
-
+        const tempTaskID = Date.now().toString()
+        setTaskID(tempTaskID) //create unique ID
+        
         const formData = new FormData();
         formData.append('file', file);
         formData.append('file_name', fileName ?? ""); // Send the custom file name as well
+        formData.append('task_id',tempTaskID);
+        localStorage.removeItem('taskID');
+        localStorage.removeItem('filename');
+        localStorage.setItem('taskID', tempTaskID ?? '0');
+        localStorage.setItem('filename', fileName);
         setLoading(true) //start loading screen
 
         try {                
@@ -152,18 +167,11 @@ const Scraper = (props: ScraperProps) => {
 
 
             if (response.ok) {
-                const result = await response.json()
-                setTaskID(result.task_id)
-                localStorage.removeItem('taskID');
-                localStorage.removeItem('filename');
-                localStorage.setItem('taskID', result.task_id);
-                localStorage.setItem('filename', fileName);
-                    
+                // const result = await response.json()
+                // setTaskID(result.task_id)                    
                 setMessage('File uploaded successfully. Processing started...');
-                pollTaskStatus(); // Start polling for task status
-                console.log(taskID)
-
-
+                //pollTaskStatus(); // Start polling for task status
+                console.log(tempTaskID)
             } else {
                 const errorData = await response.json();
                 setError(`Upload failed: ${errorData.error}`);
@@ -179,33 +187,35 @@ const Scraper = (props: ScraperProps) => {
         }
     };
 
-    const downloadCSV = async (storedTaskID: string, storedFileName: string) => {
-        try {
-            const response = await fetch(`http://localhost:5000/download/${storedTaskID}`);
-            if (response.ok) {
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${storedFileName}.csv`;  // Use the custom file name for download
-                a.click();
-                window.URL.revokeObjectURL(url);
-                setMessage('File processed and downloaded successfully!');
-                setLoading(false)
-            } else {
-                setError('Failed to download the file.');
-                console.error('Error:', error);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setMessage('An unexpected error occurred while downloading.');
-        }
-    };
+    // const downloadCSV = async (storedTaskID: string, storedFileName: string) => {
+    //     try {
+    //         const response = await fetch(`http://localhost:5000/download/${storedTaskID}`);
+    //         if (response.ok) {
+    //             const blob = await response.blob();
+    //             const url = window.URL.createObjectURL(blob);
+    //             const a = document.createElement('a');
+    //             a.href = url;
+    //             a.download = `${storedFileName}.csv`;  // Use the custom file name for download
+    //             a.click();
+    //             window.URL.revokeObjectURL(url);
+    //             setMessage('File processed and downloaded successfully!');
+    //             setLoading(false)
+    //         } else {
+    //             setError('Failed to download the file.');
+    //             console.error('Error:', error);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         setMessage('An unexpected error occurred while downloading.');
+    //     }
+    // };
 
     useEffect(() => { // polls for the task status continuously
+        console.log('use effect called')
         pollTaskStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [taskID]);
+
 
     return (
         <Box className="form-page">
