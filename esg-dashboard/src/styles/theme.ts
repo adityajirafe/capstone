@@ -33,6 +33,14 @@ const colors = {
   monochrome: {
     default: "#FFFFFF",
     _dark: "#000000"
+  },
+  lightGrey: {
+    default: "#EEF1F7",
+    _dark: "#EEF1F7"
+  },
+  neutralGrey: {
+    default: "#CBD0DC",
+    _dark: "#CBD0DC"
   }
 };
 

@@ -1,0 +1,45 @@
+.data-entry-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 20px 40px;
+}
+
+.left-button {
+    margin-right: auto;
+}
+
+.data-entry-button-right {
+    padding-left: 16px;
+    border-radius: 8px;
+    p {
+        margin-right: 4px;
+    }
+}
+
+.data-entry-button-left {
+    padding-right: 16px;
+    border-radius: 8px;
+    p {
+        margin-left: 4px;
+    }
+}
+
+.data-entry-button-arrow-light {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    path {
+        stroke: #fff;
+    }
+}
+
+.data-entry-button-arrow-dark {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    path {
+        stroke: #000;
+    }
+}

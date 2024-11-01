@@ -1,0 +1,36 @@
+.data-entry-main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.data-form-section {
+    display: flex;
+    width: 100%;
+    height: 70vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.data-form-container {
+    border-width: 1px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    padding: 24px;
+    margin: 20px 80px;
+    width: calc(100% - 160px);
+    height: 80%;
+}
+
+/* common */
+.form-page {
+    display: flex;
+    width: 100%;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
