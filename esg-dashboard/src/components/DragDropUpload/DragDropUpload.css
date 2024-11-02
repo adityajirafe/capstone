@@ -1,7 +1,7 @@
 .drag-drop {
-    background: #fff;
+    background: none;
     width: 60%;
-    height: 40%;
+    height: 90%;
     max-width: 800px;
     max-height: 600px;
 }

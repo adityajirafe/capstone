@@ -2,6 +2,7 @@ import "./DataEntryButtons.css";
 import { Box, Button, Text, useColorMode } from "@chakra-ui/react";
 import DoubleArrowLeft from '../../assets/DoubleArrowLeft.svg?react'
 import DoubleArrowRight from '../../assets/DoubleArrowRight.svg?react'
+import { ReactElement } from "react";
 
 interface DataEntryButtonsProps {
   handlePrevStep: () => void;
@@ -10,6 +11,7 @@ interface DataEntryButtonsProps {
   step: number;
   numStages: number;
   nextDisabled: boolean;
+  children: ReactElement;
 }
 
 interface DataEntryButtonProps {
@@ -38,13 +40,14 @@ const DataEntryButton = (props: DataEntryButtonProps) => {
 }
 
 const DataEntryButtons = (props: DataEntryButtonsProps) => {
-  const { handlePrevStep, handleNextStep, handleSubmit, step, numStages, nextDisabled } = props;
+  const { handlePrevStep, handleNextStep, handleSubmit, step, numStages, nextDisabled, children } = props;
 
   return (
     <Box className="data-entry-buttons-container">
       {step > 0 && (
         <DataEntryButton onClick={handlePrevStep} rightFacing={false} buttonText="Back" />
       )}
+      {step > 0 && children}
       {step < numStages ? (
         <DataEntryButton onClick={handleNextStep} isDisabled={nextDisabled} rightFacing buttonText="Next" />
       ) : (

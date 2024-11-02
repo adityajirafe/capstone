@@ -3,11 +3,13 @@
     justify-content: space-between;
     align-items: stretch;
     margin-bottom: 16px;
+    margin-right: auto;
 }
 
 .step-container {
     display: flex;
     align-items: center;
+    min-width: 24px;
 }
 
 .step {
@@ -58,7 +60,8 @@
     margin-top: 16px;
     font-size: 12px;
     text-align: center;
-    width: 150px;
+    width: 100px;
+    height: 18px;
 }
 
 .step-divider {
@@ -66,6 +69,22 @@
     height: 2px;
     margin-bottom: 20px;
     border: none
+}
+
+.divider-active-dark {
+    background-color: #9FE0DE;
+}
+
+.divider-inactive-dark {
+    background-color: #EEF1F7;
+}
+
+.divider-active-light {
+    background-color: #1F605E;
+}
+
+.divider-inactive-light {
+    background-color: #EEF1F7;
 }
 
 .stepper-container .step-container:last-child .step-divider {

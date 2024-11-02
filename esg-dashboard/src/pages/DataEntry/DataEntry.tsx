@@ -1,6 +1,6 @@
 import './DataEntry.css'
 import { useState } from "react";
-import { Button, Flex, Box, useToast, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Stepper from '../../components/Stepper';
 // import { motion } from "framer-motion";
 // import { saveAs } from "file-saver";
@@ -31,7 +31,7 @@ const steps = [
 ];
 
 const DataEntry = () => {
-  const toast = useToast();
+//   const toast = useToast();
   const [step, setStep] = useState(0);
 
   // initiation
@@ -39,6 +39,7 @@ const DataEntry = () => {
 
   // scraper
   const [companyName, setCompanyName] = useState("");
+  const [taskID, setTaskID] = useState("");
   const [scraperStatus, setScraperStatus] = useState<FileUploadStatus>("In Progress");
 
   const [formData, setFormData] = useState({});
@@ -81,7 +82,8 @@ const DataEntry = () => {
         return !inputMethod;
     }
     if (step == 1) {
-        return scraperStatus !== "Completed";
+        // return scraperStatus !== "Completed";
+        return false
     }
     return false;
   }
@@ -89,17 +91,22 @@ const DataEntry = () => {
   return (
     <div className='data-entry-main'>
         {step == 0 && (
-            <Initiation inputMethod={inputMethod} setInputMethod={setInputMethod} />
+            <Initiation 
+                inputMethod={inputMethod} 
+                setInputMethod={setInputMethod} 
+            />
         )}
         {step == 1 && (
-            <Scraper scraperStatus={scraperStatus} setScraperStatus={setScraperStatus} />
+            <Scraper 
+                scraperStatus={scraperStatus} 
+                setScraperStatus={setScraperStatus} 
+            />
         )}
         {step > 1 && (
             <Box className='data-form-section'>
                 <Box className='data-form-container' bg="lightGrey">
 
                 </Box>
-                <Stepper steps={steps} currentStep={step} />
             </Box>
         )}
         <DataEntryButtons 
@@ -109,6 +116,7 @@ const DataEntry = () => {
             step={step} 
             numStages={steps.length - 1}
             nextDisabled={nextButtonDisabled()}
+            children={<Stepper steps={steps} currentStep={step} />}
         />
     </div>
   );

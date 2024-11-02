@@ -32,8 +32,15 @@
     }
 }
 
-.initiation-option-active {
+.initiation-option-active-light {
     background-color: #EEF1F7;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    scale: 1.05;
+}
+
+.initiation-option-active-dark {
+    background-color: #010104;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     scale: 1.05;
