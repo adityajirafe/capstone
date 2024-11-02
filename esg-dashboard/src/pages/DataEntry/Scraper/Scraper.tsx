@@ -8,24 +8,27 @@ import FileIcon from '../../../assets/FileIcon.svg?react';
 import Success from '../../../assets/Success.svg?react';
 import Fail from '../../../assets/Fail.svg?react';
 import Pending from '../../../assets/Pending.svg?react';
-import { FileUploadStatus } from '../../../constants/types';
+import { FileUploadStatus} from '../../../constants/types';
 
 interface ScraperProps {
     scraperStatus: FileUploadStatus;
     setScraperStatus: (status: FileUploadStatus) => void;
+
 }
+
+
 
 const Scraper = (props: ScraperProps) => {
     const { scraperStatus, setScraperStatus } = props;
-    const { colorMode } = useColorMode()
     
+    const { colorMode } = useColorMode();
+
     const [file, setFile] = useState<File | null>(null);
     const [fileName, setFileName] = useState<string | null>(null); // New state for the custom file name
     const [readyToUpload, setReadyToUpload] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false) // State to record whether data is loading
-    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID 
+    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID and initiatialise useEffect
+    const [message, SetMessage] = useState<string | null>(null); //Message to write on screen
+    const [messageStatus, setMessageStatus] =  useState<string | null>(null);
 
     const formatFileSize = (size : number | undefined) => {
         if (!size) return
@@ -41,9 +44,10 @@ const Scraper = (props: ScraperProps) => {
         const selectedFile = file
         if (selectedFile && selectedFile.type === 'application/pdf') {
             setFile(selectedFile);
-            setError(null); // Clear any previous errors
+            setMessageStatus(null); // Clear any previous errors
         } else {
-            setError('Please select a valid PDF file.');
+            setMessageStatus('Error'); 
+            SetMessage('Please select a valid PDF file.');
         }
     };
 
@@ -62,54 +66,46 @@ const Scraper = (props: ScraperProps) => {
                 const storedFileName = localStorage.getItem('filename');
                 setFileName(storedFileName)
                 if (storedTaskID !== null) {
-                    setLoading(true)
                     const interval = setInterval(async () => {
                         try {
-                            console.log('polling')
+                            console.log('polling')  
                             const response = await fetch(`http://localhost:5000/task-status/${storedTaskID}`);
                             const data = await response.json();
                             //console.log(storedTaskID)
                             // If task is completed, download the result
                             if (data.status === 'Completed') {
+                                //setLoading(false)
                                 setScraperStatus("Completed")
-                                // clearInterval(interval);
-                                // clearTimeout(timeout);  
                                 if (storedTaskID !== null && storedFileName !== null) {
                                     //downloadCSV(storedTaskID, storedFileName) ; // Call the function to download the file
-                                    setMessage('File processed and downloaded successfully!');
+                                    setMessageStatus('Success')
+                                    SetMessage('File processed. Please move on to the next step.')
                                 } else {
                                     setScraperStatus("Failed")
-                                    setMessage("Error occured with File Download")
+                                    setMessageStatus('Error')
+                                    SetMessage('Error occured with scraper task.')
                                     console.log('TaskID/FileName is null')
                                 }
                                 localStorage.setItem('taskIDScraped', storedTaskID);
                                 localStorage.setItem('filenameScraped', storedFileName ?? "");
                                 localStorage.removeItem('taskID');
                                 localStorage.removeItem('filename');
-                                
-                                
                             } else if (data.status === 'In Progress') {
+                                setMessageStatus('Loading')
                                 setScraperStatus('In Progress')
-                                setLoading(true) //start loading screen
                             } else if (data.status === 'Unknown Task ID' || data.status === 'Failed' ) {
                                 setScraperStatus('Failed')
-                                // clearInterval(interval);
-                                // clearTimeout(timeout);  
                                 localStorage.removeItem('taskID');
                                 localStorage.removeItem('filename');
-                                setError(`Scraping status: ${data.status}`);
-                                setLoading(false) //end loading screen
-                                console.log('Backend connection failed')
-                                console.log(data.status)
+                                setMessageStatus('Error')
+                                SetMessage(`Scraping status: ${data.status}`)
                             }
                         } catch {
                             //console.error('Error fetching task status:', error);
                             setScraperStatus('Failed')
-                            // clearInterval(interval);
-                            // clearTimeout(timeout);  
-                            setError('Error fetching task status.');
-                        } finally {
-                            setLoading(false)
+
+                            setMessageStatus('Error')
+                            SetMessage(`Error fetching task status`)
                         }
                     }, 1000); // Poll every 3 seconds
                     const timeout = setTimeout(async () => {
@@ -117,13 +113,14 @@ const Scraper = (props: ScraperProps) => {
                         localStorage.removeItem('taskID');
                         localStorage.removeItem('filename');
                         console.log('timed out')
-                        // setError('Response timed out.');
-                        // setScraperStatus("Failed")
-                    }, 50000); // set timeout for 900000ms / 15 mins 
+                        setMessageStatus('Error')
+                        SetMessage(`Response timed out. Please refresh the page.`)
+                        setScraperStatus("Failed") 
+                    }, 900000); // set timeout for 900000ms / 15 mins 
             
                     // Cleanup function to clear the interval when the component unmounts or taskID changes
                     return () => {
-                        clearInterval(interval);
+                        //clearInterval(interval);
                         clearTimeout(timeout);  
                     } 
                 }
@@ -137,12 +134,16 @@ const Scraper = (props: ScraperProps) => {
     const handleUpload = async () => {
         setReadyToUpload(true)
         if (!file) {
-            setError('No file selected');
+            //setError('No file selected');
+            setMessageStatus('Error')
+            SetMessage(`No file selected.`)
             return;
         }
 
         if (!fileName?.trim()) {
-            setError('Please enter a valid name for the output file.');
+            //setError('Please enter a valid name for the output file.');
+            setMessageStatus('Error')
+            SetMessage(`Please enter a valid name for the output file.`)
             return;
         }
         const tempTaskID = Date.now().toString()
@@ -156,7 +157,8 @@ const Scraper = (props: ScraperProps) => {
         localStorage.removeItem('filename');
         localStorage.setItem('taskID', tempTaskID ?? '0');
         localStorage.setItem('filename', fileName);
-        setLoading(true) //start loading screen
+        //setLoading(true) //start loading screen
+        setMessageStatus('Loading')
 
         try {                
             // TODO: update the fetch server to whatever backend service we want to use, currently using localhost for development 
@@ -167,23 +169,19 @@ const Scraper = (props: ScraperProps) => {
 
 
             if (response.ok) {
-                // const result = await response.json()
-                // setTaskID(result.task_id)                    
-                setMessage('File uploaded successfully. Processing started...');
                 //pollTaskStatus(); // Start polling for task status
                 console.log(tempTaskID)
             } else {
                 const errorData = await response.json();
-                setError(`Upload failed: ${errorData.error}`);
+                setMessageStatus('Error')
+                SetMessage(`Upload failed: ${errorData.error}`)
                 setScraperStatus("Failed")
-                setLoading(false)
             }
         } catch (error) {
             console.error('Error:', error);
+            setMessageStatus("Error")
+            SetMessage(`An unexpected error occurred. Unable to connect with backend server.`)
             setScraperStatus("Failed")
-            setError('An unexpected error occurred.');
-        } finally {
-            setLoading(false) //reset loading
         }
     };
 
@@ -273,12 +271,14 @@ const Scraper = (props: ScraperProps) => {
                     </div>
                 )}
                 <div>
-                    {loading ? (
+                    {messageStatus == "Loading" && (
                         <p>Scraping file, please wait...</p>  // Show loading message while fetching
-                    ) : error ? (
-                        <p style={{ color: 'red' }}>{error}</p> // Show error message if the fetch fails
-                    ) : (
-                        <p style={{ color: 'green' }}>{message}</p>
+                    )}
+                    {messageStatus == "Success" && (
+                        <p style={{ color: 'green' }}>{message}</p> // Success message 
+                    )}
+                    {messageStatus == "Error" && (
+                        <p style={{ color: 'red' }}>{message}</p> // Show error message
                     )}
                 </div>
             </div>
