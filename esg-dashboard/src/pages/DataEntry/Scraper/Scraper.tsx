@@ -1,6 +1,6 @@
 import './Scraper.css'
 import "../DataEntry.css";
-import { Box, Button, Input, Text, useColorMode } from '@chakra-ui/react';
+import { Box, Button, Flex, Input, Text, useColorMode } from '@chakra-ui/react';
 import React, { useState, useEffect} from 'react';
 import DragDropUpload from '../../../components/DragDropUpload';
 import CloudUpload from '../../../assets/CloudUpload.svg?react';
@@ -241,7 +241,7 @@ const Scraper = (props: ScraperProps) => {
                 )}
                 {fileName && readyToUpload && (
                     <div className='file-container'>
-                        <Box className='file-item' bg="lightGrey">
+                        <Box className='file-item' bg={colorMode == "dark" ? "monochrome" : "lightGrey"}>
                             <FileIcon className='file-icon' />
                             <div className='file-item-text-container'>
                                 <Text fontSize="16px">{file?.name}</Text>
@@ -270,7 +270,7 @@ const Scraper = (props: ScraperProps) => {
                         </Box>
                     </div>
                 )}
-                <div>
+                <Flex>
                     {messageStatus == "Loading" && (
                         <p>Scraping file, please wait...</p>  // Show loading message while fetching
                     )}
@@ -280,7 +280,7 @@ const Scraper = (props: ScraperProps) => {
                     {messageStatus == "Error" && (
                         <p style={{ color: 'red' }}>{message}</p> // Show error message
                     )}
-                </div>
+                </Flex>
             </div>
         </Box>
     );

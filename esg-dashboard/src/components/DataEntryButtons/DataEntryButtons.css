@@ -13,6 +13,7 @@
 .data-entry-button-right {
     padding-left: 16px;
     border-radius: 8px;
+    height: fit-content;
     p {
         margin-right: 4px;
     }
@@ -21,6 +22,7 @@
 .data-entry-button-left {
     padding-right: 16px;
     border-radius: 8px;
+    height: fit-content;
     p {
         margin-left: 4px;
     }

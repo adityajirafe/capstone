@@ -26,7 +26,7 @@ const Initiation = (props: InitiationProps) => {
       </div>
       <div className="initiation-options-container">
         <Box 
-          className={`initiation-option ${inputMethod == InitiationMethod.manual && "initiation-option-active"}`}
+          className={`initiation-option ${inputMethod == InitiationMethod.manual && (colorMode == "dark" ? "initiation-option-active-dark" : "initiation-option-active-light")}`}
           _hover={{bg: "secondary"}}
           onClick={() => setInputMethod(InitiationMethod.manual)}
         >
@@ -39,7 +39,7 @@ const Initiation = (props: InitiationProps) => {
           </div>
         </Box>
         <Box 
-          className={`initiation-option ${inputMethod == InitiationMethod.auto && "initiation-option-active"}`}
+          className={`initiation-option ${inputMethod == InitiationMethod.auto && (colorMode == "dark" ? "initiation-option-active-dark" : "initiation-option-active-light")}`}
           _hover={{bg: "secondary"}} 
           onClick={() => setInputMethod(InitiationMethod.auto)}
           >

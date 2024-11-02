@@ -23,11 +23,11 @@ const Stepper = ({ steps, currentStep }: StepperProps) => {
 
   return (
     <div className="stepper-container">
-      {startIndex > 0 && (
-        <div className="step-container">
+      <div className="step-container">
+        {startIndex > 0 && (    
           <Box className="ellipsis">...</Box>
-        </div>
-      )}
+        )}
+      </div>
 
       {visibleSteps.map((step, index) => {
         const actualIndex = startIndex + index;
@@ -49,19 +49,21 @@ const Stepper = ({ steps, currentStep }: StepperProps) => {
             </div>
             {index < visibleSteps.length - 1 && (
               <div
+                id="divider"
                 className={`step-divider 
-                  ${currentStep > actualIndex ? "step-active" : "step-inactive"}-${colorMode}`}
+                  ${currentStep > actualIndex ? "divider-active" : "divider-inactive"}-${colorMode}`}
               ></div>
             )}
           </div>
         );
       })}
 
-      {endIndex < totalSteps && (
-        <div className="step-container">
+      
+      <div className="step-container">
+        {endIndex < totalSteps && (
           <Box className="ellipsis">...</Box>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
