@@ -30,7 +30,7 @@ const DataEntryButton = (props: DataEntryButtonProps) => {
       className={`data-entry-button-${rightFacing ? "right" : "left"} ${!rightFacing && "left-button"}`}
       bg="secondary"
     >
-      <Button onClick={onClick} bg="primary" color="monochrome" p="20px" isDisabled={isDisabled}>
+      <Button onClick={onClick} bg="primary" color="monochrome" p="20px" isDisabled={isDisabled} width="100px">
           {!rightFacing && <DoubleArrowLeft className={`data-entry-button-arrow-${colorMode}`} />}
           <Text>{buttonText}</Text>
           {rightFacing && <DoubleArrowRight className={`data-entry-button-arrow-${colorMode}`} />}

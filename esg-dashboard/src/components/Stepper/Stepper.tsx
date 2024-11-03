@@ -1,6 +1,7 @@
 import "./Stepper.css";
 import { Box, Text, useColorMode } from "@chakra-ui/react";
 import Tick from "../../assets/Tick.svg?react"
+import { InitiationMethod } from "../../constants/types";
 
 interface Step {
   title: string;
@@ -10,16 +11,24 @@ interface Step {
 interface StepperProps {
   steps: Step[];
   currentStep: number;
+  inputMethod: InitiationMethod
 }
 
-const Stepper = ({ steps, currentStep }: StepperProps) => {
+const Stepper = ({ steps, currentStep, inputMethod }: StepperProps) => {
   const { colorMode } = useColorMode();
   const totalSteps = steps.length;
+  const modifiedSteps = steps.map((step, index) => {
+    if (index == 1 && inputMethod == InitiationMethod.manual) {
+      step.title = "Company Name";
+      step.description = "Set Company Name"
+    }
+    return step;
+  })
 
   const startIndex =
     currentStep < 3 ? 0 : currentStep > totalSteps - 3 ? totalSteps - 5 : currentStep - 2;
   const endIndex = startIndex + 5;
-  const visibleSteps = steps.slice(startIndex, endIndex);
+  const visibleSteps = modifiedSteps.slice(startIndex, endIndex);
 
   return (
     <div className="stepper-container">
