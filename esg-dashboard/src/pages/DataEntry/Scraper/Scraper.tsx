@@ -8,7 +8,7 @@ import FileIcon from '../../../assets/FileIcon.svg?react';
 import Success from '../../../assets/Success.svg?react';
 import Fail from '../../../assets/Fail.svg?react';
 import Pending from '../../../assets/Pending.svg?react';
-import { FileUploadStatus, InitiationMethod } from '../../../constants/types';
+import { FileUploadStatus, InitiationMethod} from '../../../constants/types';
 
 interface ScraperProps {
     scraperStatus: FileUploadStatus;
@@ -18,7 +18,10 @@ interface ScraperProps {
     taskID: string | null;
     setTaskID: (id: string | null) => void;
     inputMethod: InitiationMethod;
+
 }
+
+
 
 const Scraper = (props: ScraperProps) => {
     const { scraperStatus, setScraperStatus, companyName, setCompanyName, taskID, setTaskID, inputMethod } = props;
