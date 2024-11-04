@@ -1,0 +1,32 @@
+/* dataform.css */
+
+/* Consistent width for button group and spacing */
+.button-group {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.button-back,
+.button-next {
+  width: 7rem;
+  margin-right: 20px;
+}
+
+.button-submit {
+  width: 7rem;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+
+  .button-back,
+  .button-next,
+  .button-submit {
+    width: 100%;
+  }
+
+  .step-label {
+    font-size: 10px; /* Even smaller font for mobile screens */
+    width: 80px; /* Make step labels more compact on small screens */
+  }
+}

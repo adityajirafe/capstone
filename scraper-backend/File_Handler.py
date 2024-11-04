@@ -30,7 +30,7 @@ def run_scraper(task_id, file_name, output_file, file_path):
     
     try:
         process = subprocess.Popen(
-            ['python', 'Scraper_Script.py', file_name, output_file, file_path],
+            ['python', 'Scraper_Script.py', file_name, output_file, file_path, task_id],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -45,7 +45,7 @@ def run_scraper(task_id, file_name, output_file, file_path):
             }
             response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
             if response:
-                print(process)
+                print('Error', stderr)
         else:
             print('Completed Task')
             data = {
@@ -85,7 +85,8 @@ def upload_file():
     output_file = os.path.join(OUTPUT_FOLDER, f'{file_name}.csv')
 
     # Create a unique task ID (can use something like UUID for uniqueness)
-    task_id = str(int(time.time()))
+    #task_id = str(int(time.time()))
+    task_id = request.form.get('task_id', '0')
 
     # Start the scraper task in a background thread
     thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
@@ -93,6 +94,7 @@ def upload_file():
     
     # Update Supabase task queue
     data = {
+        'company_name' : file_name,
         'file_name' : file_name,
         'task_id': task_id,
         'status': 'In Progress'

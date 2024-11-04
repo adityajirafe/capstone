@@ -6,15 +6,25 @@ import sys
 import concurrent.futures
 import time
 from tqdm import tqdm
+from supabase import create_client, Client
 
 #Load environment variables from .env file
 load_dotenv()
 
 apikey = os.getenv('OPENAI_API_KEY')
 
+# Initialize Supabase client
+SUPABASE_URL = os.getenv('FLASK_SUPABASE_URL')
+SUPABASE_ANON_KEY = os.getenv('FLASK_SUPABASE_ANON_KEY')
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+
 #Load template that we want to follow
 template = pd.read_csv('SASB Indicators - Template.csv')
 template = template[['Category','Indicator','SASB Indicator Name', 'Sub-Category']]
+
+#Use a test dataset for testing and avoiding openai costs
+test_df = pd.read_csv('outputs/Test.csv')
+
 
 from typing_extensions import override
 from openai import AssistantEventHandler, OpenAI
@@ -167,7 +177,6 @@ def parse_doc(company, sus_report):
     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}},
   )
 
-
   template_list = template['Sub-Category'].tolist()
 
   no_queries = len(template_list)
@@ -181,15 +190,36 @@ def parse_doc(company, sus_report):
   return results
 
 #Post processing dataframe to fit our predefined template
-def get_csv(results):
+def get_csv(results, company_name, output_path, task_id): #output_path deprecated
   df = write_df(get_json(results))
+  df.drop_duplicates(subset = ['Indicator','SASB Indicator Name','year','unit','Sub-Category'], keep = 'first', inplace = True) #keep first entry (usually if there are duplicates the scraper is reading other mines)
   #If we want the long format of the data 
-  #df.to_csv(f'{company} data.csv', index = False,encoding='utf-8-sig') #to ensure characters come out in plain text
-
+  #df['company'] = [company_name] * len(df)
+  #df.to_csv(output_path, index = False,encoding='utf-8-sig') #to ensure characters come out in plain text
+  push_to_supabase(df, company_name, task_id)
   return df
 
+
+def push_to_supabase(df, company_name, task_id):
+  df['company_name'] = [company_name] * len(df)
+  cat_dict =  dict(zip(template["Indicator"], template["Category"])) 
+  df['Category'] = df['Indicator'].map(cat_dict)
+  df['task_id'] = [task_id] * len(df)
+  df = df.rename(columns = {
+      'Category': 'category',
+      'Indicator': 'sasb_indicator',
+      'SASB Indicator Name': 'indicator_name',
+      'Sub-Category': 'subcategory',
+      'unit': 'unit',
+      'year': 'year',
+      'value': 'value',
+      'company_name': 'company_name',
+   }) 
+  df = df.dropna()
+  insert_dicts = df.to_dict(orient="records")
+  supabase.table('output_raw').insert(insert_dicts).execute()
+
 def to_template(df):
-  df.drop_duplicates(subset = ['Indicator','SASB Indicator Name','year','unit','Sub-Category'], keep = 'first', inplace = True) #keep first entry (usually if there are duplicates the scraper is reading other mines)
   df = df.pivot(index = ['Indicator','SASB Indicator Name','unit','Sub-Category'], columns = 'year', values = 'value')
   df.reset_index(inplace = True)
   company_template = pd.merge(template, df, on = ['Indicator','SASB Indicator Name', 'Sub-Category'], how = 'left')
@@ -198,31 +228,31 @@ def to_template(df):
   return company_template
 
 #Consolidating all the functions to return out final csv file 
-def scrape(company_name, output_path, pdf):
+def scrape(company_name, output_path, pdf, task_id):
     company_results = parse_doc(company_name, pdf)
-    company_data = get_csv(company_results)
+    company_data = get_csv(company_results, company_name,output_path, task_id)
     company_template = to_template(company_data)
     company_template.to_csv(output_path, index = False, encoding='utf-8-sig')
     return company_template
 
 #dummy function to mimic scraping function
-def test_csv(company_name, output_path, pdf):
-  time.sleep(30)
-  test_df = pd.DataFrame(columns = ['test'])
-  test_df.to_csv(output_path, index = False, encoding='utf-8-sig')
+def test_csv(company_name, output_path, pdf, task_id):
+  time.sleep(15)
+  push_to_supabase(test_df, company_name, task_id)
   return True
   
 
 if __name__ == "__main__":
 
     # Arguments passed from the Flask app
-    custom_name = sys.argv[1]         # The path to the uploaded PDF file
+    custom_name = sys.argv[1]         # The custom file name provided by the user
     output_csv = sys.argv[2]      # The path where the generated CSV file should be saved
-    input_pdf = sys.argv[3]       # The custom file name provided by the user
+    input_pdf = sys.argv[3]       # The path to the uploaded PDF file
+    task_id = sys.argv[4]        #task_id for this task
 
     # Call the function to process the PDF and generate the Excel file
-    #scrape(custom_name, output_csv, input_pdf) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
+    #scrape(custom_name, output_csv, input_pdf, task_id) #TODO: Uncomment this when read, right now it will make every file upload take a while and spend quite a bit of money
     
     #Temporary call TODO: remove uploaded csv file after call when using real function
-    test_csv(custom_name, output_csv, input_pdf)
+    test_csv(custom_name, output_csv, input_pdf,task_id)
     

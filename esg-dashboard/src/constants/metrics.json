@@ -1,0 +1,454 @@
+{
+  "GHG emissions": [
+    {
+      "id": 1,
+      "category": "GHG emissions",
+      "sasb_indicator": "EM-MM-110a.1",
+      "indicator_name": "Gross global Scope 1 emissions, percentage covered under emissions-limiting regulations",
+      "subcategory": "Total gross global scope 1 emissions (CO2)",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 2,
+      "category": "GHG emissions",
+      "sasb_indicator": "EM-MM-110a.1",
+      "indicator_name": "Gross global Scope 1 emissions, percentage covered under emissions-limiting regulations",
+      "subcategory": "Total percentage of gross global scope 1 emissions under emissions-limiting regulations",
+      "unit": "%"
+    }
+  ],
+  "Air Quality": [
+    {
+      "id": 3,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total CO emissions",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 4,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total NOx emissions",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 5,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total SOx emissions",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 6,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total PM10 emissions",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 7,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total mercury (Hg) emissions",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 8,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total lead (Pb) emissions",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 9,
+      "category": "Air Quality",
+      "sasb_indicator": "EM-MM-120a.1",
+      "indicator_name": "Air emissions of the following pollutants: (1) CO, (2) NOx (excluding N2O), (3) SOx, (4) particulate matter (PM10), (5) mercury (Hg), (6) lead (Pb), and (7) volatile organic compounds (VOCs)",
+      "subcategory": "Total volatile organic compounds (VOCs) emissions",
+      "unit": "Tonnes"
+    }
+  ],
+  "Energy Management": [
+    {
+      "id": 10,
+      "category": "Energy Management",
+      "sasb_indicator": "EM-MM-130a.1",
+      "indicator_name": "(1) Total energy consumed, (2) percentage grid electricity, (3) percentage renewable",
+      "subcategory": "Total energy consumed",
+      "unit": "Gigajoules (GJ)"
+    },
+    {
+      "id": 11,
+      "category": "Energy Management",
+      "sasb_indicator": "EM-MM-130a.1",
+      "indicator_name": "(1) Total energy consumed, (2) percentage grid electricity, (3) percentage renewable",
+      "subcategory": "Percentage energy consumed from grid electricity",
+      "unit": "%"
+    },
+    {
+      "id": 12,
+      "category": "Energy Management",
+      "sasb_indicator": "EM-MM-130a.1",
+      "indicator_name": "(1) Total energy consumed, (2) percentage grid electricity, (3) percentage renewable",
+      "subcategory": "Percentage energy consumed from renewable electricity",
+      "unit": "%"
+    }
+  ],
+  "Water Management": [
+    {
+      "id": 13,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.1",
+      "indicator_name": "(1) Total fresh water withdrawn, (2) total fresh water consumed, percentage of each in regions with High or Extremely High Baseline Water Stress",
+      "subcategory": "Total water withdrawn",
+      "unit": "Cubic meters (m3)"
+    },
+    {
+      "id": 14,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.1",
+      "indicator_name": "(1) Total fresh water withdrawn, (2) total fresh water consumed, percentage of each in regions with High or Extremely High Baseline Water Stress",
+      "subcategory": "Total water consumed",
+      "unit": "Cubic meters (m3)"
+    },
+    {
+      "id": 15,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.1",
+      "indicator_name": "(1) Total fresh water withdrawn, (2) total fresh water consumed, percentage of each in regions with High or Extremely High Baseline Water Stress",
+      "subcategory": "Total water withdrawn in high or extremely high baseline water stress areas",
+      "unit": "Cubic meters (m3)"
+    },
+    {
+      "id": 16,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.1",
+      "indicator_name": "(1) Total fresh water withdrawn, (2) total fresh water consumed, percentage of each in regions with High or Extremely High Baseline Water Stress",
+      "subcategory": "Total water consumed in high or extremely high baseline water stress areas",
+      "unit": "Cubic meters (m3)"
+    },
+    {
+      "id": 17,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.1",
+      "indicator_name": "(1) Total fresh water withdrawn, (2) total fresh water consumed, percentage of each in regions with High or Extremely High Baseline Water Stress",
+      "subcategory": "Percentage of water withdrawn in high or extremely high baseline water stress areas against total freshwater withdrawn",
+      "unit": "%"
+    },
+    {
+      "id": 18,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.1",
+      "indicator_name": "(1) Total fresh water withdrawn, (2) total fresh water consumed, percentage of each in regions with High or Extremely High Baseline Water Stress",
+      "subcategory": "Percentage of water consumed in high or extremely high baseline water stress areas against total freshwater consumed",
+      "unit": "%"
+    },
+    {
+      "id": 19,
+      "category": "Water Management",
+      "sasb_indicator": "EM-MM-140a.2",
+      "indicator_name": "Number of incidents of non-compliance associated with water quality permits, standards, and regulations",
+      "subcategory": "Number of incidents of non-compliance associated with water quality permits, standards, and regulations",
+      "unit": "Count"
+    }
+  ],
+  "Waste Management": [
+    {
+      "id": 20,
+      "category": "Waste Management",
+      "sasb_indicator": "EM-MM-150a.4",
+      "indicator_name": "Total weight of non-mineral waste generated",
+      "subcategory": "Total weight of non-mineral waste generated",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 21,
+      "category": "Waste Management",
+      "sasb_indicator": "EM-MM-150a.5",
+      "indicator_name": "Total weight of tailings produced",
+      "subcategory": "Total weight of tailings produced",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 22,
+      "category": "Waste Management",
+      "sasb_indicator": "EM-MM-150a.6",
+      "indicator_name": "Total weight of waste rock generated",
+      "subcategory": "Total weight of waste rock generated",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 23,
+      "category": "Waste Management",
+      "sasb_indicator": "EM-MM-150a.7",
+      "indicator_name": "Total weight of hazardous waste generated",
+      "subcategory": "Total weight of hazardous waste generated",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 24,
+      "category": "Waste Management",
+      "sasb_indicator": "EM-MM-150a.8",
+      "indicator_name": "Total weight of hazardous waste recycled",
+      "subcategory": "Total weight of hazardous waste recycled",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 25,
+      "category": "Waste Management",
+      "sasb_indicator": "EM-MM-150a.9",
+      "indicator_name": "Number of significant incidents associated with hazardous materials and waste management",
+      "subcategory": "Number of significant incidents associated with hazardous materials and waste management",
+      "unit": "Count"
+    }
+  ],
+  "Biodiversity Impacts": [
+    {
+      "id": 26,
+      "category": "Biodiversity Impacts",
+      "sasb_indicator": "EM-MM-160a.2",
+      "indicator_name": "Percentage of mine sites where acid rock drainage is: (1) predicted to occur, (2) actively mitigated, and (3) under treatment or remediation",
+      "subcategory": "Percentage of total mine sites where acid rock drainage is predicted to occur",
+      "unit": "%"
+    },
+    {
+      "id": 27,
+      "category": "Biodiversity Impacts",
+      "sasb_indicator": "EM-MM-160a.2",
+      "indicator_name": "Percentage of mine sites where acid rock drainage is: (1) predicted to occur, (2) actively mitigated, and (3) under treatment or remediation",
+      "subcategory": "Percentage of total mine sites where acid rock drainage is actively mitigated",
+      "unit": "%"
+    },
+    {
+      "id": 28,
+      "category": "Biodiversity Impacts",
+      "sasb_indicator": "EM-MM-160a.2",
+      "indicator_name": "Percentage of mine sites where acid rock drainage is: (1) predicted to occur, (2) actively mitigated, and (3) under treatment or remediation",
+      "subcategory": "Percentage of total mine sites where acid rock drainage is under treatment or remediation",
+      "unit": "%"
+    },
+    {
+      "id": 29,
+      "category": "Biodiversity Impacts",
+      "sasb_indicator": "EM-MM-160a.3",
+      "indicator_name": "Percentage of (1) proved and (2) probable reserves in or near sites with protected conservation status or endangered species habitat",
+      "subcategory": "Percentage of total area of proved reserves in or near sites with protected conservation status or endangered species habitat",
+      "unit": "%"
+    },
+    {
+      "id": 30,
+      "category": "Biodiversity Impacts",
+      "sasb_indicator": "EM-MM-160a.3",
+      "indicator_name": "Percentage of (1) proved and (2) probable reserves in or near sites with protected conservation status or endangered species habitat",
+      "subcategory": "Percentage of total area of probable reserves in or near sites with protected conservation status or endangered species habitat",
+      "unit": "%"
+    }
+  ],
+  "Human Rights": [
+    {
+      "id": 31,
+      "category": "Human Rights",
+      "sasb_indicator": "EM-MM-210a.1",
+      "indicator_name": "Percentage of (1) proved and (2) probable reserves in or near areas of conflict",
+      "subcategory": "Percentage of total area of proved reserves in or near areas of conflict",
+      "unit": "%"
+    },
+    {
+      "id": 32,
+      "category": "Human Rights",
+      "sasb_indicator": "EM-MM-210a.1",
+      "indicator_name": "Percentage of (1) proved and (2) probable reserves in or near areas of conflict",
+      "subcategory": "Percentage of total area of probable reserves in or near areas of conflict",
+      "unit": "%"
+    },
+    {
+      "id": 33,
+      "category": "Human Rights",
+      "sasb_indicator": "EM-MM-210a.2",
+      "indicator_name": "Percentage of (1) proved and (2) probable reserves in or near areas of conflict",
+      "subcategory": "Percentage of total area of proved reserves in or near indigenous land",
+      "unit": "%"
+    },
+    {
+      "id": 34,
+      "category": "Human Rights",
+      "sasb_indicator": "EM-MM-210a.2",
+      "indicator_name": "Percentage of (1) proved and (2) probable reserves in or near areas of conflict",
+      "subcategory": "Percentage of total area of probable reserves in or near indigenous land",
+      "unit": "%"
+    }
+  ],
+  "Community Relations": [
+    {
+      "id": 35,
+      "category": "Community Relations",
+      "sasb_indicator": "EM-MM-210b.2",
+      "indicator_name": "(1) Number and (2) duration of nontechnical delays",
+      "subcategory": "Number of non-technical delays",
+      "unit": "Count"
+    },
+    {
+      "id": 36,
+      "category": "Community Relations",
+      "sasb_indicator": "EM-MM-210b.2",
+      "indicator_name": "(1) Number and (2) duration of nontechnical delays",
+      "subcategory": "Duration of non-technical delays",
+      "unit": "Days"
+    }
+  ],
+  "Labour Practices": [
+    {
+      "id": 37,
+      "category": "Labour Practices",
+      "sasb_indicator": "EM-MM-310a.1",
+      "indicator_name": "Percentage of active workforce covered under collective bargaining agreements, broken down by U.S. and foreign employees",
+      "subcategory": "Percentage of active workforce employed under collective agreement",
+      "unit": "%"
+    },
+    {
+      "id": 38,
+      "category": "Labour Practices",
+      "sasb_indicator": "EM-MM-310a.2",
+      "indicator_name": "Number and duration of strikes and lockouts",
+      "subcategory": "Number of strikes and lockouts",
+      "unit": "Count"
+    },
+    {
+      "id": 39,
+      "category": "Labour Practices",
+      "sasb_indicator": "EM-MM-310a.2",
+      "indicator_name": "Number and duration of strikes and lockouts",
+      "subcategory": "Duration of strikes and lockouts",
+      "unit": "Days"
+    }
+  ],
+  "Workforce Health and Safety": [
+    {
+      "id": 40,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees",
+      "subcategory": "Total number of MSHA incidents",
+      "unit": "Count"
+    },
+    {
+      "id": 41,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees",
+      "subcategory": "Total MSHA all-incidents rate",
+      "unit": "Rate (per million hours worked)"
+    },
+    {
+      "id": 42,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees",
+      "subcategory": "Total fatality rate",
+      "unit": "Rate (per million hours worked)"
+    },
+    {
+      "id": 43,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees",
+      "subcategory": "Total near-miss frequency rate (NMFR)",
+      "unit": "Rate (per million hours worked)"
+    },
+    {
+      "id": 44,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees",
+      "subcategory": "Average hours of health, safety, and emergency response training for full-time employees",
+      "unit": "Hours"
+    },
+    {
+      "id": 45,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees",
+      "subcategory": "Average hours of health, safety, and emergency response training for contract employees",
+      "unit": "Hours"
+    },
+    {
+      "id": 46,
+      "category": "Workforce Health and Safety",
+      "sasb_indicator": "EM-MM-320a.1",
+      "indicator_name": "(1) MSHA all-incidence rate, (2) fatality rate, (3) near miss frequency rate (NMFR) and (4) average hours of health, safety, and emergency response training for (a) full-time employees and (b) contract employees\tNumber of Fatalities",
+      "subcategory": "Number of Fatalities",
+      "unit": "Count"
+    }
+  ],
+  "Business Ethics and Transparency": [
+    {
+      "id": 47,
+      "category": "Business Ethics and Transparency",
+      "sasb_indicator": "EM-MM-510a.2",
+      "indicator_name": "Production in countries that have the 20 lowest rankings in Transparency International’s Corruption Perception Index",
+      "subcategory": "Production in countries with the 20 lowest rankings in Transparency International's Corruption Perception Index",
+      "unit": "Tonnes"
+    }
+  ],
+  "Production": [
+    {
+      "id": 48,
+      "category": "Production",
+      "sasb_indicator": "EM-MM-000.A",
+      "indicator_name": "Production of (1) metal ores and (2) finished metal products",
+      "subcategory": "Production of metal ores ",
+      "unit": "Tonnes"
+    },
+    {
+      "id": 49,
+      "category": "Production",
+      "sasb_indicator": "EM-MM-000.A",
+      "indicator_name": "Production of (1) metal ores and (2) finished metal products",
+      "subcategory": "Production of finished metal products",
+      "unit": "Tonnes"
+    }
+  ],
+  "Employees": [
+    {
+      "id": 50,
+      "category": "Employees",
+      "sasb_indicator": "EM-MM-000.B",
+      "indicator_name": "Total number of employees, percentage contractors",
+      "subcategory": "Total number of employees",
+      "unit": "Count"
+    },
+    {
+      "id": 51,
+      "category": "Employees",
+      "sasb_indicator": "EM-MM-000.B",
+      "indicator_name": "Total number of employees, percentage contractors",
+      "subcategory": "Total number of contractors",
+      "unit": "Count"
+    },
+    {
+      "id": 52,
+      "category": "Employees",
+      "sasb_indicator": "EM-MM-000.B",
+      "indicator_name": "Total number of employees, percentage contractors",
+      "subcategory": "Percentage of employees who are contractors",
+      "unit": "%"
+    }
+  ],
+  "Revenue": [
+    {
+      "id": 53,
+      "category": "Revenue",
+      "sasb_indicator": "Revenue",
+      "indicator_name": "Revenue in USD",
+      "subcategory": "Revenue",
+      "unit": "$"
+    }
+  ]
+}

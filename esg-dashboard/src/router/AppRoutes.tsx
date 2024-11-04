@@ -2,13 +2,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect, FC } from "react";
 import DataInputForm from "../pages/DataForm/DataForm";
 import TableauDashboard from "../pages/Dashboard/Dashboard";
-import Scraper from "../pages/Scraper/Scraper";
+import Scraper from "../pages/DataEntry/Scraper/Scraper";
 import Layout from "../pages/Layout";
 import Login from "../pages/Login";
 import { useSupabase } from "../hooks/useSupabase";
 import Header from "../components/Header";
 import Paths from "./paths";
 import Loader from "../components/Loader";
+import DataEntry from "../pages/DataEntry";
 
 const ProtectedRoute: FC<{ element: JSX.Element }> = ({ element }) => {
   const { session } = useSupabase();
@@ -52,6 +53,10 @@ const AppRoutes: FC = () => {
         <Route 
           path={Paths.dataInput}
           element={<ProtectedRoute element={<DataInputForm />} />}
+        />
+        <Route 
+          path={Paths.dataEntry}
+          element={<ProtectedRoute element={<DataEntry />} />}
         />
         <Route 
           path={Paths.scraper}
