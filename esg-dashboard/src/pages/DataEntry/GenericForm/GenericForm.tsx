@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from 'react';
 import "./GenericForm.css";
 import "../DataEntry.css";
 import {
@@ -85,46 +86,42 @@ const GenericForm = (props: GenericFormProps) => {
           <Table variant="simple" width="100%" display="block" overflowY="auto">
             <Thead>
               <Tr>
-                <Th width="25%" textAlign="left">Metric</Th> {/* Make first column wider */}
-                <Th width="10%">Unit</Th> {/* Set widths for other columns */}
+                <Th width="25%" textAlign="left">Metric</Th>
+                <Th width="10%">Unit</Th>
                 {selectedYears.map((year) => (
-                  <Th key={year} width="10%">{year}</Th> // Set widths for year columns
+                  <Th key={year} width="10%">{year}</Th>
                 ))}
               </Tr>
             </Thead>
             <Tbody>
-              {formData[currentCategory] && Object.entries(formData[currentCategory][firstYear] || {}).map(([_, metric]) => {
-                // Map over metrics from the first year
-                return (
-                  <Tr key={metric.subcategory}>
-                    <Td>
-                      <Flex flexDirection="column">
-                        <Text fontSize={14}>{metric.subcategory}</Text>
-                        <Text color="primary" fontSize={11}>{metric.sasb_indicator}</Text>
-                      </Flex>
-                    </Td>
-                    <Td fontSize={14}>{metric.unit}</Td>
-                    {selectedYears.map((year) => {
-                      // Retrieve the value corresponding to the current year and subcategory
-                      const targetMetric = formData[currentCategory][year]?.find(
-                        (item) => item.subcategory === metric.subcategory
-                      );
-                      return (
-                        <Td key={year}>
-                          <FormControl>
-                            <Input
-                              type="text"
-                              fontSize={14}
-                              value={targetMetric?.value || ""}
-                              onChange={(e) => handleValueChange(currentCategory, year, metric.subcategory, e.target.value)}
-                            />
-                          </FormControl>
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })}
+              {formData[currentCategory] && Object.entries(formData[currentCategory][firstYear] || {}).map(([_, metric]) => (
+                <Tr key={metric.subcategory}>
+                  <Td>
+                    <Flex flexDirection="column">
+                      <Text fontSize={14}>{metric.subcategory}</Text>
+                      <Text color="primary" fontSize={11}>{metric.sasb_indicator}</Text>
+                    </Flex>
+                  </Td>
+                  <Td fontSize={14}>{metric.unit}</Td>
+                  {selectedYears.map((year) => {
+                    const targetMetric = formData[currentCategory][year]?.find(
+                      (item) => item.subcategory === metric.subcategory
+                    );
+                    return (
+                      <Td key={year}>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            fontSize={14}
+                            value={targetMetric?.value || ""}
+                            onChange={(e) => handleValueChange(currentCategory, year, metric.subcategory, e.target.value)}
+                          />
+                        </FormControl>
+                      </Td>
+                    );
+                  })}
+                </Tr>
+              ))}
             </Tbody>
           </Table>
         </Box>
