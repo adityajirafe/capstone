@@ -125,24 +125,64 @@ const DataEntry = () => {
 
   const handlePrevStep = () => setStep((prev) => prev - 1)
 
-  const handleSubmit = () => {}
+  const handleSubmit = () => {
+    const output: Metric[] = [];
+    console.log("Handle submit runs");
+    // Iterate through the categories in formData
+    for (const category in formData) {
+        // Iterate through the years for each category
+        for (const year in formData[category]) {
+            // Iterate through the array of metrics for each year
+            formData[category][year].forEach(metric => {
+              // Check if the value is not null or empty
+                if (metric.value !== null && metric.value !== "") {
+                    // Add the object to the output array
+                    output.push(metric);
+                }
+            });
+        }
+    }
+    console.log("SUBMITTING...");
+
+    // fean: u can use output for array of objects
+    console.log(output);
+
+    // formattedOutput is an array of arrays with the following order in the nested list:
+    // index, category, sasb_indicator, indicator_name, unit, subcategory, year, value
+    const formattedOutput = output.map((metric, index) => [
+        index, // Serial number starting from 0
+        metric.category, // Category
+        metric.sasb_indicator, // SASB Indicator
+        metric.indicator_name, // Indicator Name
+        metric.unit, // Unit
+        metric.subcategory, // Subcategory
+        metric.year, // Year
+        metric.value // Value
+    ]);
+    
+    // fean: u can use formattedOutput for array of arrays
+    console.log("Formatted Output:", formattedOutput);
+
+    // fean: insert function call
+  };
+  
 
   const handleFormData = (newData: CustomFormData) => {
     setFormData(newData);
   };
 
-  const generateCSV = () => {
-    const csv = Papa.unparse(Object.values(formData));
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-    saveAs(blob, `${companyName}_ESG_data.csv`);
-  };
+//   const generateCSV = () => {
+//     const csv = Papa.unparse(Object.values(formData));
+//     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+//     saveAs(blob, `${companyName}_ESG_data.csv`);
+//   };
 
   const nextButtonDisabled = () => {
     if (step == 0) {
         return !inputMethod;
     }
     if (step == 1) {
-        // return scraperStatus !== "Completed";
+        // return scraperStatus !== "Completed"; // TODO when scraper is live
         return false
     }
     return false;
