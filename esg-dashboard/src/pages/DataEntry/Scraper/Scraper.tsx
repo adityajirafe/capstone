@@ -24,7 +24,7 @@ interface ScraperProps {
 
 
 const Scraper = (props: ScraperProps) => {
-    const { scraperStatus, setScraperStatus, companyName, setCompanyName, taskID, setTaskID, inputMethod } = props;
+    const { scraperStatus, setScraperStatus, setCompanyName, taskID, inputMethod } = props;
     
     const { colorMode } = useColorMode();
 

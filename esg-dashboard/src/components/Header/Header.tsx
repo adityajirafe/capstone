@@ -46,7 +46,6 @@ const Header = () => {
         >
           About Us
         </NavLink>
-        <NavLink to={Paths.dataInput}>Reporting 2</NavLink>
         <NavLink to={Paths.dataEntry}>Reporting</NavLink>
         <NavLink to={Paths.dashboard}>Dashboard</NavLink>
         {session ? (
