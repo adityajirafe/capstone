@@ -12,7 +12,6 @@ const Dashboard = () => {
       console.log('in interval')
       const response = await fetch(`http://localhost:5000/generate`);
       const data = await response.json();
-      console.log(data)
       setToken(data.token);     
     }, jwtPollInterval)
     const scriptElement = document.createElement("script");
@@ -54,7 +53,7 @@ const Dashboard = () => {
         <tableau-viz id="tableauViz"     
           src="https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3"
           token={token}
-          device="phone" toolbar="bottom">
+          toolbar="bottom">
         </tableau-viz> 
         <Box as="noscript">
           <a href="#">
