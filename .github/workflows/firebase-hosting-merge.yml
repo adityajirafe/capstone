@@ -15,6 +15,7 @@ jobs:
         working-directory: ./esg-dashboard
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entryPoint: ./esg-dashboard
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CAPSTONE_3117A }}
           channelId: live
