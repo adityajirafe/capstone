@@ -37,7 +37,7 @@ const DataEntry = () => {
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
   
   const [metricsData, setMetricsData] = useState<Metric[]>([]);
-  const [loading, setLoading] = useState(true);
+//   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const newSteps = [...DEFAULT_STEPS]; // Create a fresh copy of DEFAULT_STEPS
@@ -64,7 +64,8 @@ const DataEntry = () => {
           const uniqueYears = Array.from(new Set(metricsData.map((metric: Metric) => metric.year)));
           setSelectedYears(uniqueYears); // Set the unique years in the state
           console.log("Years found in data:", uniqueYears);
-        } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
           console.error("Error fetching data from Supabase:", error.message);
         }
     };
