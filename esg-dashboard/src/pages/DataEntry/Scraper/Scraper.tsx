@@ -116,7 +116,7 @@ const Scraper = (props: ScraperProps) => {
                             setMessageStatus('Error')
                             SetMessage(`Error fetching task status`)
                         }
-                    }, pollTime); // Poll every 3 seconds
+                    }, pollTime); // Poll every 15 seconds
                     const timeout = setTimeout(async () => {
                         clearInterval(interval)
                         localStorage.removeItem('taskID');
@@ -156,7 +156,7 @@ const Scraper = (props: ScraperProps) => {
             return;
         }
         const tempTaskID = Date.now().toString()
-        // setTaskID(tempTaskID) //create unique ID
+        setTaskID(tempTaskID) //create unique ID
         
         const formData = new FormData();
         formData.append('file', file);

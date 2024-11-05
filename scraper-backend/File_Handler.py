@@ -4,8 +4,10 @@ import threading
 import subprocess
 from dotenv import load_dotenv
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
-import time
 from supabase import create_client, Client
+import jwt
+import datetime
+import uuid
 
 #Load environment variables from .env file
 load_dotenv()
@@ -21,6 +23,11 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
 
+#Generate JWT token
+connectedAppClientId =  os.getenv('JWT_CONNECTED_APP_CLIENT_ID')
+connectedAppSecretKey = os.getenv('JWT_CONNECTED_APP_SECRET_KEY')
+connectedAppSecretId = os.getenv('JWT_CONNECTED_APP_SECRET_ID')
+user = os.getenv('JWT_USER')
 
 app = Flask(__name__)
 CORS(app)
@@ -63,6 +70,26 @@ def run_scraper(task_id, file_name, output_file, file_path):
         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
         if response:
             print('error', e)
+            
+@app.route('/generate', methods = ['GET'])
+def generate_token():
+    token = jwt.encode(
+        {
+            "iss": connectedAppClientId,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=9),
+            "jti": str(uuid.uuid4()),
+            "aud": "tableau",
+            "sub": user,
+            "scp": ["tableau:views:embed"],
+        },
+        connectedAppSecretKey,
+        algorithm="HS256",
+        headers={
+            "kid": connectedAppSecretId,
+            "iss": connectedAppClientId,
+        },
+    )
+    return jsonify({'token': token}), 202
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

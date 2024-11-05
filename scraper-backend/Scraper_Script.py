@@ -236,7 +236,7 @@ def scrape(company_name, output_path, pdf, task_id):
 
 #dummy function to mimic scraping function
 def test_csv(company_name, output_path, pdf, task_id):
-  time.sleep(15)
+  time.sleep(14)
   push_to_supabase(test_df, company_name, task_id)
   return True
   

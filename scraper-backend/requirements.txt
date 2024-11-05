@@ -6,3 +6,4 @@ python-dotenv==1.0.1
 tqdm==4.66.5
 typing_extensions==4.12.2
 supabase==2.9.1
+PyJWT==2.9.0

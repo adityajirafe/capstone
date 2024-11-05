@@ -1,10 +1,24 @@
 import { Box } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 
 const Dashboard = () => {
+
+  const jwtPollInterval = 540000; // 9min
+  const [token, setToken] = useState<string | null>(null); //store jwt token
+
   useEffect(() => {
+    const interval = setInterval(async () => {
+      console.log('in interval')
+      const response = await fetch(`http://localhost:5000/generate`);
+      const data = await response.json();
+      console.log(data)
+      setToken(data.token);     
+    }, jwtPollInterval)
     const scriptElement = document.createElement("script");
-    scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js";
+    //scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js"; // old script, can remove
+    scriptElement.type = "module"
+    scriptElement.src = "https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
     scriptElement.onload = () => {
       const divElement = document.getElementById("vizContainer");
       const vizElement = divElement?.getElementsByTagName("object")[0];
@@ -24,6 +38,8 @@ const Dashboard = () => {
       }
     };
     document.body.appendChild(scriptElement);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -35,6 +51,11 @@ const Dashboard = () => {
         borderRadius="md"
         overflow="hidden"
       >
+        <tableau-viz id="tableauViz"     
+          src="https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3"
+          token={token}
+          device="phone" toolbar="bottom">
+        </tableau-viz> 
         <Box as="noscript">
           <a href="#">
             <img
