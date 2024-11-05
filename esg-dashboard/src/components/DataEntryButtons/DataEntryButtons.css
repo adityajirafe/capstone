@@ -1,9 +1,10 @@
 .data-entry-buttons-container {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
     width: 100%;
-    padding: 20px 40px;
+    padding: 40px 20px 0px;
+    margin-bottom: 40px;
+    height: 116px;
 }
 
 .left-button {

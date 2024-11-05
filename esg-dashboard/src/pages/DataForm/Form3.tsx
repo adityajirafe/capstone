@@ -16,6 +16,14 @@ import {
 import { useSupabase } from "../../hooks/useSupabase";
 import Loader from "../../components/Loader";
 
+interface Metric {
+  id: string;
+  category: string;
+  sasb_indicator: string;
+  indicator_name: string;
+  subcategory: string;
+  unit: string;
+}
 
 const predeterminedMetrics = [
   {
@@ -105,9 +113,12 @@ const Form3: React.FC<Form3Props> = ({
 
   // Fetch data from Supabase (similar logic as before)
   useEffect(() => {
+    console.log("1")
     const fetchMetrics = async () => {
+      console.log("2");
       setLoading(true);
       try {
+        console.log("3");
         const { data: metricsData, error } = await supabase
           .from("esg_data")
           .select("indicator, sub_category, year, value")
@@ -133,11 +144,52 @@ const Form3: React.FC<Form3Props> = ({
         setLoading(false);
       }
     };
-
+    console.log("4");
+    fetchMetrics()
     if (companyName && selectedYears.length > 0) {
       fetchMetrics(); // Trigger the fetch function if companyName and years are selected
     }
   }, [companyName, selectedYears, supabase]);
+
+  // useEffect(() => {
+  //   console.log('retrieve metrics');
+  //   const metricsJson: Record<string, Metric[]> = {};
+
+  //   const fetchMetricList = async () => {
+  //     try {
+  //       const { data: metrics, error } = await supabase.from('metrics').select();
+  //       if (error) {
+  //         throw new Error(error.message);
+  //       }
+
+  //       if (metrics) {
+  //         metrics.forEach((metric: Metric) => {
+  //           if (!metricsJson[metric.category]) {
+  //             metricsJson[metric.category] = [];
+  //           }
+  //           metricsJson[metric.category].push(metric);
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching metrics:', error);
+  //     } finally {
+  //       // saveJsonToFile(metricsJson, 'metrics.json');
+  //     }
+  //   };
+
+  //   fetchMetricList();
+  // }, [supabase]);
+
+  const saveJsonToFile = (jsonData: Record<string, any[]>, fileName: string) => {
+    const jsonString = JSON.stringify(jsonData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Handle input change for each metric-year combination
   const handleInputChange = (key: string, value: string) => {

@@ -8,27 +8,34 @@ import FileIcon from '../../../assets/FileIcon.svg?react';
 import Success from '../../../assets/Success.svg?react';
 import Fail from '../../../assets/Fail.svg?react';
 import Pending from '../../../assets/Pending.svg?react';
-import { FileUploadStatus} from '../../../constants/types';
+import { FileUploadStatus, InitiationMethod} from '../../../constants/types';
 
 interface ScraperProps {
     scraperStatus: FileUploadStatus;
     setScraperStatus: (status: FileUploadStatus) => void;
+    companyName: string | null;
+    setCompanyName: (name: string | null) => void;
+    taskID: string | null;
+    setTaskID: (id: string | null) => void;
+    inputMethod: InitiationMethod;
 
 }
 
 
 
 const Scraper = (props: ScraperProps) => {
-    const { scraperStatus, setScraperStatus } = props;
+    const { scraperStatus, setScraperStatus, companyName, setCompanyName, taskID, setTaskID, inputMethod } = props;
     
     const { colorMode } = useColorMode();
 
     const [file, setFile] = useState<File | null>(null);
     const [fileName, setFileName] = useState<string | null>(null); // New state for the custom file name
     const [readyToUpload, setReadyToUpload] = useState<boolean>(false);
-    const [taskID, setTaskID] = useState<string | null>(null); // State to track task ID and initiatialise useEffect
     const [message, SetMessage] = useState<string | null>(null); //Message to write on screen
     const [messageStatus, setMessageStatus] =  useState<string | null>(null);
+
+    const pollTime = 15000; // 15s
+    const pollTimeout = 90000; // 15min
 
     const formatFileSize = (size : number | undefined) => {
         if (!size) return
@@ -53,6 +60,7 @@ const Scraper = (props: ScraperProps) => {
 
     const handleFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFileName(event.target.value); // Update the state with the custom file name input
+        setCompanyName(event.target.value) // used for subsequent pages
     };
 
 
@@ -62,9 +70,10 @@ const Scraper = (props: ScraperProps) => {
             try {
                 //console.log('polling')
                 const storedTaskID = localStorage.getItem('taskID');
-                setTaskID(storedTaskID)
+                // setTaskID(storedTaskID)
                 const storedFileName = localStorage.getItem('filename');
                 setFileName(storedFileName)
+                setCompanyName(storedFileName)
                 if (storedTaskID !== null) {
                     const interval = setInterval(async () => {
                         try {
@@ -107,7 +116,7 @@ const Scraper = (props: ScraperProps) => {
                             setMessageStatus('Error')
                             SetMessage(`Error fetching task status`)
                         }
-                    }, 1000); // Poll every 3 seconds
+                    }, pollTime); // Poll every 3 seconds
                     const timeout = setTimeout(async () => {
                         clearInterval(interval)
                         localStorage.removeItem('taskID');
@@ -116,7 +125,7 @@ const Scraper = (props: ScraperProps) => {
                         setMessageStatus('Error')
                         SetMessage(`Response timed out. Please refresh the page.`)
                         setScraperStatus("Failed") 
-                    }, 900000); // set timeout for 900000ms / 15 mins 
+                    }, pollTimeout); // set timeout for 900000ms / 15 mins 
             
                     // Cleanup function to clear the interval when the component unmounts or taskID changes
                     return () => {
@@ -147,7 +156,7 @@ const Scraper = (props: ScraperProps) => {
             return;
         }
         const tempTaskID = Date.now().toString()
-        setTaskID(tempTaskID) //create unique ID
+        // setTaskID(tempTaskID) //create unique ID
         
         const formData = new FormData();
         formData.append('file', file);
@@ -214,15 +223,40 @@ const Scraper = (props: ScraperProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [taskID]);
 
+    if (inputMethod == InitiationMethod.manual) {
+        return (
+            <Box className="form-page">
+                <div className='form-container'>
+                    <div className='form-title-container'>
+                        <Box className="form-logo-container" bg="monochrome">
+                            <CloudUpload className={`form-icon-${colorMode}`} />
+                        </Box>
+                        <div className="form-text-container">
+                            <Text fontSize={24} fontWeight={500}>Company Name</Text>
+                            <Text fontSize={20} fontWeight={500} color="primary">Set your Company Name</Text>
+                        </div>
+                    </div>
+                    <Box className='company-input-name' height="100%" mb="80px">
+                        <Input
+                            id="companyName"
+                            type="text"
+                            placeholder="Enter your company name"
+                            onChange={handleFileNameChange} // Update the company name in the parent component
+                        />
+                    </Box>
+                </div>
+            </Box>
+        )
+    }
 
     return (
         <Box className="form-page">
-            <div className='scraper-container'>
-                <div className='scraper-title-container'>
-                    <Box className="scraper-logo-container" bg="monochrome">
-                        <CloudUpload className={`scraper-cloud-${colorMode}`} />
+            <div className='form-container'>
+                <div className='form-title-container'>
+                    <Box className="form-logo-container" bg="monochrome">
+                        <CloudUpload className={`form-icon-${colorMode}`} />
                     </Box>
-                    <div className="scraper-options-text-container">
+                    <div className="form-text-container">
                         <Text fontSize={24} fontWeight={500}>Upload File</Text>
                         <Text fontSize={20} fontWeight={500} color="primary">Select and upload files of your choice</Text>
                     </div>
@@ -236,7 +270,7 @@ const Scraper = (props: ScraperProps) => {
                             placeholder="Enter your company name"
                             onChange={handleFileNameChange} // Update the company name in the parent component
                         />
-                        <Button onClick={handleUpload}>Upload</Button>
+                        <Button onClick={handleUpload} width="100px">Upload</Button>
                     </div>
                 )}
                 {fileName && readyToUpload && (
