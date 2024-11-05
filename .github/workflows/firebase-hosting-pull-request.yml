@@ -8,9 +8,9 @@ permissions:
   contents: read
   pull-requests: write
 env:
-  REACT_APP_VITE_SUPABASE_URL: ${{ secrets.REACT_APP_VITE_SUPABASE_URL }}
-  REACT_APP_VITE_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_VITE_SUPABASE_ANON_KEY }}
-  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
+  VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+  VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+  VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
 jobs:
   build_and_preview:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
