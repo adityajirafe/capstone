@@ -8,8 +8,8 @@ interface SupabaseContextProps {
 
 export const SupabaseContext = createContext<SupabaseContextProps | undefined>(undefined);
 const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_ANON_KEY
+    import.meta.env.REACT_APP_VITE_SUPABASE_URL,
+    import.meta.env.REACT_APP_VITE_SUPABASE_ANON_KEY
 );
 console.log('xx', 'created client');
 

@@ -6,6 +6,10 @@ on:
   push:
     branches:
       - master
+env:
+  REACT_APP_VITE_SUPABASE_URL: ${{ secrets.REACT_APP_VITE_SUPABASE_URL }}
+  REACT_APP_VITE_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_VITE_SUPABASE_ANON_KEY }}
+  REACT_APP_OPENAI_API_KEY: ${{ secrets.REACT_APP_OPENAI_API_KEY }}
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

@@ -11,7 +11,7 @@ from supabase import create_client, Client
 #Load environment variables from .env file
 load_dotenv()
 
-apikey = os.getenv('OPENAI_API_KEY')
+apikey = os.getenv('REACT_APP_OPENAI_API_KEY')
 
 # Initialize Supabase client
 SUPABASE_URL = os.getenv('FLASK_SUPABASE_URL')
