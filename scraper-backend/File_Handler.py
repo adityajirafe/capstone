@@ -8,6 +8,7 @@ from supabase import create_client, Client
 import jwt
 import datetime
 import uuid
+import git
 
 #Load environment variables from .env file
 load_dotenv()
@@ -70,6 +71,20 @@ def run_scraper(task_id, file_name, output_file, file_path):
         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
         if response:
             print('error', e)
+ 
+@app.route('/webhook', methods = ['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('./myproject')
+        origin = repo.remotes.origin
+        repo.create_head('master', 
+    origin.refs.master).set_tracking_branch(origin.refs.master).checkout()
+        origin.pull()
+        return 'Updated PythonAnywhere successfully', 200
+    else:
+        return 'Wrong event type', 400               
+           
+           
             
 @app.route('/generate', methods = ['GET'])
 def generate_token():
