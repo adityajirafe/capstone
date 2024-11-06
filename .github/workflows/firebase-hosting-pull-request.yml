@@ -6,6 +6,7 @@ on: pull_request
 permissions:
   checks: write
   contents: read
+  packages: write
   pull-requests: write
 env:
   VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
