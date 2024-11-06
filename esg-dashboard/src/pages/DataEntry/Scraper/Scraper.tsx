@@ -171,7 +171,6 @@ const Scraper = (props: ScraperProps) => {
         setMessageStatus('Loading')
 
         try {                
-            // TODO: update the fetch server to whatever backend service we want to use, currently using localhost for development 
             const response = await fetch('https://shay.pythonanywhere.com/upload', {
                 method: 'POST',
                 body: formData,
@@ -195,6 +194,7 @@ const Scraper = (props: ScraperProps) => {
         }
     };
 
+    // Code to download the CSV at the end of scrape
     // const downloadCSV = async (storedTaskID: string, storedFileName: string) => {
     //     try {
     //         const response = await fetch(`https://shay.pythonanywhere.com/download/${storedTaskID}`);
