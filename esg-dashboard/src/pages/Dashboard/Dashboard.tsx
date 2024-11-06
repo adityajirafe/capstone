@@ -1,23 +1,56 @@
 import { Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import {
+  TableauViz,
+  TableauEventType,
+} from '@tableau/embedding-api';
 
 
 const Dashboard = () => {
 
   const jwtPollInterval = 540000; // 9min
-  //const [token, setToken] = useState<string | null>(null); //store jwt token
+  const [token, setToken] = useState<string | undefined>(undefined); //store jwt token
+
+  function handleMarkSelection() {
+    alert('Mark(s) selected!');
+    // TODO: add code to handle the mark selection goes here
+  
+  }
+
+
+  const render_tableau = (token : string | undefined, source: string) => {
+    const viz = new TableauViz();
+    viz.src = source;
+    viz.token = token;
+    viz.addEventListener(TableauEventType.MarkSelectionChanged, handleMarkSelection);
+    let visual = document.getElementById('tableauViz')
+    if (visual!.hasChildNodes()) { //ugly check but it works
+      visual!.removeChild(visual!.childNodes[0]);
+    }
+    visual!.appendChild(viz);
+  }
+
 
   useEffect(() => {
+
+    const get_token = async() => {
+      console.log('first run')
+      const response = await fetch(`http://localhost:5000/generate`);
+      const data = await response.json();
+      setToken(data.token);     
+    }
+    // get_token() //add in later if the dahsboard does not show on first render
     const interval = setInterval(async () => {
       console.log('in interval')
-      //const response = await fetch(`https://shay.pythonanywhere.com/generate`);
-      //const data = await response.json();
-      //setToken(data.token);     
-    }, jwtPollInterval)
+      get_token()
+    }, jwtPollInterval)  
+    let source = 'https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3'
+    render_tableau(token, source)
+
     const scriptElement = document.createElement("script");
-    //scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js"; // old script, can remove
+    scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js"; // old script, can remove
     scriptElement.type = "module"
-    scriptElement.src = "https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
+    //scriptElement.src = "https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
     scriptElement.onload = () => {
       const divElement = document.getElementById("vizContainer");
       const vizElement = divElement?.getElementsByTagName("object")[0];
@@ -50,11 +83,7 @@ const Dashboard = () => {
         borderRadius="md"
         overflow="hidden"
       >
-        {/* <tableau-viz id="tableauViz"     
-          src="https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3"
-          token={token}
-          toolbar="bottom">
-        </tableau-viz>  */}
+        <div id = "tableauViz"></div>
         <Box as="noscript">
           <a href="#">
             <img
