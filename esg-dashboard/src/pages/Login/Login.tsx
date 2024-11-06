@@ -9,6 +9,11 @@ import LoginIllustrationLight from '../../assets/LoginIllustrationLight.svg?reac
 const Login = () => {
   const { colorMode } = useColorMode();
   const { supabase } = useSupabase();
+  console.log(process.env.NODE_ENV);
+  const getURL = () => {
+    const url = process.env.NODE_ENV === "development" ? 'http://localhost:5173/' : "https://capstone-3117a.web.app/"
+    return url
+  }
 
   return (
     <div className="auth-container">
@@ -17,6 +22,7 @@ const Login = () => {
         appearance={{ theme: ThemeSupa }}
         providers={["google"]}
         theme={colorMode}
+        redirectTo={getURL()}
         />
         <div className='login-illustration-container'>
           {colorMode == "dark" ? (
