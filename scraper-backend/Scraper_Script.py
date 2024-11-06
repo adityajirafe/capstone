@@ -7,6 +7,7 @@ import concurrent.futures
 import time
 from tqdm import tqdm
 from supabase import create_client, Client
+import json
 
 #Load environment variables from .env file
 load_dotenv()
@@ -19,8 +20,9 @@ SUPABASE_ANON_KEY = os.getenv('FLASK_SUPABASE_ANON_KEY')
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 #Load template that we want to follow
-template = pd.read_csv('SASB Indicators - Template.csv')
-template = template[['Category','Indicator','SASB Indicator Name', 'Sub-Category']]
+response_template = supabase.table('metrics').select('category,sasb_indicator,indicator_name, subcategory').execute()
+template_data = response_template.data
+template = pd.DataFrame.from_dict(template_data)
 
 #Use a test dataset for testing and avoiding openai costs
 test_df = pd.read_csv('outputs/Test.csv')
@@ -92,9 +94,6 @@ def get_json(outs):
 #function to write out how the final dataframe is created from the ingested json data
 def write_df(results):
 
-  import pandas as pd
-  import json
-
   df = pd.DataFrame()
   counter = 0
 
@@ -108,9 +107,9 @@ def write_df(results):
 
       if num_entries > 0:
         metric = template.iloc[counter] #cycle through every metric in template
-        result_df.insert(3, 'Sub-Category', metric['Sub-Category'])
-        result_df.insert(0, 'Indicator', metric['Indicator'])
-        result_df.insert(1, 'SASB Indicator Name', metric['SASB Indicator Name'])
+        result_df.insert(3, 'subcategory', metric['subcategory'])
+        result_df.insert(0, 'sasb_indicator', metric['sasb_indicator'])
+        result_df.insert(1, 'indicator_name', metric['indicator_name'])
         #result_df['remark'] = [metric] * num_entries
         df = pd.concat([df,result_df], ignore_index=True)
     counter += 1
@@ -177,7 +176,7 @@ def parse_doc(company, sus_report):
     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}},
   )
 
-  template_list = template['Sub-Category'].tolist()
+  template_list = template['subcategory'].tolist()
 
   no_queries = len(template_list)
   ass_list = [assistant] * no_queries
@@ -192,7 +191,7 @@ def parse_doc(company, sus_report):
 #Post processing dataframe to fit our predefined template
 def get_csv(results, company_name, output_path, task_id): #output_path deprecated
   df = write_df(get_json(results))
-  df.drop_duplicates(subset = ['Indicator','SASB Indicator Name','year','unit','Sub-Category'], keep = 'first', inplace = True) #keep first entry (usually if there are duplicates the scraper is reading other mines)
+  df.drop_duplicates(subset = ['sasb_indicator','indicator_name','year','unit','subcategory'], keep = 'first', inplace = True) #keep first entry (usually if there are duplicates the scraper is reading other mines)
   #If we want the long format of the data 
   #df['company'] = [company_name] * len(df)
   #df.to_csv(output_path, index = False,encoding='utf-8-sig') #to ensure characters come out in plain text
@@ -202,14 +201,14 @@ def get_csv(results, company_name, output_path, task_id): #output_path deprecate
 
 def push_to_supabase(df, company_name, task_id):
   df['company_name'] = [company_name] * len(df)
-  cat_dict =  dict(zip(template["Indicator"], template["Category"])) 
-  df['Category'] = df['Indicator'].map(cat_dict)
+  cat_dict =  dict(zip(template["sasb_indicator"], template["category"])) 
+  df['category'] = df['sasb_indicator'].map(cat_dict)
   df['task_id'] = [task_id] * len(df)
   df = df.rename(columns = {
-      'Category': 'category',
-      'Indicator': 'sasb_indicator',
-      'SASB Indicator Name': 'indicator_name',
-      'Sub-Category': 'subcategory',
+      'category': 'category',
+      'sasb_indicator': 'sasb_indicator',
+      'indicator_name': 'indicator_name',
+      'subcategory': 'subcategory',
       'unit': 'unit',
       'year': 'year',
       'value': 'value',
@@ -220,9 +219,9 @@ def push_to_supabase(df, company_name, task_id):
   supabase.table('output_raw').insert(insert_dicts).execute()
 
 def to_template(df):
-  df = df.pivot(index = ['Indicator','SASB Indicator Name','unit','Sub-Category'], columns = 'year', values = 'value')
+  df = df.pivot(index = ['sasb_indicator','indicator_name','unit','subcategory'], columns = 'year', values = 'value')
   df.reset_index(inplace = True)
-  company_template = pd.merge(template, df, on = ['Indicator','SASB Indicator Name', 'Sub-Category'], how = 'left')
+  company_template = pd.merge(template, df, on = ['sasb_indicator','indicator_name', 'subcategory'], how = 'left')
   #company_template.to_csv(f'{company} Template.csv', index = False, encoding='utf-8-sig') #place this in the scrape function instead
 
   return company_template
@@ -237,7 +236,7 @@ def scrape(company_name, output_path, pdf, task_id):
 
 #dummy function to mimic scraping function
 def test_csv(company_name, output_path, pdf, task_id):
-  time.sleep(15)
+  time.sleep(14)
   push_to_supabase(test_df, company_name, task_id)
   return True
   
