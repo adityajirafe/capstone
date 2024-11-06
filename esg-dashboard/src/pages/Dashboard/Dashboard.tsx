@@ -50,11 +50,11 @@ const Dashboard = () => {
         borderRadius="md"
         overflow="hidden"
       >
-        <tableau-viz id="tableauViz"     
+        {/* <tableau-viz id="tableauViz"     
           src="https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3"
           token={token}
           toolbar="bottom">
-        </tableau-viz> 
+        </tableau-viz>  */}
         <Box as="noscript">
           <a href="#">
             <img
