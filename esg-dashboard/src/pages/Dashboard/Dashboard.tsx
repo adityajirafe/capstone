@@ -1,82 +1,82 @@
 import { Box } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import {
-  TableauViz,
-  TableauEventType,
-} from '@tableau/embedding-api';
+// import { useEffect, useState } from "react";
+// import {
+//   TableauViz,
+//   TableauEventType,
+// } from '@tableau/embedding-api';
 
 
 const Dashboard = () => {
 
-  const jwtPollInterval = 540000; // 9min
-  const [token, setToken] = useState<string | undefined>(undefined); //store jwt token
+  // const jwtPollInterval = 540000; // 9min
+  // const [token, setToken] = useState<string | undefined>(undefined); //store jwt token
 
-  function handleMarkSelection() {
-    alert('Mark(s) selected!');
-    // TODO: add code to handle the mark selection goes here
+  // function handleMarkSelection() {
+  //   alert('Mark(s) selected!');
+  //   // TODO: add code to handle the mark selection goes here
   
-  }
+  // }
 
 
-  const render_tableau = (token : string | undefined, source: string) => {
-    const viz = new TableauViz();
-    viz.src = source;
-    viz.token = token;
-    viz.addEventListener(TableauEventType.MarkSelectionChanged, handleMarkSelection);
-    let visual = document.getElementById('tableauViz')
-    if (visual!.hasChildNodes()) { //ugly check but it works
-      visual!.removeChild(visual!.childNodes[0]);
-    }
-    visual!.appendChild(viz);
-  }
+  // const render_tableau = (token : string | undefined, source: string) => {
+  //   const viz = new TableauViz();
+  //   viz.src = source;
+  //   viz.token = token;
+  //   viz.addEventListener(TableauEventType.MarkSelectionChanged, handleMarkSelection);
+  //   let visual = document.getElementById('tableauViz')
+  //   if (visual!.hasChildNodes()) { //ugly check but it works
+  //     visual!.removeChild(visual!.childNodes[0]);
+  //   }
+  //   visual!.appendChild(viz);
+  // }
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const get_token = async() => {
-      console.log('first run')
-      const response = await fetch(`http://localhost:5000/generate`);
-      const data = await response.json();
-      setToken(data.token);     
-    }
-    // get_token() //add in later if the dahsboard does not show on first render
-    const interval = setInterval(async () => {
-      console.log('in interval')
-      get_token()
-    }, jwtPollInterval)  
-    let source = 'https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3'
-    render_tableau(token, source)
+  //   const get_token = async() => {
+  //     console.log('first run')
+  //     const response = await fetch(`http://localhost:5000/generate`);
+  //     const data = await response.json();
+  //     setToken(data.token);     
+  //   }
+  //   // get_token() //add in later if the dahsboard does not show on first render
+  //   const interval = setInterval(async () => {
+  //     console.log('in interval')
+  //     get_token()
+  //   }, jwtPollInterval)  
+  //   let source = 'https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3'
+  //   render_tableau(token, source)
 
-    const scriptElement = document.createElement("script");
-    scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js"; // old script, can remove
-    scriptElement.type = "module"
-    //scriptElement.src = "https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
-    scriptElement.onload = () => {
-      const divElement = document.getElementById("vizContainer");
-      const vizElement = divElement?.getElementsByTagName("object")[0];
-      if (vizElement && divElement) {
-        if (divElement.offsetWidth > 800) {
-          vizElement.style.minWidth = "1000px";
-          vizElement.style.maxWidth = "100%";
-          vizElement.style.minHeight = "647px";
-          vizElement.style.maxHeight = `${divElement.offsetWidth * 0.75}px`;
-        } else if (divElement.offsetWidth > 500) {
-          vizElement.style.width = "100%";
-          vizElement.style.height = `${divElement.offsetWidth * 0.75}px`;
-        } else {
-          vizElement.style.width = "100%";
-          vizElement.style.height = "1227px";
-        }
-      }
-    };
-    document.body.appendChild(scriptElement);
+  //   const scriptElement = document.createElement("script");
+  //   scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js"; // old script, can remove
+  //   scriptElement.type = "module"
+  //   //scriptElement.src = "https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
+  //   scriptElement.onload = () => {
+  //     const divElement = document.getElementById("vizContainer");
+  //     const vizElement = divElement?.getElementsByTagName("object")[0];
+  //     if (vizElement && divElement) {
+  //       if (divElement.offsetWidth > 800) {
+  //         vizElement.style.minWidth = "1000px";
+  //         vizElement.style.maxWidth = "100%";
+  //         vizElement.style.minHeight = "647px";
+  //         vizElement.style.maxHeight = `${divElement.offsetWidth * 0.75}px`;
+  //       } else if (divElement.offsetWidth > 500) {
+  //         vizElement.style.width = "100%";
+  //         vizElement.style.height = `${divElement.offsetWidth * 0.75}px`;
+  //       } else {
+  //         vizElement.style.width = "100%";
+  //         vizElement.style.height = "1227px";
+  //       }
+  //     }
+  //   };
+  //   document.body.appendChild(scriptElement);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <Box p={4}>
-      <Box
+      {/* <Box
         id="vizContainer"
         position="relative"
         borderWidth="1px"
@@ -116,7 +116,7 @@ const Dashboard = () => {
           <param name="language" value="en-US" />
           <param name="filter" value="publish=yes" />
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 };
