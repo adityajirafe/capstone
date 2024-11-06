@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 const Dashboard = () => {
 
   const jwtPollInterval = 540000; // 9min
-  const [token, setToken] = useState<string | null>(null); //store jwt token
+  //const [token, setToken] = useState<string | null>(null); //store jwt token
 
   useEffect(() => {
     const interval = setInterval(async () => {
       console.log('in interval')
-      const response = await fetch(`https://shay.pythonanywhere.com/generate`);
-      const data = await response.json();
-      setToken(data.token);     
+      //const response = await fetch(`https://shay.pythonanywhere.com/generate`);
+      //const data = await response.json();
+      //setToken(data.token);     
     }, jwtPollInterval)
     const scriptElement = document.createElement("script");
     //scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js"; // old script, can remove

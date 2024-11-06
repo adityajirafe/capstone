@@ -34,7 +34,7 @@ const Scraper = (props: ScraperProps) => {
     const [message, SetMessage] = useState<string | null>(null); //Message to write on screen
     const [messageStatus, setMessageStatus] =  useState<string | null>(null);
 
-    const pollTime = 15000; // 15s
+    const pollTime = 150000; // 15s
     const pollTimeout = 90000; // 15min
 
     const formatFileSize = (size : number | undefined) => {
