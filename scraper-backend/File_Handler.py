@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_file
 import os
 import threading
-import subprocess
+from multiprocessing import Process
 from dotenv import load_dotenv
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
 from supabase import create_client, Client
@@ -149,9 +149,12 @@ def upload_file():
     #task_id = str(int(time.time()))
     task_id = request.form.get('task_id', '0')
 
-    # Start the scraper task in a background thread
-    thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
-    thread.start()
+    # Start the scraper task in a background process
+    # thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
+    # thread.start()
+    
+    process = Process(target = run_scraper, args=(task_id, file_name, output_file, file_path))
+    process.start()
     
     # Update Supabase task queue
     data = {
