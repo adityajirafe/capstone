@@ -9,6 +9,7 @@ import jwt
 import datetime
 import uuid
 import git
+from Scraper_Script import test_csv, scrape
 
 #Load environment variables from .env file
 load_dotenv()
@@ -22,7 +23,6 @@ UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
 
 #Generate JWT token
 connectedAppClientId =  os.getenv('JWT_CONNECTED_APP_CLIENT_ID')
@@ -36,41 +36,60 @@ CORS(app)
 def run_scraper(task_id, file_name, output_file, file_path):
     """Function to run the long task (calling scraper.py) in the background."""
     
-    try:
-        process = subprocess.Popen(
-            ['python', 'Scraper_Script.py', file_name, output_file, file_path, task_id],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        stdout, stderr = process.communicate()
-
-        if process.returncode != 0:
-            print('Failed Task')
-            data = {
-                'status': 'Failed',
-                'updated_at': 'now()'
-            }
-            response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
-            if response:
-                print('Error', stderr)
-        else:
-            print('Completed Task')
-            data = {
+    try: 
+        test_csv(file_name, output_file, file_path, task_id)
+        #scrape(file_name, output_file, file_path, task_id)
+        print('Completed Task')
+        data = {
                 'status': 'Completed',
                 'updated_at': 'now()'
             }
-            response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
-            
+        response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
     except Exception as e:
         print('Failed Task')
         data = {
-            'status': 'Failed',
-            'updated_at': 'now()'
-        }
+                'status': 'Failed',
+                'updated_at': 'now()'
+            }
         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
         if response:
             print('error', e)
+    
+    # try:
+    #     process = subprocess.Popen(
+    #         ['python3', 'Scraper_Script.py', file_name, output_file, file_path, task_id],
+    #         stdout=subprocess.PIPE,
+    #         stderr=subprocess.PIPE,
+    #         text=True
+    #     )
+    #     stdout, stderr = process.communicate()
+
+    #     if process.returncode != 0:
+    #         print('Failed Task')
+    #         data = {
+    #             'status': 'Failed',
+    #             'updated_at': 'now()'
+    #         }
+    #         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
+    #         if response:
+    #             print('Error', stderr)
+    #     else:
+    #         print('Completed Task')
+    #         data = {
+    #             'status': 'Completed',
+    #             'updated_at': 'now()'
+    #         }
+    #         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
+            
+    # except Exception as e:
+    #     print('Failed Task')
+    #     data = {
+    #         'status': 'Failed',
+    #         'updated_at': 'now()'
+    #     }
+    #     response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
+    #     if response:
+    #         print('error', e)
  
 @app.route('/webhook', methods = ['POST'])
 def webhook():

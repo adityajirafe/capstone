@@ -24,7 +24,7 @@ interface ScraperProps {
 
 
 const Scraper = (props: ScraperProps) => {
-    const { scraperStatus, setScraperStatus, setCompanyName, taskID, inputMethod } = props;
+    const { scraperStatus, setScraperStatus, setCompanyName, setTaskID, taskID, inputMethod } = props;
     
     const { colorMode } = useColorMode();
 
@@ -78,7 +78,7 @@ const Scraper = (props: ScraperProps) => {
                     const interval = setInterval(async () => {
                         try {
                             console.log('polling')  
-                            const response = await fetch(`http://localhost:5000/task-status/${storedTaskID}`);
+                            const response = await fetch(`https://shay.pythonanywhere.com/task-status/${storedTaskID}`);
                             const data = await response.json();
                             //console.log(storedTaskID)
                             // If task is completed, download the result
@@ -157,6 +157,7 @@ const Scraper = (props: ScraperProps) => {
         }
         const tempTaskID = Date.now().toString()
         setTaskID(tempTaskID) //create unique ID
+        setScraperStatus('In Progress')
         
         const formData = new FormData();
         formData.append('file', file);
@@ -171,7 +172,7 @@ const Scraper = (props: ScraperProps) => {
 
         try {                
             // TODO: update the fetch server to whatever backend service we want to use, currently using localhost for development 
-            const response = await fetch('http://localhost:5000/upload', {
+            const response = await fetch('https://shay.pythonanywhere.com/upload', {
                 method: 'POST',
                 body: formData,
             });
@@ -196,7 +197,7 @@ const Scraper = (props: ScraperProps) => {
 
     // const downloadCSV = async (storedTaskID: string, storedFileName: string) => {
     //     try {
-    //         const response = await fetch(`http://localhost:5000/download/${storedTaskID}`);
+    //         const response = await fetch(`https://shay.pythonanywhere.com/download/${storedTaskID}`);
     //         if (response.ok) {
     //             const blob = await response.blob();
     //             const url = window.URL.createObjectURL(blob);
