@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 import os
-import threading
-import subprocess
+from multiprocessing import Process
 from dotenv import load_dotenv
 from flask_cors import CORS  # Import CORS to prevent cross origin routing (error provided as flask server is not the same as react server)
 from supabase import create_client, Client
@@ -55,41 +54,6 @@ def run_scraper(task_id, file_name, output_file, file_path):
         if response:
             print('error', e)
     
-    # try:
-    #     process = subprocess.Popen(
-    #         ['python3', 'Scraper_Script.py', file_name, output_file, file_path, task_id],
-    #         stdout=subprocess.PIPE,
-    #         stderr=subprocess.PIPE,
-    #         text=True
-    #     )
-    #     stdout, stderr = process.communicate()
-
-    #     if process.returncode != 0:
-    #         print('Failed Task')
-    #         data = {
-    #             'status': 'Failed',
-    #             'updated_at': 'now()'
-    #         }
-    #         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
-    #         if response:
-    #             print('Error', stderr)
-    #     else:
-    #         print('Completed Task')
-    #         data = {
-    #             'status': 'Completed',
-    #             'updated_at': 'now()'
-    #         }
-    #         response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
-            
-    # except Exception as e:
-    #     print('Failed Task')
-    #     data = {
-    #         'status': 'Failed',
-    #         'updated_at': 'now()'
-    #     }
-    #     response = supabase.table('scraper_task_queue').update(data).eq('task_id', task_id).execute()
-    #     if response:
-    #         print('error', e)
  
 @app.route('/webhook', methods = ['POST'])
 def webhook():
@@ -149,9 +113,12 @@ def upload_file():
     #task_id = str(int(time.time()))
     task_id = request.form.get('task_id', '0')
 
-    # Start the scraper task in a background thread
-    thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
-    thread.start()
+    # Start the scraper task in a background process
+    # thread = threading.Thread(target=run_scraper, args=(task_id, file_name, output_file, file_path))
+    # thread.start()
+    
+    process = Process(target = run_scraper, args=(task_id, file_name, output_file, file_path))
+    process.start()
     
     # Update Supabase task queue
     data = {

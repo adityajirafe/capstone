@@ -35,7 +35,7 @@ const Dashboard = () => {
 
     const get_token = async() => {
       console.log('first run')
-      const response = await fetch(`http://localhost:5000/generate`);
+      const response = await fetch(`https://shay.pythonanywhere.com/generate`);
       const data = await response.json();
       setToken(data.token);     
     }
