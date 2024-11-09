@@ -70,16 +70,17 @@ const DataEntry = () => {
           const uniqueYears = Array.from(new Set(metricsData.map((metric: Metric) => metric.year)));
           setSelectedYears(uniqueYears); // Set the unique years in the state
           // console.log("Years found in data:", uniqueYears);
+          console.log('metrics', metricsData)
          
         } catch (error: any) {
           console.error("Error fetching data from Supabase:", error.message);
         }
     };
     fetchMetrics()
-  }, [supabase, taskID]); // Empty dependency array ensures this runs only once
+  }, [supabase, taskID, step]); // Empty dependency array ensures this runs only once
 
   useEffect(() => {
-    if (step !== 3 || selectedYears.length === 0) return;
+    if (step !== 2 || selectedYears.length === 0) return;
     if (!companyName) return
   
     const initialFormData: CustomFormData = {};

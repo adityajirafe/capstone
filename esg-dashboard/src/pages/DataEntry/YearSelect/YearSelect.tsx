@@ -15,7 +15,7 @@ interface InitiationProps {
 const YearSelect = (props: InitiationProps) => {
   const { selectedYears, setSelectedYears, inputMethod, companyName } = props;
   const { colorMode } = useColorMode();
-  console.log(selectedYears);
+  //console.log(selectedYears);
   return (
     <Box className="form-page">
       <div className='form-container'>
