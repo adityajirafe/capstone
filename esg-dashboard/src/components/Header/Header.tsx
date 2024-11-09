@@ -5,15 +5,38 @@ import HeaderLight from "../../assets/HeaderLight.svg?react";
 import { useSupabase } from "../../hooks/useSupabase";
 import ToggleDarkMode from "../ToggleDarkMode";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Paths from "../../router/paths";
 
 const Header = () => {
   const { colorMode } = useColorMode();
   const { supabase, session } = useSupabase();
   const navigate = useNavigate();
+  const [userGroup, setUserGroup] = useState<string | null>(null);
 
-  const handleSignout = () => {
-    supabase.auth.signOut();
+  // Fetch user group if the user is logged in
+  useEffect(() => {
+    const fetchUserGroup = async () => {
+      if (session?.user?.id) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+
+        if (error) {
+          console.error("Error fetching user group:", error.message);
+        } else {
+          setUserGroup(data?.role || null); // Set user group
+        }
+      }
+    };
+
+    fetchUserGroup();
+  }, [session, supabase]);
+
+  const handleSignout = async () => {
+    await supabase.auth.signOut();
     navigate("/");
   };
 
@@ -31,8 +54,8 @@ const Header = () => {
       bg="headerBackground"
     >
       <div onClick={handleLogoClick}>
-        {colorMode == "dark" ? (
-          <HeaderDark className="header-logo"  />
+        {colorMode === "dark" ? (
+          <HeaderDark className="header-logo" />
         ) : (
           <HeaderLight className="header-logo" />
         )}
@@ -46,7 +69,9 @@ const Header = () => {
         >
           About Us
         </NavLink>
-        <NavLink to={Paths.dataEntry}>Reporting</NavLink>
+        {userGroup === "ENTERPRISE" && (
+          <NavLink to={Paths.dataEntry}>Reporting</NavLink>
+        )}
         <NavLink to={Paths.dashboard}>Dashboard</NavLink>
         {session ? (
           <Text onClick={handleSignout} className="menu-item">

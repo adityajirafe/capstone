@@ -13,12 +13,10 @@ const ProtectedRoute: FC<{ element: JSX.Element }> = ({ element }) => {
   const { session } = useSupabase();
 
   if (session === undefined) {
-    return (
-      <Loader />
-    )
+    return <Loader />;
   }
 
-  return session ? element : <Navigate to={Paths.login}/>;
+  return session ? element : <Navigate to={Paths.login} />;
 };
 
 const AppRoutes: FC = () => {
@@ -28,10 +26,12 @@ const AppRoutes: FC = () => {
   useEffect(() => {
     const checkSession = async () => {
       // Ensures that Supabase session is restored before rendering protected routes
-      const { data: { session } } = await supabase.auth.getSession();
-      setLoading(false);  // Session is determined
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setLoading(false); // Session is determined
       if (!session) {
-        return <Navigate to={Paths.home} />
+        return <Navigate to={Paths.home} />;
       }
     };
 
@@ -48,7 +48,7 @@ const AppRoutes: FC = () => {
       <Routes>
         <Route path={Paths.home} element={<Layout />} />
         <Route path={Paths.login} element={<Login />} />
-        <Route 
+        <Route
           path={Paths.dataEntry}
           element={<ProtectedRoute element={<DataEntry />} />}
         />
