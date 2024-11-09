@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './DataEntry.css'
 import { useEffect, useState } from "react";
 import Stepper from '../../components/Stepper';
@@ -10,6 +12,8 @@ import METRICS from '../../constants/metrics.json'
 import { useSupabase } from '../../hooks/useSupabase';
 import YearSelect from './YearSelect';
 import GenericForm from './GenericForm';
+import { useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const DEFAULT_STEPS = [
     { title: "Start", description: "Choose Automatic or Manual Entry" },
@@ -20,6 +24,8 @@ const DEFAULT_STEPS = [
 const DataEntry = () => {
 //   const toast = useToast();
   const { supabase } = useSupabase();
+  const toast = useToast()
+  const navigate = useNavigate()
   const [step, setStep] = useState(0);
   const [steps, setSteps] = useState<Step []>(DEFAULT_STEPS);
 
@@ -59,12 +65,12 @@ const DataEntry = () => {
           if (error) {
             throw error;
           }
-          console.log("Metrics data:", metricsData)
+          // console.log("Metrics data:", metricsData)
           setMetricsData(metricsData || []);
           const uniqueYears = Array.from(new Set(metricsData.map((metric: Metric) => metric.year)));
           setSelectedYears(uniqueYears); // Set the unique years in the state
-          console.log("Years found in data:", uniqueYears);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // console.log("Years found in data:", uniqueYears);
+         
         } catch (error: any) {
           console.error("Error fetching data from Supabase:", error.message);
         }
@@ -73,7 +79,7 @@ const DataEntry = () => {
   }, [supabase, taskID]); // Empty dependency array ensures this runs only once
 
   useEffect(() => {
-    if (step < 3 || selectedYears.length === 0) return;
+    if (step !== 3 || selectedYears.length === 0) return;
     if (!companyName) return
   
     const initialFormData: CustomFormData = {};
@@ -101,7 +107,6 @@ const DataEntry = () => {
           }));
       });
     }
-    console.log("BEFORE MAPPING:", initialFormData);
 
     // Map `metricsData` to `initialFormData`
     metricsData.forEach((metric: Metric) => {
@@ -119,6 +124,7 @@ const DataEntry = () => {
         }
     });
     setFormData(initialFormData);
+    console.log("formatted form data");
     console.log(initialFormData);
   }, [step, selectedYears, companyName, metricsData]);
 
@@ -220,126 +226,126 @@ const DataEntry = () => {
       [['EM-MM-000.B'.toUpperCase(), 'Total number of contractors'.toUpperCase() ].toString(),'Count'],
       [['EM-MM-000.B'.toUpperCase(), 'Percentage of employees who are contractors'.toUpperCase() ].toString(),'%'],
       [['Revenue'.toUpperCase(), 'Revenue'.toUpperCase() ].toString(),'USD'],
-  ]);
+    ]);
   
-  //stores the conversion as a tuple (original, transformed), maps to the conversion required
-  const conversion_dict = new Map([
-      [['sites', 'Count'].toString(),x => x],
-      [['tonnes', 'Tonnes'].toString(),x => x],
-      [['employees', 'Count'].toString(),x => x],
-      [['percent', '%'].toString(),x => x],
-      [['t', 'Tonnes'].toString(),x => x],
-      [['units', 'Count'].toString(),x => x],
-      [['number', 'Rate (per million hours worked)'].toString(),x => null],//number cannot be converted to Rate since we don't have million hours worked data
-      [['MtCO2-e', 'Tonnes'].toString(),x => x * 1000000],//million tones to tonnes
-      [['Rate', 'Rate (per million hours worked)'].toString(),x => x],//assume correct
-      [['m3', 'Cubic meters (m³)'].toString(),x => x],
-      [['megalitres', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['GL', 'Cubic meters (m³)'].toString(),x => x * 1000000],
-      [['oz', 'Tonnes'].toString(),x => x / 35273.96],
-      [['Thousand cubic meters', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['tCO2e', 'Tonnes'].toString(),x => x],
-      [['Mt CO2e', 'Tonnes'].toString(),x => x * 1000000],//million tones to tonnes
-      [['thousand TJ', 'Gigajoules (GJ)'].toString(),x => x * 1000000],//thousand terajoules to gigajoules
-      [['Terajoules (TJ)', 'Gigajoules (GJ)'].toString(),x => x * 1000],//terajoules to gigajoules
-      [['Rate (per 200000 hours worked)', 'Rate (per million hours worked)'].toString(),x => x * 5],//per 200000 hours to per million hours
-      [['thousand tonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['hours', 'Hours'].toString(),x => x],
-      [['months', 'Days'].toString(),x => x * 30],//one month = 30days
-      [['incident', 'Count'].toString(),x => x],
-      [['Petajoules', 'Gigajoules (GJ)'].toString(),x => x * 1000000],//petajoules to gigajoules
-      [['Megalitres', 'Cubic meters (m³)'].toString(),x => x * 1000],
+    //stores the conversion as a tuple (original, transformed), maps to the conversion required
+    const conversion_dict = new Map([
+      [['sites', 'Count'].toString(),(x: any) => x],
+      [['tonnes', 'Tonnes'].toString(),(x: any) => x],
+      [['employees', 'Count'].toString(),(x: any) => x],
+      [['percent', '%'].toString(),(x: any) => x],
+      [['t', 'Tonnes'].toString(),(x: any) => x],
+      [['units', 'Count'].toString(),(x: any) => x],
+      [['number', 'Rate (per million hours worked)'].toString(),(_x: any) => null],//number cannot be converted to Rate since we don't have million hours worked data
+      [['MtCO2-e', 'Tonnes'].toString(),(x: number) => x * 1000000],//million tones to tonnes
+      [['Rate', 'Rate (per million hours worked)'].toString(),(x: any) => x],//assume correct
+      [['m3', 'Cubic meters (m³)'].toString(),(x: any) => x],
+      [['megalitres', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['GL', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000000],
+      [['oz', 'Tonnes'].toString(),(x: number) => x / 35273.96],
+      [['Thousand cubic meters', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['tCO2e', 'Tonnes'].toString(),(x: any) => x],
+      [['Mt CO2e', 'Tonnes'].toString(),(x: number) => x * 1000000],//million tones to tonnes
+      [['thousand TJ', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000000],//thousand terajoules to gigajoules
+      [['Terajoules (TJ)', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000],//terajoules to gigajoules
+      [['Rate (per 200000 hours worked)', 'Rate (per million hours worked)'].toString(),(x: number) => x * 5],//per 200000 hours to per million hours
+      [['thousand tonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['hours', 'Hours'].toString(),(x: any) => x],
+      [['months', 'Days'].toString(),(x: number) => x * 30],//one month = 30days
+      [['incident', 'Count'].toString(),(x: any) => x],
+      [['Petajoules', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000000],//petajoules to gigajoules
+      [['Megalitres', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
       //[['ug/m3', 'Tonnes'].toString(),x =>],
-      [['Kilotonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['Thousand Tonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['MWh', 'Gigajoules (GJ)'].toString(),x => x * 3.6],//1 mwh = 3.6 GJ
-      [['tonnes CO2E', 'Tonnes'].toString(),x => x],
-      [['GJ', 'Gigajoules (GJ)'].toString(),x => x],
-      [['%', 'Gigajoules (GJ)'].toString(),x => null],
-      [['kWh', 'Gigajoules (GJ)'].toString(),x => 0.0036 * x],
-      [['mÂ³', 'Cubic meters (m³)'].toString(),x => x],
-      [['incidents', 'Count'].toString(),x => x],
-      [['percentage', '%'].toString(),x => x],
-      [['%', 'Hectares (Ha)'].toString(),x => null],//cannot convert percentage to hectares
-      [['days', 'Days'].toString(),x => x],
-      [['fatalities', 'Count'].toString(),x => x],
-      [['fatalities', 'Rate (per million hours worked)'].toString(),x => null],//cannot convert fatalities to rate
-      [['contractors', 'Count'].toString(),x => x],
-      [['number', 'Count'].toString(),x => x],
-      [['Cubic meters (mÂ³)', 'Cubic meters (m³)'].toString(),x => x],
-      [['million metric tons', 'Tonnes'].toString(),x => x * 1000000],
-      [['ha', 'Hectares (Ha)'].toString(),x => x],
-      [['%', 'Tonnes'].toString(),x => null],//cannot convert percentage to Tonne
-      [['kTonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['000m3', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['Rate', 'Tonnes'].toString(),x => null],//cannot convert rate to Tonnes
-      [['Mt', 'Tonnes'].toString(),x => x * 1000000],
-      [['Number', 'Count'].toString(),x => x],
-      [['Number (units)', 'Count'].toString(),x => x],
-      [['Ha', 'Hectares (Ha)'].toString(),x => x],
-      [['million GJ', 'Gigajoules (GJ)'].toString(),x => x * 1000000],
-      [['strikes and lockouts', 'Count'].toString(),x => x],
-      [['Number (units)', '%'].toString(),x => null],//cannnot convert count to percentage
-      [['ML/yr', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['ML', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['million mÂ³', 'Cubic meters (m³)'].toString(),x => x * 1000000],
-      [['Megatonnes', 'Tonnes'].toString(),x => x * 1000000],
-      [['thousands of cubic meters', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['Percentage', '%'].toString(),x => x],
-      [['metric tonnes', 'Tonnes'].toString(),x => x],
-      [['million tCO2e', 'Tonnes'].toString(),x => x * 1000000],
-      [['PJ', 'Gigajoules (GJ)'].toString(),x => x * 1000000],
-      [['per million hours worked', 'Rate (per million hours worked)'].toString(),x => x],
-      [['kt', 'Tonnes'].toString(),x => x * 1000],
-      [['gigajoules', 'Gigajoules (GJ)'].toString(),x => x],
-      [['Giga Joule', 'Gigajoules (GJ)'].toString(),x => x],
-      [['per 200,000 hours worked', 'Rate (per million hours worked)'].toString(),x => x * 5],
-      [['thousand m3', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['days', 'Count'].toString(),x => x],
-      [['day', 'Days'].toString(),x => x],
-      [['metric tonnes of CO2 equivalents', 'Tonnes'].toString(),x => x],
-      [['per 200,000 hours worked (contractors)', 'Rate (per million hours worked)'].toString(),x => x * 5],
-      [['per 200,000 hours worked (employees)', 'Rate (per million hours worked)'].toString(),x => x * 5],
-      [['Thousands of cubic meters', 'Cubic meters (m³)'].toString(),x => x * 1000],
-      [['millions of tCO2e', 'Tonnes'].toString(),x => x * 1000000],
-      [['thousand metric tons', 'Tonnes'].toString(),x => x * 1000],
-      [['kilotonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['month', 'Count'].toString(),x => null],//cannot convert month to count
-      [['kg', 'Tonnes'].toString(),x => x * 0.001],
-      [['%', 'Count'].toString(),x => null],//cannot convert percentage to count,
-      [['percent', 'Count'].toString(),x => null],
-      [['metric tonnes (t)', 'Tonnes'].toString(),x => x],
-      [['thousand cubic metres', 'Cubic meters (m³)'].toString(), x => x * 1000],
-      [['Cubic meters (m3)', 'Cubic meters (m³)'].toString(), x => x],
-      [['KT', 'Tonnes'].toString(),x => x * 1000],
-      [['tonnes CO2e', 'Tonnes'].toString(),x => x],
-      [['Million tonnes', 'Tonnes'].toString(),x => x * 1000000],
-      [['Million gigajoules', 'Gigajoules (GJ)'].toString(),x => x * 1000000],
-      [['Million Tonnes', 'Tonnes'].toString(),x => x * 1000000],
-      [['mTonnes', 'Tonnes'].toString(),x => x * 1000000],
-      [['million Cubic meters (mÂ³)', 'Cubic meters (m³)'].toString(),x => x * 1000000],
-      [['Petajoules (PJ)', 'Gigajoules (GJ)'].toString(),x => x * 1000000],
-      [['000 tonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['CLAs signed', '%'].toString(),x => null],//cannot use count as percentage
-      [['million tonnes', 'Tonnes'].toString(),x => x * 1000000],
-      [['Million Cubic meters (mÂ³)', 'Cubic meters (m³)'].toString(),x => x * 1000000],
-      [['tonnes CO2Eq', 'Tonnes'].toString(),x => x],
-      [['day', 'Count'].toString(),x => null],//days cannot be count. Different metric
-      [['count', 'Count'].toString(),x => x],
-      [['frequency rate', 'Count'].toString(),x => x],
-      [['thousand ounces', 'Tonnes'].toString(),x => x / 35.27396],
-      [['CuEq KiloTonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['million m³', 'Cubic meters (m³)'].toString(), x => x * 1000000],
-      [['m³', 'Cubic meters (m³)'].toString(),x => x],
-      [['million Cubic meters (m³)', 'Cubic meters (m³)'].toString(), x => x * 1000000],
-      [['terajoules', 'Gigajoules (GJ)'].toString(), x => x * 1000],
-      [['Million Cubic meters (m³)', 'Cubic meters (m³)'].toString(), x => x * 1000000],
-      [['thousand metric tonnes', 'Tonnes'].toString(),x => x * 1000],
-      [['$', 'USD'].toString(),x => x * 1000],
-  ]);
+      [['Kilotonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['Thousand Tonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['MWh', 'Gigajoules (GJ)'].toString(),(x: number) => x * 3.6],//1 mwh = 3.6 GJ
+      [['tonnes CO2E', 'Tonnes'].toString(),(x: any) => x],
+      [['GJ', 'Gigajoules (GJ)'].toString(),(x: any) => x],
+      [['%', 'Gigajoules (GJ)'].toString(),(_x: any) => null],
+      [['kWh', 'Gigajoules (GJ)'].toString(),(x: number) => 0.0036 * x],
+      [['mÂ³', 'Cubic meters (m³)'].toString(),(x: any) => x],
+      [['incidents', 'Count'].toString(),(x: any) => x],
+      [['percentage', '%'].toString(),(x: any) => x],
+      [['%', 'Hectares (Ha)'].toString(),(_x: any) => null],//cannot convert percentage to hectares
+      [['days', 'Days'].toString(),(x: any) => x],
+      [['fatalities', 'Count'].toString(),(x: any) => x],
+      [['fatalities', 'Rate (per million hours worked)'].toString(),(_x: any) => null],//cannot convert fatalities to rate
+      [['contractors', 'Count'].toString(),(x: any) => x],
+      [['number', 'Count'].toString(),(x: any) => x],
+      [['Cubic meters (mÂ³)', 'Cubic meters (m³)'].toString(),(x: any) => x],
+      [['million metric tons', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['ha', 'Hectares (Ha)'].toString(),(x: any) => x],
+      [['%', 'Tonnes'].toString(),(_x: any) => null],//cannot convert percentage to Tonne
+      [['kTonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['000m3', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['Rate', 'Tonnes'].toString(),(_x: any) => null],//cannot convert rate to Tonnes
+      [['Mt', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['Number', 'Count'].toString(),(x: any) => x],
+      [['Number (units)', 'Count'].toString(),(x: any) => x],
+      [['Ha', 'Hectares (Ha)'].toString(),(x: any) => x],
+      [['million GJ', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000000],
+      [['strikes and lockouts', 'Count'].toString(),(x: any) => x],
+      [['Number (units)', '%'].toString(),(_x: any) => null],//cannnot convert count to percentage
+      [['ML/yr', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['ML', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['million mÂ³', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000000],
+      [['Megatonnes', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['thousands of cubic meters', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['Percentage', '%'].toString(),(x: any) => x],
+      [['metric tonnes', 'Tonnes'].toString(),(x: any) => x],
+      [['million tCO2e', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['PJ', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000000],
+      [['per million hours worked', 'Rate (per million hours worked)'].toString(),(x: any) => x],
+      [['kt', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['gigajoules', 'Gigajoules (GJ)'].toString(),(x: any) => x],
+      [['Giga Joule', 'Gigajoules (GJ)'].toString(),(x: any) => x],
+      [['per 200,000 hours worked', 'Rate (per million hours worked)'].toString(),(x: number) => x * 5],
+      [['thousand m3', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['days', 'Count'].toString(),(x: any) => x],
+      [['day', 'Days'].toString(),(x: any) => x],
+      [['metric tonnes of CO2 equivalents', 'Tonnes'].toString(),(x: any) => x],
+      [['per 200,000 hours worked (contractors)', 'Rate (per million hours worked)'].toString(),(x: number) => x * 5],
+      [['per 200,000 hours worked (employees)', 'Rate (per million hours worked)'].toString(),(x: number) => x * 5],
+      [['Thousands of cubic meters', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000],
+      [['millions of tCO2e', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['thousand metric tons', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['kilotonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['month', 'Count'].toString(),(_x: any) => null],//cannot convert month to count
+      [['kg', 'Tonnes'].toString(),(x: number) => x * 0.001],
+      [['%', 'Count'].toString(),(_x: any) => null],//cannot convert percentage to count,
+      [['percent', 'Count'].toString(),(_x: any) => null],
+      [['metric tonnes (t)', 'Tonnes'].toString(),(x: any) => x],
+      [['thousand cubic metres', 'Cubic meters (m³)'].toString(), (x: number) => x * 1000],
+      [['Cubic meters (m3)', 'Cubic meters (m³)'].toString(), (x: any) => x],
+      [['KT', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['tonnes CO2e', 'Tonnes'].toString(),(x: any) => x],
+      [['Million tonnes', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['Million gigajoules', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000000],
+      [['Million Tonnes', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['mTonnes', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['million Cubic meters (mÂ³)', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000000],
+      [['Petajoules (PJ)', 'Gigajoules (GJ)'].toString(),(x: number) => x * 1000000],
+      [['000 tonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['CLAs signed', '%'].toString(),(_x: any) => null],//cannot use count as percentage
+      [['million tonnes', 'Tonnes'].toString(),(x: number) => x * 1000000],
+      [['Million Cubic meters (mÂ³)', 'Cubic meters (m³)'].toString(),(x: number) => x * 1000000],
+      [['tonnes CO2Eq', 'Tonnes'].toString(),(x: any) => x],
+      [['day', 'Count'].toString(),(_x: any) => null],//days cannot be count. Different metric
+      [['count', 'Count'].toString(),(x: any) => x],
+      [['frequency rate', 'Count'].toString(),(x: any) => x],
+      [['thousand ounces', 'Tonnes'].toString(),(x: number) => x / 35.27396],
+      [['CuEq KiloTonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['million m³', 'Cubic meters (m³)'].toString(), (x: number) => x * 1000000],
+      [['m³', 'Cubic meters (m³)'].toString(),(x: any) => x],
+      [['million Cubic meters (m³)', 'Cubic meters (m³)'].toString(), (x: number) => x * 1000000],
+      [['terajoules', 'Gigajoules (GJ)'].toString(), (x: number) => x * 1000],
+      [['Million Cubic meters (m³)', 'Cubic meters (m³)'].toString(), (x: number) => x * 1000000],
+      [['thousand metric tonnes', 'Tonnes'].toString(),(x: number) => x * 1000],
+      [['$', 'USD'].toString(),(x: number) => x * 1000],
+    ]);
   
-  //map to minMax values for standardization
-  const minMax = new Map([
+    //map to minMax values for standardization
+    const minMax = new Map([
       [['EM-MM-000.A'.toUpperCase(), 'Production of finished metal products'.toUpperCase(),'Manpower'.toUpperCase()].toString(), [0.003949576, 1767.081791]],
       [['EM-MM-000.A'.toUpperCase(), 'Production of finished metal products'.toUpperCase(),'None'.toUpperCase()].toString(), [14.34485949, 23000000]],
       [['EM-MM-000.A'.toUpperCase(), 'Production of finished metal products'.toUpperCase(),'Revenue'.toUpperCase()].toString(), [0.0000000145323265060133, 0.002418881]],
@@ -496,10 +502,10 @@ const DataEntry = () => {
       [['Revenue'.toUpperCase(), 'Revenue'.toUpperCase(),'Manpower'.toUpperCase()].toString(), [278966000, 65098000000]],
       [['Revenue'.toUpperCase(), 'Revenue'.toUpperCase(),'None'.toUpperCase()].toString(), [278966000, 65098000000]],
       [['Revenue'.toUpperCase(), 'Revenue'.toUpperCase(),'Revenue'.toUpperCase()].toString(), [278966000, 65098000000]],
-  ]);
+    ]);
   
-  //indicator lst - list of indicators that needs to be standardized
-  const indicator_lst = [
+    //indicator lst - list of indicators that needs to be standardized
+    const indicator_lst = [
       ['EM-MM-110a.1'.toUpperCase(), 'Total gross global scope 1 emissions (CO2)'.toUpperCase() ].toString(),
       ['EM-MM-120a.1'.toUpperCase(), 'Total CO emissions'.toUpperCase() ].toString(),
       ['EM-MM-120a.1'.toUpperCase(), 'Total NOx emissions'.toUpperCase() ].toString(),
@@ -531,13 +537,13 @@ const DataEntry = () => {
       ['EM-MM-000.A'.toUpperCase(), 'Production of metal ores'.toUpperCase() ].toString(),
       ['EM-MM-000.A'.toUpperCase(), 'Production of finished metal products'.toUpperCase() ].toString(),
       ['EM-MM-000.B'.toUpperCase(), 'Total number of contractors'.toUpperCase() ].toString()
-  ];
+    ];
   
-  const uploadDataToSupabase = async (row: any[]) => {
+    const uploadDataToSupabase = async (row: any[]) => {
       //uploads the data as it is if there are no duplicates
       //if not it will update the data entry in the supabase
       const [new_category, new_indicator, new_indicator_name, new_remarks, new_units, new_year, new_value, new_company, std] = row;
-      const { data, error } = await supabase
+      const { error } = await supabase
           .from('test_duplicate') //change to esg_data for deployment @adi
           .upsert([{
           category: new_category,
@@ -549,165 +555,167 @@ const DataEntry = () => {
           value: new_value,
           company_name: new_company,
           standardisation: std
-      }], { onConflict: ['category', 'sasb_indicator', 'indicator_name', 'subcategory', 'year', 'company_name', 'standardisation', 'unit'] });
+      }], { onConflict: 'category, sasb_indicator, indicator_name, subcategory, year, company_name, standardisation, unit' });
   
       if (error) {
           console.error('Error uploading data:', error);
       } else {
           console.log('Data uploaded:', new_company);
       }
-  }
+    }
   
-  const uploadCompanyToSupabase = async (company: string) => {
+    const uploadCompanyToSupabase = async (company: string) => {
       //uploads the company if it isn't there yet
-      const { data, error } = await supabase
+      const { error } = await supabase
           .from('companies')
           .upsert([{
               name: company
-      }], { onConflict: ['name'] });
+      }], { onConflict: 'name' });
   
       if (error) {
           console.error('Error uploading company data:', error);
       } else {
           console.log('Company data uploaded:', company);
       }
-  }
-
-  const submitData = async (rawData: any[][], company_name: string) => {
-    uploadCompanyToSupabase(company_name.trim());
-    try {
-        //to access map, need to use dict.get(key)
-        const data = []; //store the data
-        const employee_data = new Map(); //to store employee data
-        const revenue_data = new Map(); //to store revenue data
-        for (let row of rawData) {
-            let [index, category, indicator, indicator_name, unit, remarks, year, value] = row;  // Extract the last 6 elements (similar to *_, indicator, indicator_name, year, value, unit, remarks)
-            remarks = remarks.trim()
-            indicator_name = indicator_name.trim()
-            indicator = indicator.trim()
-            unit = unit.trim()
-            year = year.trim()
-
-            //convert units; log cases where the conversion failed
-            const expected_unit = target_dict.get([indicator.toUpperCase(), remarks.toUpperCase()].toString())
-            if(['', ' ', null].includes(value)){
-                continue; //this is when the data is not avail
-            } else{
-                value = parseFloat(value) //in case of commas
-                if(unit != expected_unit){
-                    const func = conversion_dict.get([unit, expected_unit].toString());
-                    if (func){
-                        value = func(value);
-                        unit = expected_unit;
-                    } else{
-                        // this happens when we have not considered this (current unit -> desired unit pair)
-                        console.log(`Data was not uploaded as units cannot be converted: ${company_name}, ${indicator} - ${remarks}, ${unit}, ${expected_unit}`)
-                        continue;
-                    }
-                }
-                //capture employee data
-                if(indicator == "EM-MM-000.B" && remarks.toUpperCase() == "TOTAL NUMBER OF EMPLOYEES"){
-                    employee_data.set(year, value);
-                };
-
-                //capture revenue data
-                if(indicator.toUpperCase() == "REVENUE" && remarks.toUpperCase() == "REVENUE"){
-                    revenue_data.set(year, value);
-                };
-
-                //push the data
-                //data format as such: indicator, indicator_name, remarks, units, year, value, company, std_1, std_2
-                //std_1 refers to whether the data has been standardized by manpower/ revenue
-                //std_2 refers to whether the data has been standardized into 0 - 1
-                if (unit == 'Cubic meters (m³)'){
-                  unit = '(m³)';
-                }
-                if (unit == "Hectares (Ha)"){
-                  unit = 'Ha';
-                }
-                if (unit == "Gigajoules (GJ)"){
-                  unit = 'GJ';
-                }
-
-                if(indicator == "EM-MM-110a.1".toUpperCase() && unit == "Tonnes"){
-                    unit = "tCO2e";
-                }
-                if(value){
-                    data.push([category, indicator, indicator_name, remarks, unit, year, value, company_name, "None", false])
-                    uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, value, company_name, "None"])
-                }
-            }
-        }
-        //normalize and upload data
-        //final_data
-        for (let row of [...data]){
-            let [category, indicator, indicator_name, remarks, unit, year, value, company_name, std_1, std_2] = row
-            const minMax_lst = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "NONE"].toString())
-            const minMax_lst_mp = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "MANPOWER"].toString())
-            const minMax_lst_rev = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "REVENUE"].toString())
-            if (minMax_lst){
-              const std2 = (value - minMax_lst[0]) / (minMax_lst[1] - minMax_lst[0])
-                if(std2){
-                    uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2, company_name, "None_Scaled"])
-                }
-              }
-            if(indicator_lst.includes([indicator.toUpperCase(), remarks.toUpperCase()].toString())){
-                //push normalized data
-                let std1_mp = value/ employee_data.get(year);
-                let std1_rev = value/ revenue_data.get(year);
-                if(std1_mp){
-                    data.push([indicator, indicator_name, remarks, unit, year, std1_mp, company_name, "Manpower", std_2])
-                    uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std1_mp, company_name, "Manpower"])
-                }
-                if(std1_rev){
-                    data.push([indicator, indicator_name, remarks, unit, year, std1_rev, company_name, "Revenue", std_2])
-                    uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std1_rev, company_name, "Revenue"])
-                }
-                if(minMax_lst_mp){
-                  let std2_mp = (std1_mp - minMax_lst_mp[0]) / (minMax_lst_mp[1] - minMax_lst_mp[0])
-                  if(std2_mp){
-                      data.push([indicator, indicator_name, remarks, unit, year, std2_mp, company_name, "Manpower", true])
-                      uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_mp, company_name, "Manpower_Scaled"])
-                  }
-                }
-                if(minMax_lst_rev){
-                  let std2_rev = (std1_rev - minMax_lst_rev[0]) / (minMax_lst_rev[1] - minMax_lst_rev[0])
-                  if(std2_rev){
-                      data.push([indicator, indicator_name, remarks, unit, year, std2_rev, company_name, "Revenue", true])
-                      uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_rev, company_name, "Revenue_Scaled"])
-                  }
-                }
-            } else{
-                //just append normally for data that don't need conversion
-                data.push([indicator, indicator_name, remarks, unit, year, value, company_name, "Manpower", std_2])
-                data.push([indicator, indicator_name, remarks, unit, year, value, company_name, "Revenue", std_2])
-                uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, value, company_name, "Manpower"])
-                uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, value, company_name, "Revenue"])
-                if(minMax_lst_mp){
-                  let std2_mp = (parseFloat(value) - minMax_lst_mp[0]) / (minMax_lst_mp[1] - minMax_lst_mp[0])
-                  if(std2_mp){
-                      data.push([indicator, indicator_name, remarks, unit, year, std2_mp, company_name, "Manpower", true])
-                      uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_mp, company_name, "Manpower_Scaled"])
-                  }
-                }
-                if(minMax_lst_rev){
-                  let std2_rev = (parseFloat(value) - minMax_lst_rev[0]) / (minMax_lst_rev[1] - minMax_lst_rev[0])
-                  if(std2_rev){
-                      data.push([indicator, indicator_name, remarks, unit, year, std2_rev, company_name, "Revenue", true])
-                      uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_rev, company_name, "Revenue_Scaled"])
-                  }
-                }
-            }
-        }
-
-    } catch (error) {
-        console.error('Error:', error);
-        //setError('An unexpected error occurred.');
     }
-  };
+
+    const submitData = async (rawData: any[][], company_name: string) => {
+      console.log("submit data runs");
+      uploadCompanyToSupabase(company_name.trim());
+      const promises: Promise<void>[] = []; // Array to hold all upload promises
+    
+      try {
+        const data = []; // store the data
+        const employee_data = new Map(); // to store employee data
+        const revenue_data = new Map(); // to store revenue data
+    
+        for (const row of rawData) {
+          // eslint-disable-next-line prefer-const
+          let [_index, category, indicator, indicator_name, unit, remarks, year, value] = row;
+          remarks = remarks.trim();
+          indicator_name = indicator_name.trim();
+          indicator = indicator.trim();
+          unit = unit.trim();
+          year = year.trim();
+    
+          const expected_unit = target_dict.get([indicator.toUpperCase(), remarks.toUpperCase()].toString());
+          if (['', ' ', null].includes(value)) {
+            continue;
+          } else {
+            value = parseFloat(value);
+            if (unit != expected_unit) {
+              const func = conversion_dict.get([unit, expected_unit].toString());
+              if (func) {
+                value = func(value);
+                unit = expected_unit;
+              } else {
+                console.log(`Data not uploaded due to unconvertible units: ${company_name}, ${indicator} - ${remarks}, ${unit}, ${expected_unit}`);
+                continue;
+              }
+            }
+    
+            if (indicator === "EM-MM-000.B" && remarks.toUpperCase() === "TOTAL NUMBER OF EMPLOYEES") {
+              employee_data.set(year, value);
+            }
+    
+            if (indicator.toUpperCase() === "REVENUE" && remarks.toUpperCase() === "REVENUE") {
+              revenue_data.set(year, value);
+            }
+    
+            if (value) {
+              const rowData = [category, indicator, indicator_name, remarks, unit, year, value, company_name, "None"];
+              data.push(rowData);
+              promises.push(uploadDataToSupabase(rowData)); // Add upload promise to array
+            }
+          }
+        }
+    
+        for (const row of [...data]) {
+          const [category, indicator, indicator_name, remarks, unit, year, value, company_name, standardisation] = row;
+          const minMax_lst = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "NONE"].toString());
+          const minMax_lst_mp = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "MANPOWER"].toString());
+          const minMax_lst_rev = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "REVENUE"].toString());
+    
+          if (minMax_lst) {
+            const std2 = (value - minMax_lst[0]) / (minMax_lst[1] - minMax_lst[0]);
+            if (std2) {
+              promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2, company_name, "None_Scaled"]));
+            }
+          }
+    
+          if (indicator_lst.includes([indicator.toUpperCase(), remarks.toUpperCase()].toString())) {
+            const std1_mp = value / employee_data.get(year);
+            const std1_rev = value / revenue_data.get(year);
+    
+            if (std1_mp) {
+              promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std1_mp, company_name, "Manpower"]));
+            }
+            if (std1_rev) {
+              promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std1_rev, company_name, "Revenue"]));
+            }
+    
+            if (minMax_lst_mp) {
+              const std2_mp = (std1_mp - minMax_lst_mp[0]) / (minMax_lst_mp[1] - minMax_lst_mp[0]);
+              if (std2_mp) {
+                promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_mp, company_name, "Manpower_Scaled"]));
+              }
+            }
+    
+            if (minMax_lst_rev) {
+              const std2_rev = (std1_rev - minMax_lst_rev[0]) / (minMax_lst_rev[1] - minMax_lst_rev[0]);
+              if (std2_rev) {
+                promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_rev, company_name, "Revenue_Scaled"]));
+              }
+            }
+          } else {
+            promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, value, company_name, "Manpower"]));
+            promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, value, company_name, "Revenue"]));
+    
+            if (minMax_lst_mp) {
+              const std2_mp = (parseFloat(value) - minMax_lst_mp[0]) / (minMax_lst_mp[1] - minMax_lst_mp[0]);
+              if (std2_mp) {
+                promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_mp, company_name, "Manpower_Scaled"]));
+              }
+            }
+    
+            if (minMax_lst_rev) {
+              const std2_rev = (parseFloat(value) - minMax_lst_rev[0]) / (minMax_lst_rev[1] - minMax_lst_rev[0]);
+              if (std2_rev) {
+                promises.push(uploadDataToSupabase([category, indicator, indicator_name, remarks, unit, year, std2_rev, company_name, "Revenue_Scaled"]));
+              }
+            }
+          }
+        }
+    
+        await Promise.all(promises); // Wait for all uploads to finish
+        console.log("All data uploaded successfully");
+    
+        // Logic to execute after successful upload
+        toast({
+          title: "Data Submitted Successfully",
+          status: "success",
+          duration: 2000, // Duration for 2 seconds
+          isClosable: true,
+        });
+        
+        setTimeout(() => {
+          navigate("/"); // Redirect to the home page after 2 seconds
+        }, 2000);
+    
+      } catch (error) {
+        console.error("Error:", error);
+        toast({
+          title: "Something went wrong",
+          status: "error",
+          duration: 2000, // Duration for 2 seconds
+          isClosable: true,
+        });
+      }
+    };
+    
   
     // fean: insert function call
-    submitData(formattedOutput, companyName);
+    submitData(formattedOutput, companyName ?? "");
   };
   
 
