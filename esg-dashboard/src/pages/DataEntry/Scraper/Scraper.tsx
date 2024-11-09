@@ -68,7 +68,6 @@ const Scraper = (props: ScraperProps) => {
      const pollTaskStatus = async () => {
             console.log('poll status runs')
             try {
-                //console.log('polling')
                 const storedTaskID = localStorage.getItem('taskID');
                 // setTaskID(storedTaskID)
                 const storedFileName = localStorage.getItem('filename');
@@ -80,7 +79,6 @@ const Scraper = (props: ScraperProps) => {
                             console.log('polling')  
                             const response = await fetch(`https://shay.pythonanywhere.com/task-status/${storedTaskID}`);
                             const data = await response.json();
-                            //console.log(storedTaskID)
                             // If task is completed, download the result
                             if (data.status === 'Completed') {
                                 //setLoading(false)
@@ -136,7 +134,7 @@ const Scraper = (props: ScraperProps) => {
             } catch {
                 console.log('error')
             } finally {
-                console.log('exited poll attempt')
+                //console.log('exited poll attempt')
             }
     };
 
@@ -179,7 +177,7 @@ const Scraper = (props: ScraperProps) => {
 
             if (response.ok) {
                 //pollTaskStatus(); // Start polling for task status
-                console.log(tempTaskID)
+                //console.log(tempTaskID)
             } else {
                 const errorData = await response.json();
                 setMessageStatus('Error')
@@ -219,7 +217,6 @@ const Scraper = (props: ScraperProps) => {
     // };
 
     useEffect(() => { // polls for the task status continuously
-        console.log('use effect called')
         pollTaskStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [taskID]);
