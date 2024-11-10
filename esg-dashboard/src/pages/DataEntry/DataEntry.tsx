@@ -111,7 +111,7 @@ const DataEntry = () => {
 
     // Map `metricsData` to `initialFormData`
     metricsData.forEach((metric: Metric) => {
-        const { category, year, subcategory, value } = metric;
+        const { category, year, subcategory, value, unit } = metric;
     
         if (initialFormData[category] && initialFormData[category][year]) {
           // Find the object in the array with the matching `indicator_name`
@@ -121,6 +121,7 @@ const DataEntry = () => {
     
           if (targetMetric) {
             targetMetric.value = value; // Set the value from `metricsData`
+            targetMetric.unit = unit;
           }
         }
     });
@@ -735,8 +736,8 @@ const DataEntry = () => {
         return !inputMethod;
     }
     if (step == 1) {
-        // return scraperStatus !== "Completed"; // TODO when scraper is live
-        return false
+        return scraperStatus !== "Completed"; // TODO when scraper is live
+        // return false // debugging
     }
     return false;
   }
