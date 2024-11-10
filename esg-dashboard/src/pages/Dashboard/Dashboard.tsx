@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   TableauViz,
   TableauEventType,
@@ -8,8 +8,9 @@ import {
 
 const Dashboard = () => {
 
-  const jwtPollInterval = 540000; // 9min
+  const jwtPollInterval = 30000; // 9min
   const [token, setToken] = useState<string | undefined>(undefined); //store jwt token
+  const firstLoad = useRef(true)
 
   function handleMarkSelection() {
     alert('Mark(s) selected!');
@@ -17,34 +18,39 @@ const Dashboard = () => {
   
   }
 
-
   const render_tableau = (token : string | undefined, source: string) => {
     const viz = new TableauViz();
     viz.src = source;
     viz.token = token;
     viz.addEventListener(TableauEventType.MarkSelectionChanged, handleMarkSelection);
-    let visual = document.getElementById('tableauViz')
+    const visual = document.getElementById('tableauViz')
     if (visual!.hasChildNodes()) { //ugly check but it works
       visual!.removeChild(visual!.childNodes[0]);
     }
     visual!.appendChild(viz);
   }
 
+  const get_token = async() => {
+    console.log('getting toaken')
+    const response = await fetch(`https://shay.pythonanywhere.com/generate`);
+    const data = await response.json();
+    setToken(data.token);     
+  }
 
   useEffect(() => {
-
-    const get_token = async() => {
-      console.log('first run')
-      const response = await fetch(`https://shay.pythonanywhere.com/generate`);
-      const data = await response.json();
-      setToken(data.token);     
+    
+    if (firstLoad.current) {
+      console.log('First render')
+      firstLoad.current = false
+      get_token()
     }
-    // get_token() //add in later if the dahsboard does not show on first render
+
+    //get_token() //add in later if the dahsboard does not show on first render
     const interval = setInterval(async () => {
       console.log('in interval')
       get_token()
     }, jwtPollInterval)  
-    let source = 'https://prod-apnortheast-a.online.tableau.com/t/e0774443-fb4b2e6693/views/capstone/Sheet3'
+    const source = 'https://prod-apnortheast-a.online.tableau.com/t/e0726305-30273c2ac9/views/3dashboards/Dashboard1'
     render_tableau(token, source)
 
     const scriptElement = document.createElement("script");
@@ -84,6 +90,11 @@ const Dashboard = () => {
         overflow="hidden"
       >
         <div id = "tableauViz"></div>
+        {/* <tableau-viz id="tableauViz"     
+          src="https://prod-apnortheast-a.online.tableau.com/t/e0726305-30273c2ac9/views/3dashboards/Dashboard1"
+          token={token}
+          device="phone" toolbar="bottom">
+        </tableau-viz>  */}  
         <Box as="noscript">
           <a href="#">
             <img
