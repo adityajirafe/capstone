@@ -633,7 +633,7 @@ const DataEntry = () => {
         }
     
         for (const row of [...data]) {
-          const [category, indicator, indicator_name, remarks, unit, year, value, company_name, standardisation] = row;
+          const [category, indicator, indicator_name, remarks, unit, year, value, company_name, _standardisation] = row;
           const minMax_lst = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "NONE"].toString());
           const minMax_lst_mp = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "MANPOWER"].toString());
           const minMax_lst_rev = minMax.get([indicator.toUpperCase(), remarks.toUpperCase(), "REVENUE"].toString());
