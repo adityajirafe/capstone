@@ -32,7 +32,7 @@
 .data-entry-button-arrow-light {
     width: 18px;
     height: 18px;
-    margin-top: 1px;
+    margin-bottom: 2px;
     path {
         stroke: #fff;
     }
@@ -41,7 +41,7 @@
 .data-entry-button-arrow-dark {
     width: 18px;
     height: 18px;
-    margin-top: 1px;
+    margin-bottom: 2px;
     path {
         stroke: #000;
     }

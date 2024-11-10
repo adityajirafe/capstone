@@ -6,3 +6,11 @@
   overflow-y: overlay;
   scrollbar-width: none;
 }
+
+.mobile-warning {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 20px;
+  color: #333;
+  margin-top: 45vh;
+}
