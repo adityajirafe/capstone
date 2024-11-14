@@ -33,8 +33,8 @@ const DataEntry = () => {
   const [inputMethod, setInputMethod] = useState<InitiationMethod>(0)
 
   // scraper
-  const storedTaskID = localStorage.getItem('taskIDScraped') ?? '1730621513033' // TODO REMOVE
-  const storedFileName = localStorage.getItem('filenameScraped') ?? "Test" // TODO REMOVE
+  const storedTaskID = localStorage.getItem('taskIDScraped')
+  const storedFileName = localStorage.getItem('filenameScraped')
   const [companyName, setCompanyName] = useState<string | null>(storedFileName);
   const [taskID, setTaskID] = useState<string | null>(storedTaskID);
   const [scraperStatus, setScraperStatus] = useState<FileUploadStatus>("In Progress");
@@ -546,7 +546,7 @@ const DataEntry = () => {
       //if not it will update the data entry in the supabase
       const [new_category, new_indicator, new_indicator_name, new_remarks, new_units, new_year, new_value, new_company, std] = row;
       const { error } = await supabase
-          .from('test_duplicate') //change to esg_data for deployment @adi
+          .from('esg_data') //change to esg_data for deployment @adi
           .upsert([{
           category: new_category,
           sasb_indicator: new_indicator,
