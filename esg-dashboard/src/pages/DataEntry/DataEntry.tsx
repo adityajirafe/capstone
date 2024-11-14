@@ -735,9 +735,12 @@ const DataEntry = () => {
     if (step == 0) {
         return !inputMethod;
     }
-    if (step == 1) {
+    if (step == 1 && inputMethod === InitiationMethod.auto) {
         return scraperStatus !== "Completed"; // TODO when scraper is live
         // return false // debugging
+    }
+    if (step == 1 && inputMethod === InitiationMethod.manual) {
+      return !companyName
     }
     return false;
   }
